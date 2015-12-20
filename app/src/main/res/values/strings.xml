@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">GitHapp</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="log_in">Please log in.</string>
+    <string name="you_re_logged">You\'re logged in as...</string>
+    <plurals name="comment_plural">
+        <item quantity="one">%d comment</item>
+        <item  quantity="other">%d comments</item>
+    </plurals>
+</resources>

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="12dp"
+        android:paddingTop="12dp"
+        android:paddingRight="12dp"
+        android:paddingBottom="12dp">
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:background="@drawable/box_bg"
+        android:elevation="10dp"
+        android:outlineProvider="background">
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:id="@+id/titleTxtView"
+                android:layout_alignParentLeft="false"
+                android:layout_alignParentTop="true"
+                android:textStyle="bold"
+                android:layout_gravity="center_horizontal"
+                android:fontFamily="sans-serif-condensed"
+                android:layout_alignParentRight="false"
+            android:layout_centerHorizontal="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="State:"
+                android:id="@+id/label_state"
+                android:layout_alignParentLeft="true"
+                android:layout_alignBottom="@+id/stateTxtView"
+                android:gravity="bottom"
+                android:layout_marginRight="8dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:id="@+id/stateTxtView"
+                android:layout_gravity="center_horizontal"
+                android:layout_alignParentLeft="false"
+                android:layout_alignParentTop="false"
+                android:layout_alignParentRight="false"
+                android:layout_below="@+id/titleTxtView"
+                android:textStyle="bold"
+                android:fontFamily="sans-serif-condensed"
+                android:gravity="bottom"
+                android:text="qwertyZ"
+                android:layout_toRightOf="@+id/label_state" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Assignee:"
+                android:id="@+id/label_assignee"
+                android:layout_alignParentLeft="true"
+                android:layout_alignBottom="@+id/assigneeTxtView"
+                android:gravity="bottom"
+                android:layout_marginRight="8dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:id="@+id/assigneeTxtView"
+                android:layout_alignParentLeft="false"
+                android:layout_alignParentTop="false"
+                android:layout_alignParentRight="false"
+                android:layout_below="@+id/stateTxtView"
+                android:textStyle="bold"
+                android:fontFamily="sans-serif-condensed"
+                android:gravity="bottom"
+                android:text="qwertyZ"
+                android:layout_toRightOf="@+id/label_assignee" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="..."
+            android:id="@+id/button"
+            android:background="@drawable/btn_ripple"
+            android:minHeight="24dp"
+            android:minWidth="64dp"
+            android:layout_marginTop="8dp"
+            android:layout_alignParentBottom="false"
+            android:layout_alignBottom="@+id/assigneeTxtView"
+            android:layout_alignParentRight="true" />
+    </RelativeLayout>
+    </LinearLayout>
+</merge>
