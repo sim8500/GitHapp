@@ -1,4 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ripple android:color="#70802B" xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/btn_bg" />
-</ripple>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="false" >
+        <shape xmlns:android="http://schemas.android.com/apk/res/android"
+            android:shape="rectangle">
+            <solid android:color="#A3B35E" />
+            <stroke android:color="#525252" android:width="1dp"></stroke>
+            <corners android:radius="5dp" />
+        </shape>
+    </item>
+    <item android:state_pressed="true">
+        <shape xmlns:android="http://schemas.android.com/apk/res/android"
+            android:shape="rectangle">
+            <solid android:color="#70802B" />
+            <stroke android:color="#525252" android:width="1dp"></stroke>
+            <corners android:radius="5dp" />
+        </shape>
+    </item>
+</selector>

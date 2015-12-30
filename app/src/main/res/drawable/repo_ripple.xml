@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ripple android:color="#70802B" xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/bg_clr" />
-</ripple>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="false" >
+            <color android:color="#A3B35E" />
+    </item>
+    <item android:state_pressed="true">
+            <color android:color="#70802B" />
+    </item>
+</selector>
