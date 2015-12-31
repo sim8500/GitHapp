@@ -3,6 +3,7 @@ package com.dev.sim8500.githapp;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.support.annotation.UiThread;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,6 +13,8 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
@@ -40,7 +43,8 @@ import retrofit.GsonConverterFactory;
 import retrofit.Response;
 import retrofit.Retrofit;
 
-public class MainActivity extends AppCompatActivity implements AuthRequestsManager.AuthTokenRequestListener
+public class MainActivity extends AppCompatActivity implements AuthRequestsManager.AuthTokenRequestListener,
+                                                                Button.OnClickListener
 {
 
     @Override
@@ -50,7 +54,9 @@ public class MainActivity extends AppCompatActivity implements AuthRequestsManag
 
         userPanel = (UserView)findViewById(R.id.user_panel);
 
-        userPanel.webView.setWebViewClient(new WebViewClient()
+        userPanel.setLogOutButtonListener(this);
+
+        userPanel.getWebView().setWebViewClient(new WebViewClient()
         {
             public void onPageStarted(WebView view, String url, Bitmap favicon)
             {
@@ -101,11 +107,9 @@ public class MainActivity extends AppCompatActivity implements AuthRequestsManag
         {
             arqm.getService(GitHubUserService.class)
                     .getUser()
-                    .enqueue(new Callback<UserModel>()
-                    {
+                    .enqueue(new Callback<UserModel>() {
                         @Override
-                        public void onResponse(Response<UserModel> response, Retrofit retrofit)
-                        {
+                        public void onResponse(Response<UserModel> response, Retrofit retrofit) {
                             onUserModelReceived(response.body());
                         }
 
@@ -127,15 +131,51 @@ public class MainActivity extends AppCompatActivity implements AuthRequestsManag
     public void onUserModelReceived(UserModel user)
     {
         userModel = user;
-        userPanel.applyUser(userModel);
-
         setUpUserUI();
+    }
+
+    @Override
+    public void onClick(View v)
+    {
+        if(v.getId() == R.id.log_out_button)
+        {
+            performUserLogOut();
+        }
+    }
+
+    private void performUserLogOut()
+    {
+        AuthRequestsManager authReqMngr = AuthRequestsManager.getInstance();
+        if(authReqMngr.logOutUser(this))
+        {
+            userModel = null;
+
+            setUpUserUI();
+
+            clearPreviousSession();
+            userPanel.loadLoginPage();
+        }
+    }
+
+    private void clearPreviousSession()
+    {
+        CookieManager cookieManager = CookieManager.getInstance();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+        {
+            cookieManager.removeAllCookies(null);
+        }
+        else
+        {
+            cookieManager.removeAllCookie();
+        }
+        userPanel.getWebView().clearCache(true);
     }
 
     private void setUpUserUI()
     {
         boolean hasUser = (userModel != null);
-        userPanel.changeUserDataVisibility(hasUser);
+        userPanel.applyUser(userModel);
         nextButton.setVisibility(hasUser ? View.VISIBLE : View.GONE);
     }
 

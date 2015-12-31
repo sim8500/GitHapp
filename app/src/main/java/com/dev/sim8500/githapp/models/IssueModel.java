@@ -17,6 +17,9 @@ public class IssueModel implements Parcelable
     public UserModel user;
     public UserModel assignee;
 
+    @SerializedName("url")
+    public String url;
+
     @SerializedName("comments")
     public int commentsCount;
 
@@ -34,6 +37,7 @@ public class IssueModel implements Parcelable
         dest.writeParcelable(user, flags);
         dest.writeParcelable(assignee, flags);
         dest.writeInt(commentsCount);
+        dest.writeString(url);
     }
 
     // this is used to regenerate your object. All Parcelables must have a CREATOR that implements these two methods
@@ -56,6 +60,7 @@ public class IssueModel implements Parcelable
         user = in.readParcelable(UserModel.class.getClassLoader());
         assignee = in.readParcelable(UserModel.class.getClassLoader());
         commentsCount = in.readInt();
+        url = in.readString();
     }
 
 }

@@ -1,5 +1,6 @@
 package com.dev.sim8500.githapp.services;
 
+import com.dev.sim8500.githapp.models.CommentModel;
 import com.dev.sim8500.githapp.models.IssueModel;
 
 import java.util.List;
@@ -16,4 +17,8 @@ public interface GitHubRepoIssuesService
 {
     @GET("/repos/{owner}/{repo}/issues")
     Call<List<IssueModel>> getRepoIssues(@Path("owner") String owner, @Path("repo") String repo, @Query("state") String withState);
+
+    @GET("/repos/{owner}/{repo}/issues/{number}/comments")
+    Call<List<CommentModel>> getIssueComments(@Path("owner") String owner, @Path("repo") String repo, @Path("number") String issueNumber);
+
 }

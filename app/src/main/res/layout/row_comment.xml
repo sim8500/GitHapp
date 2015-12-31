@@ -11,29 +11,31 @@
         <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:background="@drawable/box_bg"
-            android:elevation="10dp"
-            android:outlineProvider="background">
+            android:paddingLeft="10dp"
+            android:paddingTop="15dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="5dp"
+            android:background="#CFCFCF">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:id="@+id/commentTxtView"
+                android:id="@+id/comment_txtView"
                 android:layout_alignParentLeft="false"
                 android:layout_alignParentTop="true"
-                android:textStyle="bold"
                 android:layout_gravity="center_horizontal"
                 android:fontFamily="sans-serif-condensed"
                 android:layout_alignParentRight="false"
-                android:layout_centerHorizontal="true" />
+                android:layout_centerHorizontal="true"
+                android:text="qwertyz qwertyz qwe rty z qwer ty z qwerty."
+                android:textColor="@android:color/black" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:id="@+id/assigneeTxtView"
+                android:id="@+id/author_txtView"
                 android:layout_alignParentLeft="false"
                 android:layout_alignParentTop="false"
                 android:layout_alignParentRight="true"
@@ -41,7 +43,13 @@
                 android:fontFamily="sans-serif-condensed"
                 android:gravity="bottom"
                 android:text="qwertyZ"
-                android:layout_below="@+id/commentTxtView" />
+                android:layout_below="@+id/comment_txtView" />
         </RelativeLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:id="@+id/separator"
+            android:background="#A3B35E" />
     </LinearLayout>
 </merge>

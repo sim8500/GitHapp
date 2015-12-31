@@ -6,13 +6,11 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.dev.sim8500.githapp.R;
 import com.dev.sim8500.githapp.SingleIssueActivity;
 import com.dev.sim8500.githapp.models.IssueModel;
-import com.dev.sim8500.githapp.models.RepoModel;
 
 /**
  * Created by sbernad on 19.12.15.
@@ -44,7 +42,7 @@ public class IssueView extends FrameLayout
 
         titleTxtView = (TextView)findViewById(R.id.titleTxtView);
         stateTxtView = (TextView)findViewById(R.id.stateTxtView);
-        assigneeTxtView = (TextView)findViewById(R.id.assigneeTxtView);
+        assigneeTxtView = (TextView)findViewById(R.id.author_txtView);
         moreButton = (Button)findViewById(R.id.button);
 
         moreButton.setOnClickListener(new OnClickListener()

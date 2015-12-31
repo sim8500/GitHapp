@@ -63,7 +63,7 @@
                 android:text="Assignee:"
                 android:id="@+id/label_assignee"
                 android:layout_alignParentLeft="true"
-                android:layout_alignBottom="@+id/assigneeTxtView"
+                android:layout_alignBottom="@+id/author_txtView"
                 android:gravity="bottom"
                 android:layout_marginRight="8dp" />
 
@@ -71,7 +71,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:id="@+id/assigneeTxtView"
+                android:id="@+id/author_txtView"
                 android:layout_alignParentLeft="false"
                 android:layout_alignParentTop="false"
                 android:layout_alignParentRight="false"
@@ -92,7 +92,7 @@
             android:minWidth="64dp"
             android:layout_marginTop="8dp"
             android:layout_alignParentBottom="false"
-            android:layout_alignBottom="@+id/assigneeTxtView"
+            android:layout_alignBottom="@+id/author_txtView"
             android:layout_alignParentRight="true" />
     </RelativeLayout>
     </LinearLayout>

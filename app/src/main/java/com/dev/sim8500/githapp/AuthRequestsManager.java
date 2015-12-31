@@ -30,7 +30,6 @@ public class AuthRequestsManager {
 
     public static AuthRequestsManager getInstance()
     {
-
         return instance;
     }
 
@@ -100,12 +99,14 @@ public class AuthRequestsManager {
         return prepareAuthRetrofitInstance().create(service);
     }
 
-    public void logOutUser(Context ctx)
+    public boolean logOutUser(Context ctx)
     {
         if(!TextUtils.isEmpty(accessToken))
         {
-            storeTokenInPrefs(ctx, null);
+            return storeTokenInPrefs(ctx, null);
         }
+
+        return false;
     }
 
     private Retrofit prepareAuthRetrofitInstance()

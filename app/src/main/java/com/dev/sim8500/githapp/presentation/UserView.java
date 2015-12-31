@@ -45,6 +45,13 @@ public class UserView extends LinearLayout
         webView = (WebView)findViewById(R.id.webView);
         webView.getSettings().setJavaScriptEnabled(true);
 
+        logOutButton = (Button)findViewById(R.id.log_out_button);
+        if(logOutListener != null)
+        {
+            logOutButton.setOnClickListener(logOutListener);
+        }
+
+        loggedUserPanel = (LinearLayout)findViewById(R.id.logged_user_panel);
     }
 
     public void loadLoginPage()
@@ -53,13 +60,14 @@ public class UserView extends LinearLayout
     }
 
     @UiThread
-    public void changeUserDataVisibility(boolean visible)
+    public void changeUserDataVisibility()
     {
+        boolean visible = (user != null);
 
         int visibility = visible ? View.VISIBLE : View.GONE;
         int webViewVisibility = visible ? View.GONE : View.VISIBLE;
 
-        nameTxtView.setVisibility(visibility);
+        loggedUserPanel.setVisibility(visibility);
         infoTxtView.setText(getContext().getString(visible ? R.string.you_re_logged : R.string.log_in));
 
         webView.setVisibility(webViewVisibility);
@@ -68,14 +76,31 @@ public class UserView extends LinearLayout
     public void applyUser(UserModel model)
     {
         this.user = model;
-        nameTxtView.setText(model.name);
+        if(user != null)
+        {
+            nameTxtView.setText(model.name);
+        }
 
-        changeUserDataVisibility(true);
+        changeUserDataVisibility();
+    }
+
+    public WebView getWebView() { return webView; }
+
+    public void setLogOutButtonListener(Button.OnClickListener lstnr)
+    {
+        logOutListener = lstnr;
+        if(logOutButton != null)
+        {
+            logOutButton.setOnClickListener(logOutListener);
+        }
     }
 
     private TextView infoTxtView;
     private TextView nameTxtView;
-    public WebView webView;
+    private Button logOutButton;
+    private LinearLayout loggedUserPanel;
+    private Button.OnClickListener logOutListener;
+    private WebView webView;
 
     private UserModel user;
 }

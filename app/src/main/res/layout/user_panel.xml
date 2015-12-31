@@ -9,17 +9,42 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="Please log in."
         android:id="@+id/panel_info"
-        android:gravity="center_horizontal" />
+        android:gravity="left"
+        android:layout_margin="5dp" />
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="User Name"
-        android:id="@+id/user_name"
-        android:textStyle="bold"
-        android:fontFamily="sans-serif-condensed"
-        android:layout_gravity="center_horizontal" />
+        android:id="@+id/logged_user_panel">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="User Name"
+            android:id="@+id/user_name"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif-condensed"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:layout_margin="8dp" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Log Out"
+            android:textAllCaps="false"
+            android:id="@+id/log_out_button"
+            android:background="@drawable/btn_ripple"
+            android:minHeight="30dp"
+            android:minWidth="64dp"
+            android:layout_alignParentBottom="false"
+            android:layout_alignBottom="@+id/author_txtView"
+            android:layout_alignParentRight="true"
+            android:layout_margin="8dp"
+            android:layout_gravity="center_vertical" />
+    </LinearLayout>
 
     <WebView
         android:layout_width="match_parent"
