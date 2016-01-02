@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Base64;
+import android.util.Log;
 
 import com.dev.sim8500.githapp.models.AuthData;
 import com.dev.sim8500.githapp.models.TokenModel;
@@ -111,6 +112,7 @@ public class AuthRequestsManager {
 
     private Retrofit prepareAuthRetrofitInstance()
     {
+        Log.d("GITHAPP_AUTH", String.format("Auth-Token: %s", accessToken));
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(GITHUB_API_URL)
                 .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().create()))
@@ -136,12 +138,10 @@ public class AuthRequestsManager {
             }
         });
 
-
     }
 
     private boolean readTokenFromPrefs(Context ctx)
     {
-
         SharedPreferences sharedPreferences = ctx.getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
         if(sharedPreferences.contains(AUTH_TOKEN))
         {

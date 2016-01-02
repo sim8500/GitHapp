@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -45,40 +46,28 @@ public class RepoIssuesActivity extends AppCompatActivity implements RepoView.On
         recyclerContainer.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
         Intent currentIntent = this.getIntent();
-
-        boolean isReadyToLoadIssues = false;
-
         if(currentIntent.hasExtra(REPO_NAME) && currentIntent.hasExtra(REPO_OWNER))
         {
             owner = currentIntent.getStringExtra(REPO_OWNER);
             repo = currentIntent.getStringExtra(REPO_NAME);
+        }
 
-            isReadyToLoadIssues = !(TextUtils.isEmpty(owner) || TextUtils.isEmpty(repo));
+        if(!AuthRequestsManager.getInstance().hasTokenStored(this))
+        {
+            startActivity(new Intent(this, MainActivity.class));
+        }
+
+        boolean isReadyToLoadIssues = !(TextUtils.isEmpty(owner) || TextUtils.isEmpty(repo));
+
+        if(isReadyToLoadIssues)
+        {
+            requestIssues();
         }
         else
         {
-            AuthRequestsManager arqm = AuthRequestsManager.getInstance();
-
-            arqm.getService(GitHubUserReposService.class)
-                    .getUserRepos()
-                    .enqueue(new Callback<List<RepoModel>>()
-                    {
-                        @Override
-                        public void onResponse(Response<List<RepoModel>> response, Retrofit retrofit)
-                        {
-                            List<RepoModel> resultList = response.body();
-                            onUserReposReceived(resultList);
-                        }
-
-                        @Override
-                        public void onFailure(Throwable t) {
-                            onRequestFailed();
-                        }
-                    });
+            requestRepos();
         }
 
-        if(isReadyToLoadIssues)
-            requestIssues();
     }
 
     @Override
@@ -117,12 +106,34 @@ public class RepoIssuesActivity extends AppCompatActivity implements RepoView.On
         });
     }
 
+    private void requestRepos()
+    {
+        AuthRequestsManager arqm = AuthRequestsManager.getInstance();
+
+        arqm.getService(GitHubUserReposService.class)
+                .getUserRepos()
+                .enqueue(new Callback<List<RepoModel>>()
+                {
+                    @Override
+                    public void onResponse(Response<List<RepoModel>> response, Retrofit retrofit)
+                    {
+                        List<RepoModel> resultList = response.body();
+                        onUserReposReceived(resultList);
+                    }
+
+                    @Override
+                    public void onFailure(Throwable t) {
+                        onRequestFailed();
+                    }
+                });
+    }
+
     @UiThread
     public void onIssuesReceived(List<IssueModel> issues)
     {
         if(issues != null)
         {
-            issuesAdapter.clearIssues();
+            issuesAdapter.clearItems();
 
             issuesAdapter.initAdapter(this, issues);
             recyclerContainer.setAdapter(issuesAdapter);
@@ -136,7 +147,7 @@ public class RepoIssuesActivity extends AppCompatActivity implements RepoView.On
         {
             if(repos.size() > 1)
             {
-                reposAdapter.clearRepos();
+                reposAdapter.clearItems();
                 reposAdapter.initAdapter(this, this, repos);
                 recyclerContainer.setAdapter(reposAdapter);
             }

@@ -17,6 +17,7 @@ import com.dev.sim8500.githapp.models.UserModel;
  * Created by sbernad on 19.12.15.
  */
 public class UserView extends LinearLayout
+                      implements ModelView
 {
     public UserView(Context context)
     {
@@ -71,6 +72,15 @@ public class UserView extends LinearLayout
         infoTxtView.setText(getContext().getString(visible ? R.string.you_re_logged : R.string.log_in));
 
         webView.setVisibility(webViewVisibility);
+    }
+
+    @Override
+    public void applyModel(Object model)
+    {
+        if(model instanceof UserModel)
+        {
+            applyUser((UserModel)model);
+        }
     }
 
     public void applyUser(UserModel model)

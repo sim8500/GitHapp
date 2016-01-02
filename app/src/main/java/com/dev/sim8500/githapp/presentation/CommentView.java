@@ -13,6 +13,7 @@ import com.dev.sim8500.githapp.models.CommentModel;
  * Created by Szymon on 2015-12-30.
  */
 public class CommentView extends FrameLayout
+                         implements ModelView
 {
     public CommentView(Context context)
     {
@@ -38,6 +39,15 @@ public class CommentView extends FrameLayout
 
         bodyTxtView = (TextView)findViewById(R.id.comment_txtView);
         authorTxtView = (TextView)findViewById(R.id.author_txtView);
+    }
+
+    @Override
+    public void applyModel(Object model)
+    {
+        if(model instanceof CommentModel)
+        {
+            applyModel((CommentModel)model);
+        }
     }
 
     public void applyModel(CommentModel model)

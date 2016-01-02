@@ -14,71 +14,36 @@ import java.util.List;
 /**
  * Created by sbernad on 19.12.15.
  */
-public class ReposAdapter extends RecyclerView.Adapter<ReposAdapter.RepoViewHolder>
+public class ReposAdapter extends AbstractAdapter<RepoModel>
 {
-
-    public static class RepoViewHolder extends RecyclerView.ViewHolder
-    {
-        public RepoView getView() {
-            return (RepoView)itemView;
-        }
-        public RepoViewHolder(RepoView v) {
-            super(v);
-        }
-    }
 
     public void initAdapter(Context context, RepoView.OnRepoChosenListener repoListener, List<RepoModel> repos)
     {
-        this.context = context;
+        super.initAdapter(context, repos);
+
         this.repoChosenListener = repoListener;
-        this.reposList.addAll(repos);
     }
 
-    public List<RepoModel> getRepos() { return this.reposList; }
+    public List<RepoModel> getRepos() { return this.itemsList; }
 
     public void addRepo(RepoModel repo)
     {
-        reposList.add(repo);
-        if(reposList.size() == 1)
+        itemsList.add(repo);
+        if(itemsList.size() == 1)
             notifyDataSetChanged();
         else
-            notifyItemInserted(reposList.size()-1);
-    }
-
-    public void clearRepos()
-    {
-        reposList.clear();
-        notifyDataSetChanged();
+            notifyItemInserted(itemsList.size()-1);
     }
 
     @Override
-    public int getItemCount() {
-        return reposList.size();
-    }
-
-
-    @Override
-    public RepoViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
     {
         RepoView rv = new RepoView(context);
         rv.setOnRepoChosenListener(this.repoChosenListener);
 
-        RepoViewHolder rvh = new RepoViewHolder(rv);
+        ViewHolder rvh = new ViewHolder(rv);
         return rvh;
     }
 
-    @Override
-    public void onBindViewHolder(RepoViewHolder holder, int position)
-    {
-        holder.getView().applyModel(reposList.get(position));
-    }
-
-    @Override
-    public long getItemId(int i) {
-        return super.getItemId(i);
-    }
-
-    private Context context;
-    private List<RepoModel> reposList = new ArrayList<RepoModel>();
     private RepoView.OnRepoChosenListener repoChosenListener;
 }

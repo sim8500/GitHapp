@@ -15,48 +15,14 @@ import java.util.List;
 /**
  * Created by sbernad on 19.12.15.
  */
-public class IssuesAdapter extends RecyclerView.Adapter<IssuesAdapter.IssueViewHolder>
+public class IssuesAdapter extends AbstractAdapter<IssueModel>
 {
-
-    public void initAdapter(Context context, List<IssueModel> issues) {
-
-        this.context = context;
-        this.issuesList.addAll(issues);
-    }
-
     @Override
-    public IssueViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
+    {
+        IssueView view = new IssueView(context);
+        ViewHolder vh = new ViewHolder(view);
 
-        IssueView iv = new IssueView(context);
-
-        IssueViewHolder ivh = new IssueViewHolder(iv);
-        return ivh;
+        return vh;
     }
-
-    @Override
-    public void onBindViewHolder(IssueViewHolder holder, int position) {
-        holder.getView().applyModel(issuesList.get(position));
-    }
-
-    @Override
-    public int getItemCount() {
-        return issuesList.size();
-    }
-
-    public static class IssueViewHolder extends RecyclerView.ViewHolder {
-
-        public IssueViewHolder(IssueView v) {
-            super(v);
-        }
-
-        public IssueView getView() { return (IssueView)itemView; }
-    }
-
-    public void clearIssues() {
-        issuesList.clear();
-        notifyDataSetChanged();
-    }
-
-    private Context context;
-    private List<IssueModel> issuesList = new ArrayList<IssueModel>();
 }

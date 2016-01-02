@@ -53,6 +53,17 @@ public class SingleIssueActivity extends AppCompatActivity
             }
         });
 
+        if(!AuthRequestsManager.getInstance().hasTokenStored(this))
+        {
+            startActivity(new Intent(this, MainActivity.class));
+        }
+    }
+
+    @Override
+    public void onStart()
+    {
+        super.onStart();
+
         Intent intent = getIntent();
         if(intent.hasExtra(ISSUE_MODEL))
         {
@@ -85,23 +96,6 @@ public class SingleIssueActivity extends AppCompatActivity
                 });
     }
 
-    @UiThread
-    public void displayComments(List<CommentModel> comments)
-    {
-        CommentsAdapter adapter = new CommentsAdapter();
-        adapter.initAdapter(this, comments);
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        View dlgView = LayoutInflater.from(this).inflate(R.layout.dialog_comments, null);
-
-        RecyclerView recyclerView = (RecyclerView)dlgView.findViewById(R.id.container);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        recyclerView.setAdapter(adapter);
-
-        builder.setView(dlgView);
-        builder.create().show();
-    }
-
     private String[] extractPathParams()
     {
         String[] resUrlParts = new String[3];
@@ -120,6 +114,23 @@ public class SingleIssueActivity extends AppCompatActivity
             }
         }
         return resUrlParts;
+    }
+
+    @UiThread
+    private void displayComments(List<CommentModel> comments)
+    {
+        CommentsAdapter adapter = new CommentsAdapter();
+        adapter.initAdapter(this, comments);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View dlgView = LayoutInflater.from(this).inflate(R.layout.dialog_comments, null);
+
+        RecyclerView recyclerView = (RecyclerView)dlgView.findViewById(R.id.container);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        recyclerView.setAdapter(adapter);
+
+        builder.setView(dlgView);
+        builder.create().show();
     }
 
     private void applyModel()

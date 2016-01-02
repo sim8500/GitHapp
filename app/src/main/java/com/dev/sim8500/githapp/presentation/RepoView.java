@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.dev.sim8500.githapp.R;
+import com.dev.sim8500.githapp.models.IssueModel;
 import com.dev.sim8500.githapp.models.RepoModel;
 
 /**
@@ -15,6 +16,7 @@ import com.dev.sim8500.githapp.models.RepoModel;
  */
 
 public class RepoView extends FrameLayout
+                      implements ModelView
 {
 
     public interface OnRepoChosenListener
@@ -53,7 +55,7 @@ public class RepoView extends FrameLayout
             @Override
             public void onClick(View v) {
 
-                if(repoChosenListener != null)
+                if (repoChosenListener != null)
                     repoChosenListener.onRepoChosen(model.name, model.owner.login);
             }
         });
@@ -64,6 +66,14 @@ public class RepoView extends FrameLayout
         this.repoChosenListener = listener;
     }
 
+    @Override
+    public void applyModel(Object model)
+    {
+        if(model instanceof RepoModel)
+        {
+            applyModel((RepoModel)model);
+        }
+    }
     public void applyModel(RepoModel repo)
     {
         model = repo;

@@ -16,6 +16,7 @@ import com.dev.sim8500.githapp.models.IssueModel;
  * Created by sbernad on 19.12.15.
  */
 public class IssueView extends FrameLayout
+                       implements ModelView
 {
 
     public IssueView(Context context)
@@ -45,19 +46,25 @@ public class IssueView extends FrameLayout
         assigneeTxtView = (TextView)findViewById(R.id.author_txtView);
         moreButton = (Button)findViewById(R.id.button);
 
-        moreButton.setOnClickListener(new OnClickListener()
-        {
+        moreButton.setOnClickListener(new OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
-                if(IssueView.this.model != null)
-                {
+            public void onClick(View v) {
+                if (IssueView.this.model != null) {
                     Intent issueIntent = new Intent(IssueView.this.getContext(), SingleIssueActivity.class);
                     issueIntent.putExtra(SingleIssueActivity.ISSUE_MODEL, IssueView.this.model);
                     IssueView.this.getContext().startActivity(issueIntent);
                 }
             }
         });
+    }
+
+    @Override
+    public void applyModel(Object model)
+    {
+        if(model instanceof IssueModel)
+        {
+            applyModel((IssueModel)model);
+        }
     }
 
     public void applyModel(IssueModel issue)
