@@ -24,6 +24,8 @@ import org.w3c.dom.Text;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
@@ -42,6 +44,8 @@ public class RepoIssuesActivity extends AppCompatActivity implements RepoView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_issues);
 
+        ((GitHappApp)getApplication()).inject(this);
+
         recyclerContainer = (RecyclerView)findViewById(R.id.issue_container);
         recyclerContainer.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
@@ -52,7 +56,7 @@ public class RepoIssuesActivity extends AppCompatActivity implements RepoView.On
             repo = currentIntent.getStringExtra(REPO_NAME);
         }
 
-        if(!AuthRequestsManager.getInstance().hasTokenStored(this))
+        if(!authReqMngr.hasTokenStored(this))
         {
             startActivity(new Intent(this, MainActivity.class));
         }
@@ -87,30 +91,24 @@ public class RepoIssuesActivity extends AppCompatActivity implements RepoView.On
 
     private void requestIssues()
     {
-        AuthRequestsManager.getInstance()
-                .getService(GitHubRepoIssuesService.class)
-                .getRepoIssues(owner, repo, "all")
-                .enqueue(new Callback<List<IssueModel>>()
-                {
-                    @Override
-                    public void onResponse(Response<List<IssueModel>> response, Retrofit retrofit)
-                    {
-                        onIssuesReceived(response.body());
-                    }
+        authReqMngr.getService(GitHubRepoIssuesService.class)
+                    .getRepoIssues(owner, repo, "all")
+                    .enqueue(new Callback<List<IssueModel>>() {
+                        @Override
+                        public void onResponse(Response<List<IssueModel>> response, Retrofit retrofit) {
+                            onIssuesReceived(response.body());
+                        }
 
-                    @Override
-                    public void onFailure(Throwable t)
-                    {
-                        onRequestFailed();
-                    }
-        });
+                        @Override
+                        public void onFailure(Throwable t) {
+                            onRequestFailed();
+                        }
+                    });
     }
 
     private void requestRepos()
     {
-        AuthRequestsManager arqm = AuthRequestsManager.getInstance();
-
-        arqm.getService(GitHubUserReposService.class)
+        authReqMngr.getService(GitHubUserReposService.class)
                 .getUserRepos()
                 .enqueue(new Callback<List<RepoModel>>()
                 {
@@ -176,6 +174,7 @@ public class RepoIssuesActivity extends AppCompatActivity implements RepoView.On
         }
     }
 
+    @Inject protected AuthRequestsManager authReqMngr;
     private RecyclerView recyclerContainer;
     private ReposAdapter reposAdapter = new ReposAdapter();
     private String repo;

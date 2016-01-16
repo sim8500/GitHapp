@@ -19,6 +19,8 @@ import com.dev.sim8500.githapp.services.GitHubRepoIssuesService;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
@@ -35,6 +37,8 @@ public class SingleIssueActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single_issue);
+
+        ((GitHappApp)getApplication()).inject(this);
 
         titleTxtView = (TextView)findViewById(R.id.issue_title);
         creatorTxtView = (TextView)findViewById(R.id.userTxtView);
@@ -53,7 +57,7 @@ public class SingleIssueActivity extends AppCompatActivity
             }
         });
 
-        if(!AuthRequestsManager.getInstance().hasTokenStored(this))
+        if(!authReqManager.hasTokenStored(this))
         {
             startActivity(new Intent(this, MainActivity.class));
         }
@@ -79,21 +83,20 @@ public class SingleIssueActivity extends AppCompatActivity
     {
         String[] pathParams = extractPathParams();
 
-        AuthRequestsManager.getInstance()
-                .getService(GitHubRepoIssuesService.class)
-                .getIssueComments(pathParams[0], pathParams[1], pathParams[2])
-                .enqueue(new Callback<List<CommentModel>>()
-                {
-                    @Override
-                    public void onResponse(Response<List<CommentModel>> response, Retrofit retrofit)
+        authReqManager.getService(GitHubRepoIssuesService.class)
+                      .getIssueComments(pathParams[0], pathParams[1], pathParams[2])
+                      .enqueue(new Callback<List<CommentModel>>()
                     {
-                        displayComments(response.body());
-                    }
+                        @Override
+                        public void onResponse(Response<List<CommentModel>> response, Retrofit retrofit)
+                        {
+                            displayComments(response.body());
+                        }
 
-                    @Override
-                    public void onFailure(Throwable t)
-                    { }
-                });
+                        @Override
+                        public void onFailure(Throwable t)
+                        { }
+                    });
     }
 
     private String[] extractPathParams()
@@ -143,6 +146,7 @@ public class SingleIssueActivity extends AppCompatActivity
         commentsCounter.setText(getResources().getQuantityString(R.plurals.comment_plural, model.commentsCount, model.commentsCount));
     }
 
+    @Inject protected AuthRequestsManager authReqManager;
     private TextView titleTxtView;
     private TextView creatorTxtView;
     private TextView assigneeTxtView;

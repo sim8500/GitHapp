@@ -18,6 +18,8 @@ import com.squareup.okhttp.Request;
 
 import java.io.IOException;
 
+import javax.inject.Singleton;
+
 import retrofit.Call;
 import retrofit.Callback;
 import retrofit.GsonConverterFactory;
@@ -27,6 +29,7 @@ import retrofit.Retrofit;
 /**
  * Created by sbernad on 19.12.15.
  */
+@Singleton
 public class AuthRequestsManager {
 
     public static AuthRequestsManager getInstance()

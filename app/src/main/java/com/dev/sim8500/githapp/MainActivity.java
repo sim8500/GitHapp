@@ -37,6 +37,8 @@ import com.squareup.okhttp.Request;
 import java.io.IOException;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import retrofit.Call;
 import retrofit.Callback;
 import retrofit.GsonConverterFactory;
@@ -48,19 +50,24 @@ public class MainActivity extends AppCompatActivity implements AuthRequestsManag
 {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        ((GitHappApp)getApplication()).inject(this);
 
         userPanel = (UserView)findViewById(R.id.user_panel);
 
         userPanel.setLogOutButtonListener(this);
 
+        final AuthRequestsManager reqMngr = authReqMngr;
+
         userPanel.getWebView().setWebViewClient(new WebViewClient()
         {
             public void onPageStarted(WebView view, String url, Bitmap favicon)
             {
-                AuthRequestsManager.getInstance().obtainAuthToken(url, MainActivity.this, MainActivity.this);
+                reqMngr.obtainAuthToken(url, MainActivity.this, MainActivity.this);
             }
 
         });
@@ -87,8 +94,7 @@ public class MainActivity extends AppCompatActivity implements AuthRequestsManag
             return;
         }
 
-        AuthRequestsManager authReq = AuthRequestsManager.getInstance();
-        if(authReq.hasTokenStored(this))
+        if(authReqMngr.hasTokenStored(this))
         {
             onTokenReceived();
         }
@@ -101,11 +107,9 @@ public class MainActivity extends AppCompatActivity implements AuthRequestsManag
     @UiThread
     public void onTokenReceived()
     {
-        AuthRequestsManager arqm = AuthRequestsManager.getInstance();
-
         if(userModel == null)
         {
-            arqm.getService(GitHubUserService.class)
+            authReqMngr.getService(GitHubUserService.class)
                     .getUser()
                     .enqueue(new Callback<UserModel>() {
                         @Override
@@ -145,7 +149,6 @@ public class MainActivity extends AppCompatActivity implements AuthRequestsManag
 
     private void performUserLogOut()
     {
-        AuthRequestsManager authReqMngr = AuthRequestsManager.getInstance();
         if(authReqMngr.logOutUser(this))
         {
             userModel = null;
@@ -185,6 +188,7 @@ public class MainActivity extends AppCompatActivity implements AuthRequestsManag
         startActivity(reposIntent);
     }
 
+    @Inject protected AuthRequestsManager authReqMngr;
     private UserModel userModel;
     private UserView userPanel;
     private Button nextButton;

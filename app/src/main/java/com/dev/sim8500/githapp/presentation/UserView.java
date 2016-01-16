@@ -10,8 +10,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.dev.sim8500.githapp.AuthRequestsManager;
+import com.dev.sim8500.githapp.GitHappApp;
 import com.dev.sim8500.githapp.R;
 import com.dev.sim8500.githapp.models.UserModel;
+
+import javax.inject.Inject;
 
 /**
  * Created by sbernad on 19.12.15.
@@ -40,6 +43,8 @@ public class UserView extends LinearLayout
     private void init() {
         inflate(getContext(), R.layout.user_panel, this);
 
+        ((GitHappApp)getContext().getApplicationContext()).inject(this);
+
         infoTxtView = (TextView)findViewById(R.id.panel_info);
         nameTxtView = (TextView)findViewById(R.id.user_name);
 
@@ -57,7 +62,7 @@ public class UserView extends LinearLayout
 
     public void loadLoginPage()
     {
-        webView.loadUrl(AuthRequestsManager.getInstance().getOAuthURL().toString());
+        webView.loadUrl(authReqMngr.getOAuthURL().toString());
     }
 
     @UiThread
@@ -104,6 +109,8 @@ public class UserView extends LinearLayout
             logOutButton.setOnClickListener(logOutListener);
         }
     }
+
+    @Inject protected AuthRequestsManager authReqMngr;
 
     private TextView infoTxtView;
     private TextView nameTxtView;
