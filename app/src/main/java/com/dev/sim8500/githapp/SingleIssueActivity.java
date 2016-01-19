@@ -1,20 +1,28 @@
 package com.dev.sim8500.githapp;
 
+import android.animation.ObjectAnimator;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.UiThread;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.dev.sim8500.githapp.models.CommentModel;
 import com.dev.sim8500.githapp.models.IssueModel;
+import com.dev.sim8500.githapp.presentation.ResizeAnimation;
 import com.dev.sim8500.githapp.services.GitHubRepoIssuesService;
 
 import java.util.List;
@@ -45,6 +53,19 @@ public class SingleIssueActivity extends AppCompatActivity
         assigneeTxtView = (TextView)findViewById(R.id.author_txtView);
         bodyTxtView = (TextView)findViewById(R.id.bodyTxtView);
         commentsCounter = (TextView)findViewById(R.id.comment_counter);
+        ovalButton = (ToggleButton)findViewById(R.id.oval_btn);
+        cardView = (CardView)findViewById(R.id.card_view);
+
+        ovalButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                float factor = isChecked ? 2.f : 0.5f;
+                ResizeAnimation rszAnim = new ResizeAnimation(cardView, (int)(factor*cardView.getHeight()), cardView.getHeight());
+
+                rszAnim.setDuration(350);
+                cardView.startAnimation(rszAnim);
+            }
+        });
 
         commentsCounter.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -152,6 +173,8 @@ public class SingleIssueActivity extends AppCompatActivity
     private TextView assigneeTxtView;
     private TextView bodyTxtView;
     private TextView commentsCounter;
+    private ToggleButton ovalButton;
+    private CardView cardView;
     
     private IssueModel model;
 

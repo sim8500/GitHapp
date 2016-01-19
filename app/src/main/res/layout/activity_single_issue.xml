@@ -1,92 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#cecece">
+    android:background="#dfdfdf"
+    android:padding="16dp">
 
-    <TextView
-        android:layout_width="match_parent"
+    <android.support.v7.widget.CardView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Medium Text"
-        android:id="@+id/issue_title"
-        android:gravity="center_horizontal"
-        android:padding="8dp"
-        android:autoText="false"
-        android:background="@android:color/white" />
+        android:id="@+id/card_view"
+        card_view:cardElevation="4sp">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/white">
-
-        <TextView
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="created by:"
-            android:id="@+id/label_user"
-            android:layout_alignParentTop="true"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="4dp" />
+            android:background="@android:color/white">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="User"
-            android:id="@+id/userTxtView"
-            android:textColor="#A3B35E"
-            android:paddingLeft="8dp"
-            android:layout_toRightOf="@+id/label_user" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Title of Issue"
+                android:id="@+id/issue_title"
+                android:gravity="center_horizontal"
+                android:padding="8dp"
+                android:autoText="false"
+                android:background="@android:color/white"
+                android:layout_alignParentTop="true"
+                android:fontFamily="sans-serif-condensed"
+                android:textStyle="bold" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="assigned to:"
-            android:id="@+id/label_assignee"
-            android:layout_below="@+id/label_user"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="4dp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:id="@+id/bodyTxtView"
+                android:background="@android:color/white"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:layout_below="@+id/issue_title"
+                android:paddingBottom="8dp"
+                android:text="Lorem ipsum dollar sit amet"
+                android:fontFamily="sans-serif-condensed" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="User"
-            android:id="@+id/author_txtView"
-            android:textColor="#A3B35E"
-            android:layout_toRightOf="@+id/label_assignee"
-            android:layout_alignBottom="@+id/label_assignee" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="created by:"
+                android:id="@+id/label_user"
+                android:layout_alignParentTop="false"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="4dp"
+                android:layout_below="@+id/bodyTxtView" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="0 comments"
-            android:id="@+id/comment_counter"
-            android:layout_alignParentBottom="false"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="8dp" />
-    </RelativeLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="User"
+                android:id="@+id/userTxtView"
+                android:textColor="#A3B35E"
+                android:paddingLeft="8dp"
+                android:layout_toRightOf="@+id/label_user"
+                android:layout_alignBottom="@+id/label_user" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:id="@+id/bodyTxtView"
-        android:background="@android:color/white"
-        android:paddingLeft="8dp"
-        android:paddingTop="12dp"
-        android:paddingRight="8dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="assigned to:"
+                android:id="@+id/label_assignee"
+                android:layout_below="@+id/label_user"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="4dp" />
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:id="@+id/imageView2"
-        android:background="#A3B35E"
-        android:layout_below="@+id/row_container" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="User"
+                android:id="@+id/author_txtView"
+                android:textColor="#A3B35E"
+                android:layout_toRightOf="@+id/label_assignee"
+                android:layout_alignBottom="@+id/label_assignee" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="0 comments"
+                android:id="@+id/comment_counter"
+                android:layout_alignParentBottom="false"
+                android:layout_alignParentTop="false"
+                android:layout_alignParentRight="false"
+                android:layout_marginRight="8dp"
+                android:layout_below="@+id/bodyTxtView"
+                android:layout_toLeftOf="@+id/oval_btn"
+                android:layout_marginTop="16dp" />
+
+            <ToggleButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/oval_btn"
+                android:minHeight="30dp"
+                android:minWidth="30dp"
+                android:background="@drawable/btn_oval_bg"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="false"
+                android:layout_margin="8sp"
+                android:layout_below="@+id/bodyTxtView"
+                android:textOff="+"
+                android:textOn="-"
+                android:checked="false" />
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
 
 </LinearLayout>

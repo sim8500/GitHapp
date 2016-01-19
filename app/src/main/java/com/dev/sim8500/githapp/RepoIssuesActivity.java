@@ -11,6 +11,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,6 +46,8 @@ public class RepoIssuesActivity extends AppCompatActivity implements RepoView.On
         setContentView(R.layout.activity_issues);
 
         ((GitHappApp)getApplication()).inject(this);
+
+        progressBar = (ProgressBar)findViewById(R.id.progressBar);
 
         recyclerContainer = (RecyclerView)findViewById(R.id.issue_container);
         recyclerContainer.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
@@ -91,6 +94,7 @@ public class RepoIssuesActivity extends AppCompatActivity implements RepoView.On
 
     private void requestIssues()
     {
+        progressBar.setVisibility(View.VISIBLE);
         authReqMngr.getService(GitHubRepoIssuesService.class)
                     .getRepoIssues(owner, repo, "all")
                     .enqueue(new Callback<List<IssueModel>>() {
@@ -108,6 +112,7 @@ public class RepoIssuesActivity extends AppCompatActivity implements RepoView.On
 
     private void requestRepos()
     {
+        progressBar.setVisibility(View.VISIBLE);
         authReqMngr.getService(GitHubUserReposService.class)
                 .getUserRepos()
                 .enqueue(new Callback<List<RepoModel>>()
@@ -136,6 +141,7 @@ public class RepoIssuesActivity extends AppCompatActivity implements RepoView.On
             issuesAdapter.initAdapter(this, issues);
             recyclerContainer.setAdapter(issuesAdapter);
         }
+        progressBar.setVisibility(View.GONE);
     }
 
     @UiThread
@@ -154,6 +160,7 @@ public class RepoIssuesActivity extends AppCompatActivity implements RepoView.On
                 onRepoChosen(repos.get(0).name, repos.get(0).owner.login);
             }
         }
+        progressBar.setVisibility(View.GONE);
     }
 
     @UiThread
@@ -176,6 +183,7 @@ public class RepoIssuesActivity extends AppCompatActivity implements RepoView.On
 
     @Inject protected AuthRequestsManager authReqMngr;
     private RecyclerView recyclerContainer;
+    private ProgressBar progressBar;
     private ReposAdapter reposAdapter = new ReposAdapter();
     private String repo;
     private String owner;
