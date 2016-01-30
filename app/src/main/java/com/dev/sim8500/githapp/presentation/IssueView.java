@@ -18,7 +18,6 @@ import com.dev.sim8500.githapp.models.IssueModel;
 public class IssueView extends FrameLayout
                        implements ModelView
 {
-
     public IssueView(Context context)
     {
         super(context);

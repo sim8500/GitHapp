@@ -1,6 +1,5 @@
 package com.dev.sim8500.githapp;
 
-import android.animation.ObjectAnimator;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,12 +9,9 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.ToggleButton;
@@ -40,6 +36,43 @@ public class SingleIssueActivity extends AppCompatActivity
 {
     public static final String ISSUE_MODEL = "com.dev.sim8500.GitHapp.ISSUE_MODEL";
 
+    protected enum CardState {
+        Normal,
+        Expanded,
+        Expanding,
+        Collapsing
+    }
+
+    protected Animation.AnimationListener animListener = new Animation.AnimationListener() {
+        @Override
+        public void onAnimationStart(Animation animation) {
+            if(cardViewState == CardState.Expanded) {
+                container.setVisibility(View.GONE);
+                cardViewState = CardState.Collapsing;
+            }
+            else if(cardViewState == CardState.Normal) {
+                cardViewState = CardState.Expanding;
+            }
+        }
+
+        @Override
+        public void onAnimationEnd(Animation animation) {
+            if(cardViewState == CardState.Expanding) {
+                container.setVisibility(View.VISIBLE);
+                cardViewState = CardState.Expanded;
+            }
+            else if(cardViewState == CardState.Collapsing) {
+                cardViewState = CardState.Normal;
+            }
+        }
+
+        @Override
+        public void onAnimationRepeat(Animation animation) {
+
+        }
+    };
+
+    protected CardState cardViewState = CardState.Normal;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -55,25 +88,27 @@ public class SingleIssueActivity extends AppCompatActivity
         commentsCounter = (TextView)findViewById(R.id.comment_counter);
         ovalButton = (ToggleButton)findViewById(R.id.oval_btn);
         cardView = (CardView)findViewById(R.id.card_view);
+        container = (RecyclerView)findViewById(R.id.container);
 
         ovalButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                float factor = isChecked ? 2.f : 0.5f;
-                ResizeAnimation rszAnim = new ResizeAnimation(cardView, (int)(factor*cardView.getHeight()), cardView.getHeight());
 
-                rszAnim.setDuration(350);
-                cardView.startAnimation(rszAnim);
-            }
-        });
+                if (cardViewState == CardState.Normal && model != null && model.commentsCount > 0) {
 
-        commentsCounter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v)
-            {
-                if (model != null && model.commentsCount > 0)
-                {
-                    showCommentsDialog();
+                    showComments();
+
+                    ResizeAnimation rszAnim = new ResizeAnimation(cardView, (int) (2.0f*cardView.getHeight()), cardView.getHeight());
+                    rszAnim.setAnimationListener(animListener);
+                    rszAnim.setDuration(350);
+                    cardView.startAnimation(rszAnim);
+                }
+                else if(cardViewState == CardState.Expanded) {
+
+                    ResizeAnimation rszAnim = new ResizeAnimation(cardView, (int) (0.5f*cardView.getHeight()), cardView.getHeight());
+                    rszAnim.setAnimationListener(animListener);
+                    rszAnim.setDuration(250);
+                    cardView.startAnimation(rszAnim);
                 }
             }
         });
@@ -100,7 +135,7 @@ public class SingleIssueActivity extends AppCompatActivity
         }
     }
 
-    private void showCommentsDialog()
+    private void showComments()
     {
         String[] pathParams = extractPathParams();
 
@@ -143,18 +178,14 @@ public class SingleIssueActivity extends AppCompatActivity
     @UiThread
     private void displayComments(List<CommentModel> comments)
     {
-        CommentsAdapter adapter = new CommentsAdapter();
-        adapter.initAdapter(this, comments);
+        if(container.getAdapter() == null) {
+            CommentsAdapter adapter = new CommentsAdapter();
+            adapter.initAdapter(this, comments);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        View dlgView = LayoutInflater.from(this).inflate(R.layout.dialog_comments, null);
+            container.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+            container.setAdapter(adapter);
+        }
 
-        RecyclerView recyclerView = (RecyclerView)dlgView.findViewById(R.id.container);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        recyclerView.setAdapter(adapter);
-
-        builder.setView(dlgView);
-        builder.create().show();
     }
 
     private void applyModel()
@@ -175,6 +206,7 @@ public class SingleIssueActivity extends AppCompatActivity
     private TextView commentsCounter;
     private ToggleButton ovalButton;
     private CardView cardView;
+    private RecyclerView container;
     
     private IssueModel model;
 
