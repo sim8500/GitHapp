@@ -6,6 +6,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -15,6 +16,9 @@ import com.dev.sim8500.githapp.R;
 import com.dev.sim8500.githapp.models.UserModel;
 
 import javax.inject.Inject;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 /**
  * Created by sbernad on 19.12.15.
@@ -43,21 +47,17 @@ public class UserView extends LinearLayout
     private void init() {
         inflate(getContext(), R.layout.user_panel, this);
 
-        ((GitHappApp)getContext().getApplicationContext()).inject(this);
+        ButterKnife.bind(this);
 
-        infoTxtView = (TextView)findViewById(R.id.panel_info);
-        nameTxtView = (TextView)findViewById(R.id.user_name);
+        if(!this.isInEditMode()) {
+            ((GitHappApp) getContext().getApplicationContext()).inject(this);
+            webView.getSettings().setJavaScriptEnabled(true);
+        }
 
-        webView = (WebView)findViewById(R.id.webView);
-        webView.getSettings().setJavaScriptEnabled(true);
-
-        logOutButton = (Button)findViewById(R.id.log_out_button);
         if(logOutListener != null)
         {
             logOutButton.setOnClickListener(logOutListener);
         }
-
-        loggedUserPanel = (LinearLayout)findViewById(R.id.logged_user_panel);
     }
 
     public void loadLoginPage()
@@ -77,6 +77,7 @@ public class UserView extends LinearLayout
         infoTxtView.setText(getContext().getString(visible ? R.string.you_re_logged : R.string.log_in));
 
         webView.setVisibility(webViewVisibility);
+        octoCatImgView.setVisibility(visibility);
     }
 
     @Override
@@ -112,12 +113,14 @@ public class UserView extends LinearLayout
 
     @Inject protected AuthRequestsManager authReqMngr;
 
-    private TextView infoTxtView;
-    private TextView nameTxtView;
-    private Button logOutButton;
-    private LinearLayout loggedUserPanel;
+    @Bind(R.id.panel_info) protected TextView infoTxtView;
+    @Bind(R.id.user_name) protected TextView nameTxtView;
+    @Bind(R.id.log_out_button) protected Button logOutButton;
+    @Bind(R.id.logged_user_panel) protected LinearLayout loggedUserPanel;
+    @Bind(R.id.webView) protected WebView webView;
+    @Bind(R.id.octocat_img) protected ImageView octoCatImgView;
+
     private Button.OnClickListener logOutListener;
-    private WebView webView;
 
     private UserModel user;
 }

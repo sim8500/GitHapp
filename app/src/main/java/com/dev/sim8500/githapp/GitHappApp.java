@@ -12,10 +12,11 @@ import dagger.ObjectGraph;
  */
 public class GitHappApp extends Application {
     private ObjectGraph graph;
+    private static GitHappApp instance;
 
     @Override public void onCreate() {
         super.onCreate();
-
+        instance = this;
         graph = ObjectGraph.create(getModules().toArray());
     }
 
@@ -27,5 +28,7 @@ public class GitHappApp extends Application {
         graph.inject(object);
     }
 
-
+    public static GitHappApp getInstance() {
+        return instance;
+    }
 }

@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ripple android:color="#70802B" xmlns:android="http://schemas.android.com/apk/res/android">
+<ripple android:color="#A3B35E" xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:drawable="@drawable/bg_clr" />
 </ripple>

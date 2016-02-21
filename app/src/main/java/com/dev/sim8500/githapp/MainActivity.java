@@ -53,12 +53,11 @@ public class MainActivity extends AppCompatActivity implements AuthRequestsManag
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        GitHappApp.getInstance().inject(this);
+
         setContentView(R.layout.activity_main);
 
-        ((GitHappApp)getApplication()).inject(this);
-
         userPanel = (UserView)findViewById(R.id.user_panel);
-
         userPanel.setLogOutButtonListener(this);
 
         final AuthRequestsManager reqMngr = authReqMngr;
@@ -184,7 +183,7 @@ public class MainActivity extends AppCompatActivity implements AuthRequestsManag
 
     private void goToReposScreen()
     {
-        Intent reposIntent = new Intent(this, RepoIssuesActivity.class);
+        Intent reposIntent = new Intent(this, ContainerActivity.class);
         startActivity(reposIntent);
     }
 

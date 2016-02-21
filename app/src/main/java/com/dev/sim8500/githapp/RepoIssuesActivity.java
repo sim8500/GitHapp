@@ -8,11 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dev.sim8500.githapp.models.IssueModel;
@@ -20,8 +17,6 @@ import com.dev.sim8500.githapp.models.RepoModel;
 import com.dev.sim8500.githapp.presentation.RepoView;
 import com.dev.sim8500.githapp.services.GitHubRepoIssuesService;
 import com.dev.sim8500.githapp.services.GitHubUserReposService;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -43,13 +38,13 @@ public class RepoIssuesActivity extends AppCompatActivity implements RepoView.On
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_issues);
+        setContentView(R.layout.activity_container);
 
         ((GitHappApp)getApplication()).inject(this);
 
-        progressBar = (ProgressBar)findViewById(R.id.progressBar);
+        //progressBar = (ProgressBar)findViewById(R.id.progressBar);
 
-        recyclerContainer = (RecyclerView)findViewById(R.id.issue_container);
+        //recyclerContainer = (RecyclerView)findViewById(R.id.issue_container);
         recyclerContainer.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
         Intent currentIntent = this.getIntent();
