@@ -27,12 +27,26 @@ public class RepoPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        RepoFragment fragment = new RepoFragment();
-        Bundle args = new Bundle();
-        args.putParcelable(RepoFragment.REPO_MODEL_ARG, model);
-        fragment.setArguments(args);
-        repoSetListeners.add(new WeakReference<OnRepoSetListener>(fragment));
-        return fragment;
+
+        Fragment resultFrag;
+
+        if(position == 0) {
+            resultFrag = new RepoFragment();
+            Bundle args = new Bundle();
+            args.putParcelable(RepoFragment.REPO_MODEL_ARG, model);
+            resultFrag.setArguments(args);
+
+        }
+        else {
+            resultFrag = new RepoCommitsFragment();
+            Bundle args = new Bundle();
+            args.putString(GitHappApp.REPO_NAME, model.name);
+            args.putString(GitHappApp.REPO_OWNER, model.owner.login);
+            resultFrag.setArguments(args);
+        }
+
+        repoSetListeners.add(new WeakReference<OnRepoSetListener>((OnRepoSetListener)resultFrag));
+        return resultFrag;
     }
 
     public void setRepoModel(RepoModel repo) {
@@ -51,7 +65,7 @@ public class RepoPagerAdapter extends FragmentPagerAdapter {
     }
 
     public CharSequence getPageTitle (int position) {
-        return position > 0 ? "Details" : "Info";
+        return position > 0 ? "Commits" : "Info";
     }
 
     private final static int NUM_FRAGS = 2;

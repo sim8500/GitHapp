@@ -11,6 +11,8 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import javax.inject.Inject;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -31,12 +33,16 @@ public class ContentFragment extends Fragment {
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
+        GitHappApp.getInstance().inject(this);
     }
 
     @Bind(R.id.recycler_view) protected RecyclerView recyclerView;
     @Bind(R.id.progress_bar) protected ProgressBar progressBar;
     @Bind(R.id.header_txt_view) protected TextView headerView;
+
+    @Inject
+    protected AuthRequestsManager authReqMngr;
 }

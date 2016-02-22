@@ -17,6 +17,8 @@ import dagger.Provides;
                 SingleIssueActivity.class,
                 ContainerActivity.class,
                 ReposListFragment.class,
+                ContentFragment.class,
+                RepoCommitsFragment.class,
                 UserView.class
         }
 )

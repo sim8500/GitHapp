@@ -31,4 +31,8 @@ public class GitHappApp extends Application {
     public static GitHappApp getInstance() {
         return instance;
     }
+
+    public static final String REPO_NAME = "com.dev.sim8500.githapp.REPO_NAME";
+    public static final String REPO_OWNER = "com.dev.sim8500.githapp.REPO_OWNER";
+
 }
