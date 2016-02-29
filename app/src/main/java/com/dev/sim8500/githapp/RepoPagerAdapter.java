@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.view.ViewGroup;
 
 import com.dev.sim8500.githapp.models.RepoModel;
 
@@ -19,6 +20,7 @@ public class RepoPagerAdapter extends FragmentPagerAdapter {
     public static interface OnRepoSetListener {
         public void onRepoSet(RepoModel repo);
     }
+
 
     public RepoPagerAdapter(FragmentManager fm, RepoModel repo) {
         super(fm);
@@ -44,19 +46,30 @@ public class RepoPagerAdapter extends FragmentPagerAdapter {
             args.putString(GitHappApp.REPO_OWNER, model.owner.login);
             resultFrag.setArguments(args);
         }
-
-        repoSetListeners.add(new WeakReference<OnRepoSetListener>((OnRepoSetListener)resultFrag));
         return resultFrag;
     }
+
+    @Override
+    public Object instantiateItem(ViewGroup container, int position) {
+
+        Object itemInstance = super.instantiateItem(container, position);
+        repoSetListeners.add(new WeakReference<OnRepoSetListener>((OnRepoSetListener)itemInstance));
+
+        return itemInstance;
+    }
+
 
     public void setRepoModel(RepoModel repo) {
         model = repo;
 
+        boolean hasListeners = false;
         for(WeakReference<OnRepoSetListener> listenerRef : repoSetListeners) {
             if(listenerRef.get() != null) {
+                hasListeners = true;
                 listenerRef.get().onRepoSet(repo);
             }
         }
+
     }
 
     @Override
@@ -70,5 +83,6 @@ public class RepoPagerAdapter extends FragmentPagerAdapter {
 
     private final static int NUM_FRAGS = 2;
     private RepoModel model;
-    private List<WeakReference<OnRepoSetListener>> repoSetListeners = new ArrayList<>(NUM_FRAGS);
+    private List<WeakReference<OnRepoSetListener>> repoSetListeners = new ArrayList<>();
+
 }

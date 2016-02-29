@@ -113,8 +113,6 @@ public class ContainerActivity extends AppCompatActivity {
 
                 }
             });
-
-            setUpContentAdapter(userRepos.get(0));
         }
     }
 
@@ -124,7 +122,11 @@ public class ContainerActivity extends AppCompatActivity {
         Toast.makeText(this, "Something went wrong.", Toast.LENGTH_SHORT);
     }
 
+    @UiThread
     protected void setUpContentAdapter(RepoModel repo) {
+
+        if(pager.getAdapter() != null)
+            pagerAdapter = (RepoPagerAdapter)pager.getAdapter();
 
         if(pagerAdapter == null) {
             pagerAdapter = new RepoPagerAdapter(getSupportFragmentManager(), repo);
@@ -133,6 +135,7 @@ public class ContainerActivity extends AppCompatActivity {
         else {
             pagerAdapter.setRepoModel(repo);
         }
+
         tabLayout.setupWithViewPager(pager);
     }
 
@@ -148,4 +151,5 @@ public class ContainerActivity extends AppCompatActivity {
 
     @Inject protected AuthRequestsManager authReqMngr;
     //protected android.support.v4.app.Fragment currentFragment;
+
 }

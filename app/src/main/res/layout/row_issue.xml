@@ -13,7 +13,6 @@
         android:layout_height="wrap_content"
         android:padding="10dp"
         android:background="@drawable/box_bg"
-        android:elevation="10dp"
         android:outlineProvider="background">
 
         <TextView
