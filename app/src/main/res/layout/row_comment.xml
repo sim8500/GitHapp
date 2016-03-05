@@ -4,10 +4,7 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="12dp"
-        android:paddingTop="12dp"
-        android:paddingRight="12dp"
-        android:paddingBottom="12dp">
+        android:paddingTop="8dp">
         <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -16,8 +13,41 @@
             android:paddingRight="8dp"
             android:paddingBottom="5dp">
 
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/container">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:id="@+id/author_txtView"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentRight="false"
+                    android:textStyle="bold"
+                    android:fontFamily="sans-serif-condensed"
+                    android:text="qwertyZ"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:id="@+id/date_txtView"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentRight="false"
+                    android:textStyle="bold"
+                    android:fontFamily="sans-serif-condensed"
+                    android:text="pretty time"
+                    android:textColor="#A3B35E" />
+            </LinearLayout>
+
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:id="@+id/comment_txtView"
@@ -27,21 +57,10 @@
                 android:fontFamily="sans-serif-condensed"
                 android:layout_alignParentRight="false"
                 android:text="qwertyz qwertyz qwe rty z qwer ty z qwerty."
-                android:textColor="@android:color/black" />
+                android:textColor="@android:color/black"
+                android:layout_below="@+id/container"
+                android:padding="5dp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:id="@+id/author_txtView"
-                android:layout_alignParentLeft="false"
-                android:layout_alignParentTop="false"
-                android:layout_alignParentRight="true"
-                android:textStyle="bold"
-                android:fontFamily="sans-serif-condensed"
-                android:gravity="bottom"
-                android:text="qwertyZ"
-                android:layout_below="@+id/comment_txtView" />
         </RelativeLayout>
 
         <ImageView

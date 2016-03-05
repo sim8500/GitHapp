@@ -8,7 +8,10 @@ import android.widget.TextView;
 import com.dev.sim8500.githapp.R;
 import com.dev.sim8500.githapp.models.CommitModel;
 
+import org.ocpsoft.prettytime.PrettyTime;
+
 import java.security.InvalidParameterException;
+import java.util.Date;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -57,10 +60,16 @@ public class CommitView extends FrameLayout implements ModelView {
 
         messageTxtView.setText(model.commit.message);
         authorTxtView.setText(model.commit.author.name);
+
+        Date commitDate = model.commit.author.getParsedDate();
+        PrettyTime pt = new PrettyTime();
+
+        dateTxtView.setText(commitDate == null ? "" : pt.format(commitDate));
     }
 
     @Bind(R.id.comment_txtView) protected TextView messageTxtView;
     @Bind(R.id.author_txtView) protected TextView authorTxtView;
+    @Bind(R.id.date_txtView) protected TextView dateTxtView;
 
     private CommitModel model;
 }

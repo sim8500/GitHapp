@@ -52,4 +52,5 @@ dependencies {
     apt 'com.squareup.dagger:dagger-compiler:1.2.2'
     compile 'com.jakewharton:butterknife:7.0.1'
 
+    compile fileTree(dir: 'libs', include: ['*.jar'])
 }
