@@ -1,4 +1,4 @@
-package com.dev.sim8500.githapp;
+package com.dev.sim8500.githapp.app_logic;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -10,8 +10,6 @@ import android.util.Log;
 import com.dev.sim8500.githapp.models.AuthData;
 import com.dev.sim8500.githapp.models.TokenModel;
 import com.dev.sim8500.githapp.services.GitHubAuthTokenService;
-import com.dev.sim8500.githapp.services.GitHubRepoIssuesService;
-import com.dev.sim8500.githapp.services.GitHubUserReposService;
 import com.google.gson.GsonBuilder;
 import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.Request;
@@ -25,6 +23,7 @@ import retrofit.Callback;
 import retrofit.GsonConverterFactory;
 import retrofit.Response;
 import retrofit.Retrofit;
+import retrofit.RxJavaCallAdapterFactory;
 
 /**
  * Created by sbernad on 19.12.15.
@@ -103,6 +102,11 @@ public class AuthRequestsManager {
         return prepareAuthRetrofitInstance().create(service);
     }
 
+    public <T> T getObservableService(Class<T> service) {
+
+        return prepareAuthRetrofitObservableInstance().create(service);
+    }
+
     public boolean logOutUser(Context ctx)
     {
         if(!TextUtils.isEmpty(accessToken))
@@ -119,6 +123,18 @@ public class AuthRequestsManager {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(GITHUB_API_URL)
                 .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().create()))
+                .build();
+
+        appendAuthHeaders(retrofit);
+
+        return retrofit;
+    }
+
+    private Retrofit prepareAuthRetrofitObservableInstance() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(GITHUB_API_URL)
+                .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().create()))
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
 
         appendAuthHeaders(retrofit);

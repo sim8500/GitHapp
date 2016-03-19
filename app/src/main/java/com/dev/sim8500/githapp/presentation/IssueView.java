@@ -16,7 +16,7 @@ import com.dev.sim8500.githapp.models.IssueModel;
  * Created by sbernad on 19.12.15.
  */
 public class IssueView extends FrameLayout
-                       implements ModelView
+                       implements ModelView<IssueModel>
 {
     public IssueView(Context context)
     {
@@ -58,14 +58,6 @@ public class IssueView extends FrameLayout
     }
 
     @Override
-    public void applyModel(Object model)
-    {
-        if(model instanceof IssueModel)
-        {
-            applyModel((IssueModel)model);
-        }
-    }
-
     public void applyModel(IssueModel issue)
     {
         model = issue;

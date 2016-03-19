@@ -7,9 +7,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.TextView;
+
+import com.dev.sim8500.githapp.app_logic.AuthRequestsManager;
 
 import javax.inject.Inject;
 
@@ -27,7 +27,9 @@ public class ContentFragment extends Fragment {
 
         View inflatedView = inflater.inflate(R.layout.fragment_single_list, container, false);
         ButterKnife.bind(this, inflatedView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext(), LinearLayoutManager.VERTICAL, false));
+
+        LinearLayoutManager lm = new LinearLayoutManager(this.getContext(), LinearLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(lm);
 
         return inflatedView;
     }
@@ -41,7 +43,6 @@ public class ContentFragment extends Fragment {
 
     @Bind(R.id.recycler_view) protected RecyclerView recyclerView;
     @Bind(R.id.progress_bar) protected ProgressBar progressBar;
-    @Bind(R.id.header_txt_view) protected TextView headerView;
 
     @Inject
     protected AuthRequestsManager authReqMngr;

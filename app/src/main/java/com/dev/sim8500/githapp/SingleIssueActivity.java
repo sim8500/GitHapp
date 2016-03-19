@@ -1,6 +1,5 @@
 package com.dev.sim8500.githapp;
 
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.UiThread;
@@ -9,13 +8,13 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import com.dev.sim8500.githapp.app_logic.AuthRequestsManager;
 import com.dev.sim8500.githapp.models.CommentModel;
 import com.dev.sim8500.githapp.models.IssueModel;
 import com.dev.sim8500.githapp.presentation.ResizeAnimation;
@@ -178,13 +177,13 @@ public class SingleIssueActivity extends AppCompatActivity
     @UiThread
     private void displayComments(List<CommentModel> comments)
     {
-        if(container.getAdapter() == null) {
-            CommentsAdapter adapter = new CommentsAdapter();
+        /*if(container.getAdapter() == null) {
+            CommentsAdapterRecycler adapter = new CommentsAdapterRecycler();
             adapter.initAdapter(this, comments);
 
             container.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
             container.setAdapter(adapter);
-        }
+        }*/
 
     }
 

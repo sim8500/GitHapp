@@ -2,12 +2,12 @@ package com.dev.sim8500.githapp;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.dev.sim8500.githapp.app_logic.RepoPagerAdapter;
 import com.dev.sim8500.githapp.models.RepoModel;
 
 import butterknife.Bind;

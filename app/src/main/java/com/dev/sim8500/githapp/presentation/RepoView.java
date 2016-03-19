@@ -16,7 +16,7 @@ import com.dev.sim8500.githapp.models.RepoModel;
  */
 
 public class RepoView extends FrameLayout
-                      implements ModelView
+                      implements ModelView<RepoModel>
 {
 
     public interface OnRepoChosenListener
@@ -67,13 +67,6 @@ public class RepoView extends FrameLayout
     }
 
     @Override
-    public void applyModel(Object model)
-    {
-        if(model instanceof RepoModel)
-        {
-            applyModel((RepoModel)model);
-        }
-    }
     public void applyModel(RepoModel repo)
     {
         model = repo;

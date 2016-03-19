@@ -3,24 +3,22 @@ package com.dev.sim8500.githapp.presentation;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.dev.sim8500.githapp.R;
-import com.dev.sim8500.githapp.models.CommitModel;
-
-import org.ocpsoft.prettytime.PrettyTime;
-
-import java.security.InvalidParameterException;
-import java.util.Date;
+import com.dev.sim8500.githapp.app_logic.ICommitView;
+import com.dev.sim8500.githapp.app_logic.IEntryViewListener;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by sbernad on 22.02.16.
  */
-public class CommitView extends FrameLayout implements ModelView {
-
+public class CommitView extends RelativeLayout implements ICommitView {
 
     public CommitView(Context context) {
         super(context);
@@ -38,38 +36,39 @@ public class CommitView extends FrameLayout implements ModelView {
     }
 
     private void init() {
-        inflate(getContext(), R.layout.row_comment, this);
+        inflate(getContext(), R.layout.row_commit, this);
 
         ButterKnife.bind(this, this);
-
     }
 
-    @Override
-    public void applyModel(Object model) {
-
-        if(model instanceof CommitModel) {
-            applyModel((CommitModel)model);
-            return;
-        }
-        throw new InvalidParameterException("model should be an instance of CommitModel");
-
+    public void setMessage(CharSequence text) {
+        messageTxtView.setText(text);
     }
 
-    private void applyModel(CommitModel commit) {
-        this.model = commit;
+    public void setAuthor(CharSequence author) {
+        authorTxtView.setText(author);
+    }
 
-        messageTxtView.setText(model.commit.message);
-        authorTxtView.setText(model.commit.author.name);
+    public void setCommitDate(CharSequence date) {
+        dateTxtView.setText(date);
+    }
 
-        Date commitDate = model.commit.author.getParsedDate();
-        PrettyTime pt = new PrettyTime();
-
-        dateTxtView.setText(commitDate == null ? "" : pt.format(commitDate));
+    public void setViewListener(IEntryViewListener listener) {
+        this.listener = listener;
     }
 
     @Bind(R.id.comment_txtView) protected TextView messageTxtView;
     @Bind(R.id.author_txtView) protected TextView authorTxtView;
     @Bind(R.id.date_txtView) protected TextView dateTxtView;
+    @Bind(R.id.main_container) protected LinearLayout mainContainer;
 
-    private CommitModel model;
+    @OnClick(R.id.main_container)
+    public void onViewClicked() {
+
+        if(listener != null) {
+            listener.onEntryViewChosen();
+        }
+    }
+
+    protected IEntryViewListener listener;
 }

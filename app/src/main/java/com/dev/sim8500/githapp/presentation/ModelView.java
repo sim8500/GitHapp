@@ -3,7 +3,7 @@ package com.dev.sim8500.githapp.presentation;
 /**
  * Created by Szymon on 2016-01-01.
  */
-public interface ModelView
+public interface ModelView<T>
 {
-    void applyModel(Object model);
+    void applyModel(T model);
 }

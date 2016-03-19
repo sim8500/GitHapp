@@ -1,4 +1,4 @@
-package com.dev.sim8500.githapp;
+package com.dev.sim8500.githapp.app_logic;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -6,6 +6,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.view.ViewGroup;
 
+import com.dev.sim8500.githapp.GitHappApp;
+import com.dev.sim8500.githapp.RepoCommitsFragment;
+import com.dev.sim8500.githapp.RepoFragment;
 import com.dev.sim8500.githapp.models.RepoModel;
 
 import java.lang.ref.WeakReference;
@@ -37,7 +40,6 @@ public class RepoPagerAdapter extends FragmentPagerAdapter {
             Bundle args = new Bundle();
             args.putParcelable(RepoFragment.REPO_MODEL_ARG, model);
             resultFrag.setArguments(args);
-
         }
         else {
             resultFrag = new RepoCommitsFragment();
@@ -62,10 +64,8 @@ public class RepoPagerAdapter extends FragmentPagerAdapter {
     public void setRepoModel(RepoModel repo) {
         model = repo;
 
-        boolean hasListeners = false;
         for(WeakReference<OnRepoSetListener> listenerRef : repoSetListeners) {
             if(listenerRef.get() != null) {
-                hasListeners = true;
                 listenerRef.get().onRepoSet(repo);
             }
         }

@@ -2,46 +2,26 @@ package com.dev.sim8500.githapp;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.UiThread;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.webkit.CookieManager;
-import android.webkit.CookieSyncManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.dev.sim8500.githapp.models.AuthData;
-import com.dev.sim8500.githapp.models.RepoModel;
-import com.dev.sim8500.githapp.models.TokenModel;
+import com.dev.sim8500.githapp.app_logic.AuthRequestsManager;
+import com.dev.sim8500.githapp.app_logic.GitHappCurrents;
 import com.dev.sim8500.githapp.models.UserModel;
-import com.dev.sim8500.githapp.presentation.RepoView;
 import com.dev.sim8500.githapp.presentation.UserView;
-import com.dev.sim8500.githapp.services.GitHubAuthTokenService;
-import com.dev.sim8500.githapp.services.GitHubUserReposService;
 import com.dev.sim8500.githapp.services.GitHubUserService;
-import com.google.gson.GsonBuilder;
-import com.squareup.okhttp.Interceptor;
-import com.squareup.okhttp.Request;
-
-import java.io.IOException;
-import java.util.List;
 
 import javax.inject.Inject;
 
-import retrofit.Call;
 import retrofit.Callback;
-import retrofit.GsonConverterFactory;
 import retrofit.Response;
 import retrofit.Retrofit;
 
@@ -134,6 +114,7 @@ public class MainActivity extends AppCompatActivity implements AuthRequestsManag
     public void onUserModelReceived(UserModel user)
     {
         userModel = user;
+        appCurrents.setCurrent("User", userModel);
         setUpUserUI();
     }
 
@@ -151,7 +132,7 @@ public class MainActivity extends AppCompatActivity implements AuthRequestsManag
         if(authReqMngr.logOutUser(this))
         {
             userModel = null;
-
+            appCurrents.setCurrent("User", null);
             setUpUserUI();
 
             clearPreviousSession();
@@ -177,7 +158,7 @@ public class MainActivity extends AppCompatActivity implements AuthRequestsManag
     private void setUpUserUI()
     {
         boolean hasUser = (userModel != null);
-        userPanel.applyUser(userModel);
+        userPanel.applyModel(userModel);
         nextButton.setVisibility(hasUser ? View.VISIBLE : View.GONE);
     }
 
@@ -188,6 +169,7 @@ public class MainActivity extends AppCompatActivity implements AuthRequestsManag
     }
 
     @Inject protected AuthRequestsManager authReqMngr;
+    @Inject protected GitHappCurrents appCurrents;
     private UserModel userModel;
     private UserView userPanel;
     private Button nextButton;

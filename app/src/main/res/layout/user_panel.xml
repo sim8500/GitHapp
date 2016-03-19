@@ -18,17 +18,11 @@
         android:layout_height="wrap_content"
         android:id="@+id/logged_user_panel">
 
-        <TextView
+        <com.dev.sim8500.githapp.presentation.UserIdView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="User Name"
-            android:id="@+id/user_name"
-            android:textStyle="bold"
-            android:fontFamily="sans-serif-condensed"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:layout_margin="8dp" />
+            android:id="@+id/view_user"
+            android:layout_weight="1" />
 
         <Button
             android:layout_width="wrap_content"
@@ -59,7 +53,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/octocat_img"
-            android:src="@drawable/github" />
+            android:src="@drawable/github"
+            android:layout_gravity="center" />
     </FrameLayout>
 
 </LinearLayout>

@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.dev.sim8500.githapp.AuthRequestsManager;
+import com.dev.sim8500.githapp.app_logic.AuthRequestsManager;
 import com.dev.sim8500.githapp.GitHappApp;
 import com.dev.sim8500.githapp.R;
 import com.dev.sim8500.githapp.models.UserModel;
@@ -24,7 +24,7 @@ import butterknife.ButterKnife;
  * Created by sbernad on 19.12.15.
  */
 public class UserView extends LinearLayout
-                      implements ModelView
+                      implements ModelView<UserModel>
 {
     public UserView(Context context)
     {
@@ -81,20 +81,12 @@ public class UserView extends LinearLayout
     }
 
     @Override
-    public void applyModel(Object model)
-    {
-        if(model instanceof UserModel)
-        {
-            applyUser((UserModel)model);
-        }
-    }
-
-    public void applyUser(UserModel model)
+    public void applyModel(UserModel model)
     {
         this.user = model;
         if(user != null)
         {
-            nameTxtView.setText(model.name);
+            userIdView.applyModel(user);
         }
 
         changeUserDataVisibility();
@@ -114,13 +106,12 @@ public class UserView extends LinearLayout
     @Inject protected AuthRequestsManager authReqMngr;
 
     @Bind(R.id.panel_info) protected TextView infoTxtView;
-    @Bind(R.id.user_name) protected TextView nameTxtView;
+    @Bind(R.id.view_user) protected UserIdView userIdView;
     @Bind(R.id.log_out_button) protected Button logOutButton;
     @Bind(R.id.logged_user_panel) protected LinearLayout loggedUserPanel;
     @Bind(R.id.webView) protected WebView webView;
     @Bind(R.id.octocat_img) protected ImageView octoCatImgView;
 
     private Button.OnClickListener logOutListener;
-
     private UserModel user;
 }

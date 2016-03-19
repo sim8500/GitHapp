@@ -1,9 +1,13 @@
 package com.dev.sim8500.githapp;
 
 import android.os.Bundle;
-import android.support.v4.view.PagerTabStrip;
 import android.text.TextUtils;
+import android.util.Log;
 
+import com.dev.sim8500.githapp.app_logic.CommitBinder;
+import com.dev.sim8500.githapp.app_logic.CommitPresenter;
+import com.dev.sim8500.githapp.app_logic.RecyclerBaseAdapter;
+import com.dev.sim8500.githapp.app_logic.RepoPagerAdapter;
 import com.dev.sim8500.githapp.models.CommitModel;
 import com.dev.sim8500.githapp.models.RepoModel;
 import com.dev.sim8500.githapp.services.GitHubRepoCommitsService;
@@ -14,29 +18,40 @@ import java.util.List;
 import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by sbernad on 21.02.16.
  */
 public class RepoCommitsFragment extends ContentFragment implements RepoPagerAdapter.OnRepoSetListener {
 
-    public static class CommitsCallback implements Callback<List<CommitModel>> {
+    public static class CommitsSub extends Subscriber<List<CommitModel>> {
 
         WeakReference<RepoCommitsFragment> fragmentRef;
 
-        public CommitsCallback(RepoCommitsFragment frag) {
-            fragmentRef = new WeakReference<RepoCommitsFragment>(frag);
+        public CommitsSub(RepoCommitsFragment frag) {
+            fragmentRef = new WeakReference<>(frag);
         }
 
         @Override
-        public void onResponse(Response<List<CommitModel>> response, Retrofit retrofit) {
+        public void onCompleted() {
+            Log.d("RepoCommitsFragment", "onCompleted()");
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            Log.e("RepoCommitsFragment", String.format("onError(): %s", e.toString()));
+        }
+
+        @Override
+        public void onNext(List<CommitModel> commitModels) {
+
+            Log.d("RepoCommitsFragment", "onNext()");
             if(fragmentRef.get() != null) {
-                fragmentRef.get().onCommitsReceived(response.body());
+                fragmentRef.get().onCommitsReceived(commitModels);
             }
-        }
-
-        @Override
-        public void onFailure(Throwable t) {
         }
     }
 
@@ -44,7 +59,7 @@ public class RepoCommitsFragment extends ContentFragment implements RepoPagerAda
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        callback = new CommitsCallback(this);
+        //subscriber = new CommitsSub(this);
     }
 
     @Override
@@ -70,9 +85,12 @@ public class RepoCommitsFragment extends ContentFragment implements RepoPagerAda
     private void loadCommitsList() {
 
         if(areRepoParamsValid()) {
-            authReqMngr.getService(GitHubRepoCommitsService.class)
+            authReqMngr.getObservableService(GitHubRepoCommitsService.class)
                     .getRepoCommits(owner, repo)
-                    .enqueue(callback);
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .unsubscribeOn(Schedulers.io())
+                    .subscribe(new CommitsSub(RepoCommitsFragment.this));
         }
     }
 
@@ -95,8 +113,7 @@ public class RepoCommitsFragment extends ContentFragment implements RepoPagerAda
         }
     }
 
-    protected CommitsAdapter commitsAdapter = new CommitsAdapter();
+    protected RecyclerBaseAdapter<CommitModel, CommitPresenter> commitsAdapter = new RecyclerBaseAdapter<>(new CommitBinder());
     protected String repo;
     protected String owner;
-    protected CommitsCallback callback;
 }

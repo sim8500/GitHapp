@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.UiThread;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -15,6 +14,9 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.dev.sim8500.githapp.app_logic.AuthRequestsManager;
+import com.dev.sim8500.githapp.app_logic.GitHappCurrents;
+import com.dev.sim8500.githapp.app_logic.RepoPagerAdapter;
 import com.dev.sim8500.githapp.models.RepoModel;
 import com.dev.sim8500.githapp.services.GitHubUserReposService;
 
@@ -125,6 +127,7 @@ public class ContainerActivity extends AppCompatActivity {
     @UiThread
     protected void setUpContentAdapter(RepoModel repo) {
 
+        appCurrents.setCurrent("Repo", repo);
         if(pager.getAdapter() != null)
             pagerAdapter = (RepoPagerAdapter)pager.getAdapter();
 
@@ -150,6 +153,7 @@ public class ContainerActivity extends AppCompatActivity {
     protected List<RepoModel> userRepos;
 
     @Inject protected AuthRequestsManager authReqMngr;
+    @Inject protected GitHappCurrents appCurrents;
     //protected android.support.v4.app.Fragment currentFragment;
 
 }
