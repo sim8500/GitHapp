@@ -54,7 +54,7 @@ public class CommitPresenter extends PresenterViewHolder<CommitModel, CommitView
         appCurrents.setCurrent("Commit", model);
         RepoModel repo = appCurrents.getCurrent("Repo");
 
-        Intent frameIntent = FrameActivity.prepareIntent(view.getContext(), repo, model.sha);
+        Intent frameIntent = FrameActivity.prepareIntent(view.getContext(), model.sha);
         view.getContext().startActivity(frameIntent);
     }
 

@@ -4,9 +4,11 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.dev.sim8500.githapp.app_logic.GitHappCurrents;
 import com.dev.sim8500.githapp.app_logic.RecyclerBaseAdapter;
 import com.dev.sim8500.githapp.app_logic.TreeEntryBinder;
 import com.dev.sim8500.githapp.app_logic.TreeEntryPresenter;
+import com.dev.sim8500.githapp.models.RepoModel;
 import com.dev.sim8500.githapp.models.TreeEntryModel;
 import com.dev.sim8500.githapp.models.TreeModel;
 import com.dev.sim8500.githapp.services.GitHubRepoCommitsService;
@@ -16,6 +18,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -57,33 +61,18 @@ public class CommitTreeFragment extends ContentFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        GitHappApp.getInstance().inject(this);
 
-        subscriber = new TreeSub(this);
     }
 
     @Override
     public void onStart() {
         super.onStart();
 
-        if (!areParamsValid())
-        {
-            if(getArguments() != null) {
-                repo = getArguments().getString(GitHappApp.REPO_NAME);
-                owner = getArguments().getString(GitHappApp.REPO_OWNER);
-                sha = getArguments().getString(GitHappApp.COMMIT_SHA);
-            }
-        }
-
         loadEntries();
     }
 
-    private boolean areParamsValid() {
-
-        return !(TextUtils.isEmpty(repo) || TextUtils.isEmpty(owner) || TextUtils.isEmpty(sha));
-    }
-
     protected void onEntriesReceived(List<TreeEntryModel> entries) {
-
 
         Collections.sort(entries, new Comparator<TreeEntryModel>() {
             @Override
@@ -97,20 +86,22 @@ public class CommitTreeFragment extends ContentFragment {
     }
 
     private void loadEntries() {
-        if(areParamsValid()) {
-            Log.d("CommitTreeFragment", "Params valid");
+        Log.d("CommitTreeFragment", "Params valid");
+
+        RepoModel repo = appCurrents.getCurrent("Repo");
+        String commitSha = appCurrents.getCurrent("CommitSha");
+
+        if(repo != null && !TextUtils.isEmpty(commitSha)) {
             authReqMngr.getObservableService(GitHubRepoCommitsService.class)
-                       .getCommitTree(owner, repo, sha)
-                       .subscribeOn(Schedulers.io())
-                       .observeOn(AndroidSchedulers.mainThread())
-                       .unsubscribeOn(Schedulers.io())
-                       .subscribe(subscriber);
+                    .getCommitTree(repo.owner.login, repo.name, commitSha)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .unsubscribeOn(Schedulers.io())
+                    .subscribe(new TreeSub(CommitTreeFragment.this));
         }
     }
 
-    protected String repo;
-    protected String owner;
-    protected String sha;
-    protected TreeSub subscriber;
+    @Inject
+    protected GitHappCurrents appCurrents;
     protected RecyclerBaseAdapter<TreeEntryModel, TreeEntryPresenter> entriesAdapter = new RecyclerBaseAdapter<>(new TreeEntryBinder());
 }

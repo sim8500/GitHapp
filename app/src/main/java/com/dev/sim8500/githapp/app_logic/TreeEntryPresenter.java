@@ -34,7 +34,7 @@ public class TreeEntryPresenter extends PresenterViewHolder<TreeEntryModel, Tree
         if(model.type.equals(TreeEntryModel.GitTreeType.tree)) {
             RepoModel repo = appCurrents.getCurrent("Repo");
 
-            Intent frameIntent = FrameActivity.prepareIntent(view.getContext(), repo, model.sha);
+            Intent frameIntent = FrameActivity.prepareIntent(view.getContext(), model.sha);
             view.getContext().startActivity(frameIntent);
         }
     }

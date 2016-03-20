@@ -19,6 +19,7 @@ import dagger.Provides;
                 MainActivity.class,
                 SingleIssueActivity.class,
                 ContainerActivity.class,
+                FrameActivity.class,
                 ContentFragment.class,
                 RepoCommitsFragment.class,
                 CommitTreeFragment.class,
