@@ -35,6 +35,13 @@ public class FrameActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onBackPressed() {
+        appCurrents.setCurrent("CommitSha", null);
+
+        super.onBackPressed();
+    }
+
+    @Override
     protected void onNewIntent(Intent intent) {
         handleIntent(intent, true);
     }
