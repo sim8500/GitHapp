@@ -6,18 +6,18 @@ import android.view.View;
 /**
  * Created by sbernad on 15.03.16.
  */
-public abstract class PresenterViewHolder<M, V extends View> extends RecyclerView.ViewHolder {
+public abstract class PresenterViewHolder<M, VInterface> extends RecyclerView.ViewHolder {
 
-    public PresenterViewHolder(V itemView) {
+    public PresenterViewHolder(View itemView) {
         super(itemView);
 
-        this.view = itemView;
+        viewInterface = (VInterface)itemView;
     }
 
     public void setModel(M model) {
         this.model = model;
 
-        if(view != null) {
+        if(super.itemView != null) {
             updateView();
         }
     }
@@ -25,5 +25,5 @@ public abstract class PresenterViewHolder<M, V extends View> extends RecyclerVie
     public abstract void updateView();
 
     protected M model;
-    protected V view;
+    protected VInterface viewInterface;
 }

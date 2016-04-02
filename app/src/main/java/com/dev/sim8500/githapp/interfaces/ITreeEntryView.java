@@ -1,4 +1,4 @@
-package com.dev.sim8500.githapp.app_logic;
+package com.dev.sim8500.githapp.interfaces;
 
 /**
  * Created by sbernad on 16.03.16.

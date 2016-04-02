@@ -1,6 +1,7 @@
 package com.dev.sim8500.githapp.services;
 
 import com.dev.sim8500.githapp.models.CommitModel;
+import com.dev.sim8500.githapp.models.DetailedCommitModel;
 import com.dev.sim8500.githapp.models.TreeModel;
 
 import java.util.List;
@@ -19,4 +20,7 @@ public interface GitHubRepoCommitsService {
 
     @GET("/repos/{owner}/{repo}/git/trees/{sha}")
     Observable<TreeModel> getCommitTree(@Path("owner") String owner, @Path("repo") String repo, @Path("sha") String sha);
+
+    @GET("/repos/{owner}/{repo}/commits/{sha}")
+    Observable<DetailedCommitModel> getDetailedCommit(@Path("owner") String owner, @Path("repo") String repo, @Path("sha") String sha);
 }

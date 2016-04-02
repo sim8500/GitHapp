@@ -2,19 +2,17 @@ package com.dev.sim8500.githapp.presentation;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.View;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.dev.sim8500.githapp.R;
-import com.dev.sim8500.githapp.app_logic.IEntryViewListener;
-import com.dev.sim8500.githapp.app_logic.ITreeEntryView;
+import com.dev.sim8500.githapp.interfaces.IEntryViewListener;
+import com.dev.sim8500.githapp.interfaces.ITreeEntryView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnLongClick;
 
 /**
  * Created by sbernad on 16.03.16.
@@ -57,6 +55,15 @@ public class TreeEntryView extends RelativeLayout implements ITreeEntryView {
         if(listener != null) {
             listener.onEntryViewChosen();
         }
+    }
+
+    @OnLongClick(R.id.main_container)
+    public boolean onViewPressed() {
+        if(listener != null) {
+            listener.onEntryViewPressed();
+        }
+
+        return false;
     }
 
     public void setViewListener(IEntryViewListener entryListener) {

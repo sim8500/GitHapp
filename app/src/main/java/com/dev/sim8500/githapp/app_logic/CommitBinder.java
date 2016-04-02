@@ -3,6 +3,7 @@ package com.dev.sim8500.githapp.app_logic;
 import android.content.Context;
 import android.view.ViewGroup;
 
+import com.dev.sim8500.githapp.interfaces.IRecyclerBinder;
 import com.dev.sim8500.githapp.models.CommitModel;
 import com.dev.sim8500.githapp.presentation.CommitView;
 

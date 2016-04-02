@@ -1,4 +1,4 @@
-package com.dev.sim8500.githapp.app_logic;
+package com.dev.sim8500.githapp.interfaces;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;

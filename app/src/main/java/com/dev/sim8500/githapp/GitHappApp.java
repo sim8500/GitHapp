@@ -36,5 +36,6 @@ public class GitHappApp extends Application {
     public static final String REPO_OWNER = "com.dev.sim8500.githapp.REPO_OWNER";
     public static final String COMMIT_SHA = "com.dev.sim8500.githapp.COMMIT_SHA";
     public static final String SHOW_COMMIT_TREE = "com.dev.sim8500.githapp.SHOW_COMMIT_TREE";
+    public static final String SHOW_COMMIT_FILES = "com.dev.sim8500.githapp.SHOW_COMMIT_FILES";
 
 }

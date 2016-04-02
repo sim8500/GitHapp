@@ -2,18 +2,18 @@ package com.dev.sim8500.githapp.presentation;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.dev.sim8500.githapp.R;
-import com.dev.sim8500.githapp.app_logic.ICommitView;
-import com.dev.sim8500.githapp.app_logic.IEntryViewListener;
+import com.dev.sim8500.githapp.interfaces.ICommitView;
+import com.dev.sim8500.githapp.interfaces.IEntryViewListener;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnLongClick;
 
 /**
  * Created by sbernad on 22.02.16.
@@ -68,6 +68,15 @@ public class CommitView extends RelativeLayout implements ICommitView {
         if(listener != null) {
             listener.onEntryViewChosen();
         }
+    }
+
+    @OnLongClick(R.id.main_container)
+    public boolean onViewPressed() {
+        if(listener != null) {
+            listener.onEntryViewPressed();
+            return true;
+        }
+        return false;
     }
 
     protected IEntryViewListener listener;

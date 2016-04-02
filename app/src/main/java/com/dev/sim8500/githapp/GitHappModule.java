@@ -25,7 +25,8 @@ import dagger.Provides;
                 CommitTreeFragment.class,
                 UserView.class,
                 CommitPresenter.class,
-                TreeEntryPresenter.class
+                TreeEntryPresenter.class,
+                CommitFilesFragment.class
         }
 )
 public final class GitHappModule {

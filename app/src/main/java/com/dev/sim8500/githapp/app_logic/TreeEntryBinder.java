@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.ViewGroup;
 
 import com.dev.sim8500.githapp.R;
+import com.dev.sim8500.githapp.interfaces.IRecyclerBinder;
 import com.dev.sim8500.githapp.models.TreeEntryModel;
 import com.dev.sim8500.githapp.presentation.TreeEntryView;
 

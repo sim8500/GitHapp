@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.dev.sim8500.githapp.app_logic.AuthRequestsManager;
+import com.dev.sim8500.githapp.app_logic.GitHappCurrents;
 
 import javax.inject.Inject;
 
@@ -21,6 +22,14 @@ import butterknife.ButterKnife;
  */
 public class ContentFragment extends Fragment {
 
+    @Bind(R.id.recycler_view) protected RecyclerView recyclerView;
+    @Bind(R.id.progress_bar) protected ProgressBar progressBar;
+
+    @Inject
+    protected AuthRequestsManager authReqMngr;
+
+    @Inject
+    protected GitHappCurrents appCurrents;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -40,10 +49,4 @@ public class ContentFragment extends Fragment {
 
         GitHappApp.getInstance().inject(this);
     }
-
-    @Bind(R.id.recycler_view) protected RecyclerView recyclerView;
-    @Bind(R.id.progress_bar) protected ProgressBar progressBar;
-
-    @Inject
-    protected AuthRequestsManager authReqMngr;
 }

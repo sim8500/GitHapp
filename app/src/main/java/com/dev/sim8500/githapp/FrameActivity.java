@@ -13,6 +13,8 @@ import com.dev.sim8500.githapp.app_logic.AuthRequestsManager;
 import com.dev.sim8500.githapp.app_logic.GitHappCurrents;
 import com.dev.sim8500.githapp.models.RepoModel;
 
+import java.text.ParseException;
+
 import javax.inject.Inject;
 
 import butterknife.Bind;
@@ -22,6 +24,9 @@ import butterknife.ButterKnife;
  * Created by sbernad on 16.03.16.
  */
 public class FrameActivity extends AppCompatActivity {
+
+    @Inject
+    protected GitHappCurrents appCurrents;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -74,24 +79,38 @@ public class FrameActivity extends AppCompatActivity {
     protected Fragment createFragmentForIntent(Intent intent) {
 
         Fragment resFragment = null;
-        if (intent != null && intent.getAction().equals(GitHappApp.SHOW_COMMIT_TREE)) {
+        if (intent == null) {
+            return resFragment;
+        }
 
-            resFragment = new CommitTreeFragment();
-            resFragment.setArguments(intent.getExtras());
+        switch(intent.getAction()) {
+            case GitHappApp.SHOW_COMMIT_TREE:
+                resFragment = new CommitTreeFragment();
+                resFragment.setArguments(intent.getExtras());
+                break;
+            case GitHappApp.SHOW_COMMIT_FILES:
+                resFragment = new CommitFilesFragment();
+                break;
         }
 
         return resFragment;
     }
 
-    public static Intent prepareIntent(Context context, String urlSha) {
+    public static Intent prepareTreeIntent(Context context, RepoModel repo, String urlSha) {
 
         Intent resIntent = new Intent(context, FrameActivity.class);
         resIntent.setAction(GitHappApp.SHOW_COMMIT_TREE);
+        resIntent.putExtra(GitHappApp.REPO_NAME, repo.name);
+        resIntent.putExtra(GitHappApp.REPO_OWNER, repo.owner.login);
         resIntent.putExtra(GitHappApp.COMMIT_SHA, urlSha);
 
         return resIntent;
     }
 
-    @Inject
-    protected GitHappCurrents appCurrents;
+    public static Intent prepareFilesIntent(Context context) {
+        Intent resIntent = new Intent(context, FrameActivity.class);
+        resIntent.setAction(GitHappApp.SHOW_COMMIT_FILES);
+
+        return resIntent;
+    }
 }
