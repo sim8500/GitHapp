@@ -53,6 +53,6 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:id="@+id/separator"
-        android:background="#A3B35E" />
+        android:background="@color/primaryAppGreen" />
 </LinearLayout>
 </RelativeLayout>

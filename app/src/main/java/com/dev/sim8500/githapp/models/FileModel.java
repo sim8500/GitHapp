@@ -10,7 +10,7 @@ public class FileModel {
     public int deletions;
     public int changes;
     public String status;
-    public String rawUrl;
-    public String blobUrl;
+    public String raw_url;
+    public String blob_url;
     public String patch;
 }

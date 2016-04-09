@@ -6,10 +6,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.dev.sim8500.githapp.R;
+import com.dev.sim8500.githapp.interfaces.IEntryViewListener;
 import com.dev.sim8500.githapp.interfaces.IFileEntryView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by sbernad on 02.04.16.
@@ -50,6 +52,10 @@ public class FileEntryView extends RelativeLayout implements IFileEntryView{
     @Bind(R.id.changes_txtView)
     protected TextView changesTxtView;
 
+    public void setViewListener(IEntryViewListener listener) {
+        this.listener = listener;
+    }
+
     @Override
     public void setFilename(CharSequence filename) {
         filenameTxtView.setText(filename);
@@ -64,4 +70,13 @@ public class FileEntryView extends RelativeLayout implements IFileEntryView{
     public void setStatus(CharSequence status) {
         statusTxtView.setText(status);
     }
+
+    @OnClick(R.id.relativeLayout)
+    public void onEntryClicked() {
+        if(listener != null) {
+            listener.onEntryViewChosen();
+        }
+    }
+
+    protected IEntryViewListener listener;
 }

@@ -91,6 +91,9 @@ public class FrameActivity extends AppCompatActivity {
             case GitHappApp.SHOW_COMMIT_FILES:
                 resFragment = new CommitFilesFragment();
                 break;
+            case GitHappApp.SHOW_FILE_CONTENT:
+                resFragment = new FileContentFragment();
+                break;
         }
 
         return resFragment;
@@ -110,6 +113,13 @@ public class FrameActivity extends AppCompatActivity {
     public static Intent prepareFilesIntent(Context context) {
         Intent resIntent = new Intent(context, FrameActivity.class);
         resIntent.setAction(GitHappApp.SHOW_COMMIT_FILES);
+
+        return resIntent;
+    }
+
+    public static Intent prepareFileContentIntent(Context context) {
+        Intent resIntent = new Intent(context, FrameActivity.class);
+        resIntent.setAction(GitHappApp.SHOW_FILE_CONTENT);
 
         return resIntent;
     }

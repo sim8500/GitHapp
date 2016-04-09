@@ -15,6 +15,7 @@ public class FileEntryBinder implements IRecyclerBinder<FileModel, FileEntryPres
     public FileEntryPresenter createHolderInstance(Context context, ViewGroup parent, int viewType) {
         FileEntryView bindedView = new FileEntryView(context);
         FileEntryPresenter result = new FileEntryPresenter(bindedView);
+        bindedView.setViewListener(result);
         return result;
     }
 

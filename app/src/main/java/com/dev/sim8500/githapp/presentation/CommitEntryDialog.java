@@ -60,7 +60,6 @@ public class CommitEntryDialog implements IDetailedCommitView, View.OnClickListe
                                                          .create();
     }
 
-
     @Override
     public void setStats(int additions, int deletions, int total) {
         detailsTxtView.setText(String.format("added: %d, deleted: %d, total: %d", additions, deletions, total));

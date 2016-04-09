@@ -7,6 +7,7 @@
         <!--   darker variant for the status bar and contextual app bars -->
         <item name="colorPrimaryDark">#A3B35E</item>
         <!--   theme UI controls like checkboxes and text fields -->
-        <item name="colorAccent">#FFFFFF</item>
+        <item name="colorAccent">#bad544</item>
     </style>
+
 </resources>

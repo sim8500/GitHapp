@@ -4,6 +4,7 @@ import javax.inject.Singleton;
 
 import com.dev.sim8500.githapp.app_logic.AuthRequestsManager;
 import com.dev.sim8500.githapp.app_logic.CommitPresenter;
+import com.dev.sim8500.githapp.app_logic.FileEntryPresenter;
 import com.dev.sim8500.githapp.app_logic.GitHappCurrents;
 import com.dev.sim8500.githapp.app_logic.TreeEntryPresenter;
 import com.dev.sim8500.githapp.presentation.UserView;
@@ -26,7 +27,9 @@ import dagger.Provides;
                 UserView.class,
                 CommitPresenter.class,
                 TreeEntryPresenter.class,
-                CommitFilesFragment.class
+                CommitFilesFragment.class,
+                FileContentFragment.class,
+                FileEntryPresenter.class
         }
 )
 public final class GitHappModule {
