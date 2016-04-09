@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:id="@+id/relativeLayout" >
 
-    <TextView
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
@@ -14,42 +20,57 @@
         android:textStyle="bold"
         android:paddingLeft="8dp"
         android:paddingTop="8dp"
-        android:paddingRight="8dp" />
+        android:paddingRight="8dp"
+        android:paddingBottom="4dp"
+        android:background="@drawable/bg_half_ripple" />
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/horizontal_container"
-        android:layout_below="@+id/filename_txtView"
-        android:paddingLeft="12dp"
-        android:paddingRight="12dp">
-
-        <TextView
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="..."
             android:id="@+id/status_txtView"
-            android:layout_weight="1"
-            android:textStyle="italic" />
+            android:textStyle="italic"
+            android:paddingLeft="12dp"
+            android:background="@drawable/bg_half_ripple"
+                android:layout_weight="1" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="0"
+                android:id="@+id/changes_txtView"
+                android:textStyle="bold"
+                android:minWidth="36dp"
+                android:gravity="center_horizontal"
+                android:paddingRight="12dp"
+                android:background="@drawable/bg_half_ripple" />
+        </LinearLayout>
+
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="0"
-            android:id="@+id/changes_txtView"
-            android:textStyle="bold" />
+            android:text="..."
+            android:id="@+id/patch_txtView"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:singleLine="false"
+            android:visibility="gone" />
 
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:id="@+id/imageView2"
+            android:background="#A3B35E"
+            android:layout_marginTop="1dp"
+            android:layout_marginBottom="1dp" />
     </LinearLayout>
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:id="@+id/imageView2"
-        android:background="#A3B35E"
-        android:layout_alignParentEnd="false"
-        android:layout_below="@+id/horizontal_container" />
-
 </RelativeLayout>
+</merge>

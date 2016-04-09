@@ -2,6 +2,8 @@ package com.dev.sim8500.githapp.presentation;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.widget.FrameLayout;
+import android.widget.GridLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -52,6 +54,9 @@ public class FileEntryView extends RelativeLayout implements IFileEntryView{
     @Bind(R.id.changes_txtView)
     protected TextView changesTxtView;
 
+    @Bind(R.id.patch_txtView)
+    protected TextView patchTxtView;
+
     public void setViewListener(IEntryViewListener listener) {
         this.listener = listener;
     }
@@ -71,11 +76,24 @@ public class FileEntryView extends RelativeLayout implements IFileEntryView{
         statusTxtView.setText(status);
     }
 
-    @OnClick(R.id.relativeLayout)
+    @Override
+    public void setPatch(CharSequence patch) {
+        patchTxtView.setText(patch);
+    }
+
+    @OnClick(R.id.filename_txtView)
     public void onEntryClicked() {
         if(listener != null) {
             listener.onEntryViewChosen();
         }
+    }
+
+    @OnClick({R.id.status_txtView,R.id.changes_txtView})
+    public void onChangesClicked() {
+
+        int visibility = patchTxtView.getVisibility();
+        patchTxtView.setVisibility(visibility == VISIBLE ? GONE : VISIBLE);
+        requestLayout();
     }
 
     protected IEntryViewListener listener;

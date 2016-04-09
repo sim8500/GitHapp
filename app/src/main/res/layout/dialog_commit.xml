@@ -27,7 +27,8 @@
             android:layout_height="wrap_content"
             android:text="View Tree"
             android:id="@+id/tree_button"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:visibility="gone" />
 
         <Button
             android:layout_width="0dp"

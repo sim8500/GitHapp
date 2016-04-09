@@ -32,6 +32,7 @@ public class FileEntryPresenter extends PresenterViewHolder<FileModel, IFileEntr
         updateFilename();
         updateStatus();
         updateChangesCount();
+        updatePatch();
     }
 
     protected void updateStatus() {
@@ -44,6 +45,10 @@ public class FileEntryPresenter extends PresenterViewHolder<FileModel, IFileEntr
 
     protected void updateFilename() {
         viewInterface.setFilename(model.filename);
+    }
+
+    protected void updatePatch() {
+        viewInterface.setPatch(model.patch);
     }
 
     @Override
