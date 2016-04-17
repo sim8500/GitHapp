@@ -1,46 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android">
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/row_container"
+        android:background="@drawable/repo_ripple"
+        android:paddingLeft="8dp"
+        android:paddingTop="12dp"
+        android:paddingRight="8dp"
+        android:paddingBottom="12dp"
+        android:layout_margin="8dp">
 
-        <LinearLayout
-            android:orientation="vertical"
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/row_container"
-            android:background="@drawable/repo_ripple"
-            android:paddingLeft="8dp"
-            android:paddingTop="12dp"
-            android:paddingRight="8dp"
-            android:paddingBottom="12dp"
-            android:layout_margin="8dp">
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="~"
+            android:id="@+id/nameTxtView"
+            android:fontFamily="sans-serif-condensed"
+            android:textStyle="bold"
+            android:visibility="visible"
+            android:layout_centerVertical="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="---"
+            android:id="@+id/urlTxtView" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="---"
+            android:id="@+id/descTxtView"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingLeft="10dp"
+            android:textColor="?android:attr/textColorSecondary" />
+
+        <com.dev.sim8500.githapp.presentation.UserIdView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/user_id_view"
+            android:layout_weight="1" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="~"
-                android:id="@+id/nameTxtView"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="created:"
+                android:id="@+id/created_label"
                 android:fontFamily="sans-serif-condensed"
-                android:textColor="#525252"
-                android:textStyle="bold"
-                android:visibility="visible"
-                android:layout_centerVertical="true" />
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="..."
+                android:id="@+id/created_txtView"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:layout_weight="1" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="---"
-                android:id="@+id/urlTxtView" />
+                android:text="updated:"
+                android:id="@+id/updated_label"
+                android:fontFamily="sans-serif-condensed"
+                android:textStyle="bold" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="---"
-                android:id="@+id/descTxtView"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp" />
-
+                android:text="..."
+                android:id="@+id/updated_txtView"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:layout_weight="1" />
         </LinearLayout>
 
+    </LinearLayout>
+
+</RelativeLayout>
 </merge>

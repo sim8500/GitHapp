@@ -7,8 +7,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.dev.sim8500.githapp.app_logic.RepoEntryPresenter;
 import com.dev.sim8500.githapp.app_logic.RepoPagerAdapter;
 import com.dev.sim8500.githapp.models.RepoModel;
+import com.dev.sim8500.githapp.presentation.RepoView;
+
+import org.ocpsoft.prettytime.PrettyTime;
+
+import java.util.Locale;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -20,12 +26,17 @@ public class RepoFragment extends Fragment implements RepoPagerAdapter.OnRepoSet
 
     public static final String REPO_MODEL_ARG = "com.dev.sim8500.githapp.REPO_MODEL_ARG";
 
+    @Bind(R.id.repo_view) protected RepoView repoView;
+
+    protected RepoEntryPresenter presenter;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View inflatedView = inflater.inflate(R.layout.fragment_repo, container, false);
         ButterKnife.bind(this, inflatedView);
 
+        presenter = new RepoEntryPresenter(repoView);
         return inflatedView;
     }
 
@@ -33,31 +44,13 @@ public class RepoFragment extends Fragment implements RepoPagerAdapter.OnRepoSet
     public void onStart() {
         super.onStart();
 
-        if(model == null && getArguments() != null) {
-            model = getArguments().getParcelable(REPO_MODEL_ARG);
+        if(presenter.getModel() == null && getArguments() != null) {
+            presenter.setModel((RepoModel)getArguments().getParcelable(REPO_MODEL_ARG));
         }
-
-        applyModel();
     }
-
-    protected void applyModel() {
-
-        nameTxtView.setText(model.name);
-        urlTxtView.setText(model.url);
-        descTxtView.setText(model.description);
-    }
-
-    @Bind(R.id.nameTxtView) protected TextView nameTxtView;
-    @Bind(R.id.urlTxtView) protected TextView urlTxtView;
-    @Bind(R.id.descTxtView) protected TextView descTxtView;
-
-    protected RepoModel model;
 
     @Override
     public void onRepoSet(RepoModel repo) {
-        model = repo;
-        if(isVisible()) {
-            applyModel();
-        }
+        presenter.setModel(repo);
     }
 }

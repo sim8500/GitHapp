@@ -23,22 +23,34 @@ import butterknife.ButterKnife;
 /**
  * Created by sbernad on 19.12.15.
  */
-public class UserView extends LinearLayout
+public class UserPanelView extends LinearLayout
                       implements ModelView<UserModel>
 {
-    public UserView(Context context)
+    @Inject protected AuthRequestsManager authReqMngr;
+
+    @Bind(R.id.panel_info) protected TextView infoTxtView;
+    @Bind(R.id.view_user) protected UserIdView userIdView;
+    @Bind(R.id.log_out_button) protected Button logOutButton;
+    @Bind(R.id.logged_user_panel) protected LinearLayout loggedUserPanel;
+    @Bind(R.id.webView) protected WebView webView;
+    @Bind(R.id.octocat_img) protected ImageView octoCatImgView;
+
+    private Button.OnClickListener logOutListener;
+    private UserModel user;
+
+    public UserPanelView(Context context)
     {
         super(context);
         init();
     }
 
-    public UserView(Context context, AttributeSet attrs)
+    public UserPanelView(Context context, AttributeSet attrs)
     {
         super(context, attrs);
         init();
     }
 
-    public UserView(Context context, AttributeSet attrs, int defStyleAttr)
+    public UserPanelView(Context context, AttributeSet attrs, int defStyleAttr)
     {
         super(context, attrs, defStyleAttr);
         init();
@@ -86,7 +98,8 @@ public class UserView extends LinearLayout
         this.user = model;
         if(user != null)
         {
-            userIdView.applyModel(user);
+            userIdView.setUsername(model.login);
+            userIdView.setAvatar(model.avatarUrl);
         }
 
         changeUserDataVisibility();
@@ -102,16 +115,4 @@ public class UserView extends LinearLayout
             logOutButton.setOnClickListener(logOutListener);
         }
     }
-
-    @Inject protected AuthRequestsManager authReqMngr;
-
-    @Bind(R.id.panel_info) protected TextView infoTxtView;
-    @Bind(R.id.view_user) protected UserIdView userIdView;
-    @Bind(R.id.log_out_button) protected Button logOutButton;
-    @Bind(R.id.logged_user_panel) protected LinearLayout loggedUserPanel;
-    @Bind(R.id.webView) protected WebView webView;
-    @Bind(R.id.octocat_img) protected ImageView octoCatImgView;
-
-    private Button.OnClickListener logOutListener;
-    private UserModel user;
 }

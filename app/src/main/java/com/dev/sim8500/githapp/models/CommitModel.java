@@ -32,17 +32,8 @@ public class CommitModel {
         public String email;
         public String date;
 
-        public Date getParsedDate() {
-
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss'Z'", Locale.ENGLISH);
-            Date resultDate = null;
-            try {
-                resultDate = sdf.parse(date);
-            }
-            catch(ParseException ex) {
-                Log.e("CommitModel", "Cannot parse date in format: yyyy-MM-ddEEEEhh:mm:ssZ");
-            }
-            return resultDate;
+        public Date getDate() {
+            return ModelDataUtils.getParsedDate(date);
         }
     }
 

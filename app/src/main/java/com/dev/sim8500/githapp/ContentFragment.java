@@ -31,10 +31,12 @@ public class ContentFragment extends Fragment {
     @Inject
     protected GitHappCurrents appCurrents;
 
+    protected int layoutResId = R.layout.fragment_single_list;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View inflatedView = inflater.inflate(R.layout.fragment_single_list, container, false);
+        View inflatedView = inflater.inflate(layoutResId, container, false);
         ButterKnife.bind(this, inflatedView);
 
         LinearLayoutManager lm = new LinearLayoutManager(this.getContext(), LinearLayoutManager.VERTICAL, false);

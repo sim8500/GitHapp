@@ -1,6 +1,7 @@
 package com.dev.sim8500.githapp.app_logic;
 
 import android.content.Intent;
+import android.view.View;
 
 import com.dev.sim8500.githapp.FrameActivity;
 import com.dev.sim8500.githapp.GitHappApp;
@@ -18,7 +19,7 @@ import javax.inject.Inject;
 public class TreeEntryPresenter extends PresenterViewHolder<TreeEntryModel, ITreeEntryView>
                                 implements IEntryViewListener {
 
-    public TreeEntryPresenter(TreeEntryView entryView) {
+    public TreeEntryPresenter(View entryView) {
         super(entryView);
 
         ((GitHappApp) itemView.getContext().getApplicationContext()).inject(this);

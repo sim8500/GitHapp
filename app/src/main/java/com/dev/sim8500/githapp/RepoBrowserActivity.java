@@ -7,6 +7,8 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -35,14 +37,28 @@ import retrofit.Retrofit;
 /**
  * Created by sbernad on 06.02.16.
  */
-public class ContainerActivity extends AppCompatActivity {
+public class RepoBrowserActivity extends AppCompatActivity {
+
+    @Bind(R.id.main_container) protected LinearLayout mainContainer;
+    @Bind(R.id.container_pager) protected ViewPager pager;
+    @Bind(R.id.toolbar) protected Toolbar toolbar;
+    @Bind(R.id.tab_layout) protected TabLayout tabLayout;
+    @Bind(R.id.toolbar_spinner) protected Spinner toolbarSpinner;
+
+    protected RepoPagerAdapter pagerAdapter;
+    protected ReposListCallback callback;
+    protected List<RepoModel> userRepos;
+
+    @Inject protected AuthRequestsManager authReqMngr;
+    @Inject protected GitHappCurrents appCurrents;
+
 
     public static class ReposListCallback implements Callback<List<RepoModel>> {
 
-        WeakReference<ContainerActivity> actRef;
+        WeakReference<RepoBrowserActivity> actRef;
 
-        public ReposListCallback(ContainerActivity act) {
-            actRef = new WeakReference<ContainerActivity>(act);
+        public ReposListCallback(RepoBrowserActivity act) {
+            actRef = new WeakReference<RepoBrowserActivity>(act);
         }
 
         @Override
@@ -77,6 +93,26 @@ public class ContainerActivity extends AppCompatActivity {
         }
 
         requestRepos();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.repos_screen_menu, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if(item.getItemId() == R.id.action_search) {
+            //Toast.makeText(this, "Run search.", Toast.LENGTH_SHORT).show();
+            Intent searchIntent = new Intent(this, RepoSearchActivity.class);
+            startActivity(searchIntent);
+        }
+
+        return true;
     }
 
     private void requestRepos()
@@ -141,19 +177,5 @@ public class ContainerActivity extends AppCompatActivity {
 
         tabLayout.setupWithViewPager(pager);
     }
-
-    @Bind(R.id.main_container) protected LinearLayout mainContainer;
-    @Bind(R.id.container_pager) protected ViewPager pager;
-    @Bind(R.id.toolbar) protected Toolbar toolbar;
-    @Bind(R.id.tab_layout) protected TabLayout tabLayout;
-    @Bind(R.id.toolbar_spinner) protected Spinner toolbarSpinner;
-
-    protected RepoPagerAdapter pagerAdapter;
-    protected ReposListCallback callback;
-    protected List<RepoModel> userRepos;
-
-    @Inject protected AuthRequestsManager authReqMngr;
-    @Inject protected GitHappCurrents appCurrents;
-    //protected android.support.v4.app.Fragment currentFragment;
 
 }

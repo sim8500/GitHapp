@@ -87,7 +87,7 @@ public class CommitPresenter extends PresenterViewHolder<CommitModel, ICommitVie
     }
 
     protected void updateCommitDate() {
-        Date commitDate = model.commit.author.getParsedDate();
+        Date commitDate = model.commit.author.getDate();
         PrettyTime pt = new PrettyTime();
 
         viewInterface.setCommitDate(commitDate == null ? "" : pt.format(commitDate));

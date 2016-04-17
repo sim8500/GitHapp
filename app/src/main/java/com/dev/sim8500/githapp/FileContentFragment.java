@@ -62,22 +62,10 @@ import rx.schedulers.Schedulers;
 /**
  * Created by sbernad on 03.04.16.
  */
-public class FileContentFragment extends Fragment {
-
-    @Inject
-    protected AuthRequestsManager authReqMngr;
-
-    @Inject
-    protected GitHappCurrents appCurrents;
+public class FileContentFragment extends ContentFragment {
 
     @Bind(R.id.header_filename)
     protected TextView filenameTxtView;
-
-    @Bind(R.id.content_recyclerView)
-    protected RecyclerView contentRecyclerView;
-
-    @Bind(R.id.progress_bar)
-    protected ProgressBar progressBar;
 
     protected RecyclerBaseAdapter<FileLineModel, FileLinePresenter> adapterInstance = new RecyclerBaseAdapter<>(new FileLineBinder());
 
@@ -86,12 +74,12 @@ public class FileContentFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View inflatedView = inflater.inflate(R.layout.fragment_file_content, container, false);
+        layoutResId = R.layout.fragment_file_content;
+
+        View inflatedView = super.onCreateView(inflater, container, savedInstanceState);
         ButterKnife.bind(this, inflatedView);
 
-        LinearLayoutManager lm = new LinearLayoutManager(this.getContext(), LinearLayoutManager.VERTICAL, false);
-        contentRecyclerView.setLayoutManager(lm);
-        contentRecyclerView.setAdapter(adapterInstance);
+        recyclerView.setAdapter(adapterInstance);
 
         return inflatedView;
     }

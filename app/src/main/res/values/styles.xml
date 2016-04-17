@@ -3,11 +3,13 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!--   your app branding color for the app bar -->
-        <item name="colorPrimary">#D6E691</item>
+        <item name="colorPrimary">@color/appLightGreen</item>
         <!--   darker variant for the status bar and contextual app bars -->
-        <item name="colorPrimaryDark">#A3B35E</item>
+        <item name="colorPrimaryDark">@color/primaryAppGreen</item>
         <!--   theme UI controls like checkboxes and text fields -->
         <item name="colorAccent">#bad544</item>
+        <item name="android:textColor">#525252</item>
+        <item name="android:textColorSecondary">#626262</item>
     </style>
 
 </resources>

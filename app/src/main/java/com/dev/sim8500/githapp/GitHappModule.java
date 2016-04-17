@@ -7,7 +7,7 @@ import com.dev.sim8500.githapp.app_logic.CommitPresenter;
 import com.dev.sim8500.githapp.app_logic.FileEntryPresenter;
 import com.dev.sim8500.githapp.app_logic.GitHappCurrents;
 import com.dev.sim8500.githapp.app_logic.TreeEntryPresenter;
-import com.dev.sim8500.githapp.presentation.UserView;
+import com.dev.sim8500.githapp.presentation.UserPanelView;
 
 import dagger.Module;
 import dagger.Provides;
@@ -19,17 +19,19 @@ import dagger.Provides;
         injects = {
                 MainActivity.class,
                 SingleIssueActivity.class,
-                ContainerActivity.class,
+                RepoBrowserActivity.class,
                 FrameActivity.class,
                 ContentFragment.class,
                 RepoCommitsFragment.class,
                 CommitTreeFragment.class,
-                UserView.class,
+                UserPanelView.class,
                 CommitPresenter.class,
                 TreeEntryPresenter.class,
                 CommitFilesFragment.class,
                 FileContentFragment.class,
-                FileEntryPresenter.class
+                FileEntryPresenter.class,
+                RepoSearchActivity.class,
+                ReposListFragment.class
         }
 )
 public final class GitHappModule {

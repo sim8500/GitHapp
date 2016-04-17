@@ -16,7 +16,7 @@ import android.widget.Toast;
 import com.dev.sim8500.githapp.app_logic.AuthRequestsManager;
 import com.dev.sim8500.githapp.app_logic.GitHappCurrents;
 import com.dev.sim8500.githapp.models.UserModel;
-import com.dev.sim8500.githapp.presentation.UserView;
+import com.dev.sim8500.githapp.presentation.UserPanelView;
 import com.dev.sim8500.githapp.services.GitHubUserService;
 
 import javax.inject.Inject;
@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements AuthRequestsManag
 
         setContentView(R.layout.activity_main);
 
-        userPanel = (UserView)findViewById(R.id.user_panel);
+        userPanel = (UserPanelView)findViewById(R.id.user_panel);
         userPanel.setLogOutButtonListener(this);
 
         final AuthRequestsManager reqMngr = authReqMngr;
@@ -164,13 +164,13 @@ public class MainActivity extends AppCompatActivity implements AuthRequestsManag
 
     private void goToReposScreen()
     {
-        Intent reposIntent = new Intent(this, ContainerActivity.class);
+        Intent reposIntent = new Intent(this, RepoBrowserActivity.class);
         startActivity(reposIntent);
     }
 
     @Inject protected AuthRequestsManager authReqMngr;
     @Inject protected GitHappCurrents appCurrents;
     private UserModel userModel;
-    private UserView userPanel;
+    private UserPanelView userPanel;
     private Button nextButton;
 }

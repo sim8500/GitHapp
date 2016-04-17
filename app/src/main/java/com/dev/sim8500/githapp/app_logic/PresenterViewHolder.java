@@ -22,6 +22,10 @@ public abstract class PresenterViewHolder<M, VInterface> extends RecyclerView.Vi
         }
     }
 
+    public M getModel() {
+        return model;
+    }
+
     public abstract void updateView();
 
     protected M model;

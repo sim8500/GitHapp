@@ -30,6 +30,10 @@ import rx.schedulers.Schedulers;
  */
 public class CommitTreeFragment extends ContentFragment {
 
+    @Inject
+    protected GitHappCurrents appCurrents;
+    protected RecyclerBaseAdapter<TreeEntryModel, TreeEntryPresenter> entriesAdapter = new RecyclerBaseAdapter<>(new TreeEntryBinder());
+
     public static class TreeSub extends Subscriber<TreeModel> {
 
         WeakReference<CommitTreeFragment> fragmentRef;
@@ -100,8 +104,4 @@ public class CommitTreeFragment extends ContentFragment {
                     .subscribe(new TreeSub(CommitTreeFragment.this));
         }
     }
-
-    @Inject
-    protected GitHappCurrents appCurrents;
-    protected RecyclerBaseAdapter<TreeEntryModel, TreeEntryPresenter> entriesAdapter = new RecyclerBaseAdapter<>(new TreeEntryBinder());
 }

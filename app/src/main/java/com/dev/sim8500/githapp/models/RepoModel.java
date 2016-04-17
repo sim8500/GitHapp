@@ -1,23 +1,31 @@
 package com.dev.sim8500.githapp.models;
 
+import android.graphics.AvoidXfermode;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Date;
+
 /**
  * Created by sbernad on 18.12.15.
  */
 public class RepoModel implements Parcelable {
+
     public String name;
-
     public String description;
-
     public String url;
-
     public UserModel owner;
+    public String created_at;
+    public String updated_at;
 
-    public RepoModel() {
+    public Date getCreatedAtDate() {
+        return ModelDataUtils.getParsedDate(created_at);
+    }
+
+    public Date getUpdatedAtDate() {
+        return ModelDataUtils.getParsedDate(updated_at);
     }
 
     @Override
