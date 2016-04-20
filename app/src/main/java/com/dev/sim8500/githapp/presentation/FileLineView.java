@@ -1,12 +1,14 @@
 package com.dev.sim8500.githapp.presentation;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.dev.sim8500.githapp.R;
 import com.dev.sim8500.githapp.interfaces.IFileLineView;
+import com.dev.sim8500.githapp.models.FileLineModel;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -44,12 +46,31 @@ public class FileLineView extends LinearLayout implements IFileLineView {
     }
 
     @Override
-    public void setLineNumber(int lineNum) {
-        lineNumberTxtView.setText(String.valueOf(lineNum));
+    public void setLineNumber(CharSequence number) {
+        lineNumberTxtView.setText(number);
     }
 
     @Override
     public void setLineContent(CharSequence lineContent) {
         lineContentTxtView.setText(lineContent);
+        lineContentTxtView.requestLayout();
+    }
+
+    @Override
+    public void setLineStatus(@FileLineModel.PatchStatus int lineStatus) {
+        int bgColor = android.R.color.white;
+
+        switch(lineStatus) {
+            case FileLineModel.PATCH_STATUS_ADDED:
+                bgColor = R.color.lightAccentGreen;
+                break;
+
+            case FileLineModel.PATCH_STATUS_DELETED:
+                bgColor = R.color.accentRed;
+                break;
+        }
+
+        lineContentTxtView.setBackgroundColor(ContextCompat.getColor(getContext(), bgColor));
+        lineContentTxtView.refreshDrawableState();
     }
 }

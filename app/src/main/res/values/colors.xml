@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primaryAppGreen">#A3B35E</color>
-    <color name="appLightGreen">#D6E691</color>
+    <color name="primaryAppGreen">#a7bf3d</color>
+    <color name="appLightGreen">#c7dd69</color>
+    <color name="accentGreen">#bad544</color>
+    <color name="lightAccentGreen">#dceaa1</color>
+    <color name="accentRed">#d76250</color>
 </resources>

@@ -7,7 +7,7 @@
         <!--   darker variant for the status bar and contextual app bars -->
         <item name="colorPrimaryDark">@color/primaryAppGreen</item>
         <!--   theme UI controls like checkboxes and text fields -->
-        <item name="colorAccent">#bad544</item>
+        <item name="colorAccent">@color/accentGreen</item>
         <item name="android:textColor">#525252</item>
         <item name="android:textColorSecondary">#626262</item>
     </style>

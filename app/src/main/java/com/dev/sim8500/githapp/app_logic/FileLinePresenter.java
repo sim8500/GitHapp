@@ -17,7 +17,15 @@ public class FileLinePresenter extends PresenterViewHolder<FileLineModel, IFileL
 
     @Override
     public void updateView() {
-        viewInterface.setLineNumber(model.lineNumber);
+
+        if(model.lineStatus == FileLineModel.PATCH_STATUS_DELETED) {
+            viewInterface.setLineNumber("x");
+        }
+        else {
+            viewInterface.setLineNumber(String.valueOf(model.lineNumber));
+        }
         viewInterface.setLineContent(model.lineContent);
+        viewInterface.setLineStatus(model.lineStatus);
+
     }
 }

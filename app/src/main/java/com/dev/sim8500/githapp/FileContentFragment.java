@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.dev.sim8500.githapp.app_logic.AuthRequestsManager;
 import com.dev.sim8500.githapp.app_logic.FileLineBinder;
 import com.dev.sim8500.githapp.app_logic.FileLinePresenter;
+import com.dev.sim8500.githapp.app_logic.FilePatchParser;
 import com.dev.sim8500.githapp.app_logic.GitHappCurrents;
 import com.dev.sim8500.githapp.app_logic.RecyclerBaseAdapter;
 import com.dev.sim8500.githapp.models.FileLineModel;
@@ -101,6 +102,7 @@ public class FileContentFragment extends ContentFragment {
 
         if(fileModel != null) {
             progressBar.setVisibility(View.VISIBLE);
+
             downloadFile(fileModel).subscribeOn(Schedulers.io())
                                    .observeOn(AndroidSchedulers.mainThread())
                                    .unsubscribeOn(Schedulers.io())
@@ -126,8 +128,7 @@ public class FileContentFragment extends ContentFragment {
 
     protected List<FileLineModel> loadFile(File file) {
 
-        List<FileLineModel> resultList = new ArrayList<>();
-
+        List<FileLineModel> resultList = null;
         InputStream inputStream = null;
         try {
             inputStream = new FileInputStream(file);
@@ -136,33 +137,116 @@ public class FileContentFragment extends ContentFragment {
             Log.e("FileContentFrag", ex.getMessage());
             return null;
         }
-
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+
+        FileModel fileModel = appCurrents.getCurrent("FileModel");
+        @FileModel.FileStatus int fileStatus = fileModel.getStatus();
+
+        if(fileStatus == FileModel.FILE_STATUS_MODIFIED) {
+            resultList = loadPatchedFile(reader, fileModel.patch);
+        }
+        else {
+            resultList = loadUniformFile(reader, getDefaultPatchStatus(fileStatus));
+        }
+
+        try {
+            reader.close();
+            inputStream.close();
+        }
+        catch(IOException ex) {
+            Log.e("FileContentFrag", ex.getMessage());
+        }
+
+        return resultList;
+    }
+
+    protected List<FileLineModel> loadPatchedFile(BufferedReader reader, String patchString) {
+        List<FileLineModel> resultList = new ArrayList<>();
+        List<FileLineModel> patchLines = new FilePatchParser(patchString).parsePatchString();
 
         boolean done = false;
         int lineCounter = 1;
-        try {
-            while (!done) {
-                final String line = reader.readLine();
+        int patchLineIndex = 0;
+        String line = null;
+
+        while (!done) {
+
+            if(patchLineIndex >= patchLines.size() || lineCounter < patchLines.get(patchLineIndex).lineNumber) {
+                line = readBufferLine(reader);
                 done = (line == null);
 
                 if (line != null) {
                     FileLineModel flm = new FileLineModel();
                     flm.lineNumber = lineCounter;
                     flm.lineContent = line;
-                    resultList.add(flm);
-                }
-                ++lineCounter;
-            }
+                    flm.lineStatus = FileLineModel.PATCH_STATUS_NONE;
 
-            reader.close();
-            inputStream.close();
-        }
-        catch (IOException ex) {
-            Log.e("FileContentFrag", ex.getMessage());
+                    resultList.add(flm);
+                    ++lineCounter;
+                }
+            }
+            else {
+                FileLineModel flm = patchLines.get(patchLineIndex);
+                resultList.add(flm);
+                ++patchLineIndex;
+
+                if(flm.lineStatus == FileLineModel.PATCH_STATUS_ADDED) {
+                    line = readBufferLine(reader);
+                    done = (line == null);
+                    ++lineCounter;
+                }
+            }
         }
 
         return resultList;
+    }
+
+    protected List<FileLineModel> loadUniformFile(BufferedReader reader, @FileLineModel.PatchStatus int lineStatus) {
+        List<FileLineModel> resultList = new ArrayList<>();
+
+        boolean done = false;
+        int lineCounter = 1;
+
+        while (!done) {
+            final String line = readBufferLine(reader);
+            done = (line == null);
+
+            if (line != null) {
+                FileLineModel flm = new FileLineModel();
+                flm.lineNumber = lineCounter;
+                flm.lineContent = line;
+                flm.lineStatus = lineStatus;
+
+                resultList.add(flm);
+            }
+            ++lineCounter;
+        }
+        return resultList;
+    }
+
+    protected String readBufferLine(BufferedReader reader) {
+        String resLine = null;
+        try {
+            resLine = reader.readLine();
+        }
+        catch(IOException ex) {
+            Log.e("FileContentFrag", ex.getMessage());
+        }
+        return resLine;
+    }
+
+    protected @FileLineModel.PatchStatus int getDefaultPatchStatus(@FileModel.FileStatus int fileStatus) {
+
+        switch(fileStatus) {
+            case FileModel.FILE_STATUS_ADDED:
+                return FileLineModel.PATCH_STATUS_ADDED;
+
+            case FileModel.FILE_STATUS_REMOVED:
+                return FileLineModel.PATCH_STATUS_DELETED;
+
+            default:
+                return FileLineModel.PATCH_STATUS_NONE;
+        }
     }
 
     protected Observable<List<FileLineModel>> downloadFile(final FileModel fileModel)

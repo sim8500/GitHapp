@@ -25,5 +25,7 @@
         android:paddingLeft="8dp"
         android:ellipsize="none"
         android:fontFamily="sans-serif-condensed"
-        android:hyphenationFrequency="normal" />
+        android:hyphenationFrequency="normal"
+        android:background="@android:color/white"
+        android:paddingRight="8dp" />
 </LinearLayout>

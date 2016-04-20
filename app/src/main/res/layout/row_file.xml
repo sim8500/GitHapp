@@ -37,7 +37,8 @@
             android:textStyle="italic"
             android:paddingLeft="12dp"
             android:background="@drawable/bg_half_ripple"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:textColor="?android:attr/textColorSecondary" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -49,7 +50,8 @@
                 android:minWidth="36dp"
                 android:gravity="center_horizontal"
                 android:paddingRight="12dp"
-                android:background="@drawable/bg_half_ripple" />
+                android:background="@drawable/bg_half_ripple"
+                android:textColor="?android:attr/textColorSecondary" />
         </LinearLayout>
 
 
