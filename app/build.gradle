@@ -55,4 +55,6 @@ dependencies {
     compile 'com.jakewharton:butterknife:7.0.1'
 
     compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    testCompile "junit:junit:4.12"
 }

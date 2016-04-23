@@ -38,6 +38,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.security.InvalidParameterException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -162,7 +163,12 @@ public class FileContentFragment extends ContentFragment {
 
     protected List<FileLineModel> loadPatchedFile(BufferedReader reader, String patchString) {
         List<FileLineModel> resultList = new ArrayList<>();
-        List<FileLineModel> patchLines = new FilePatchParser(patchString).parsePatchString();
+
+        List<FileLineModel> patchLines = parsePatch(patchString);
+
+        if(patchLines == null || patchLines.isEmpty()) {
+            return loadUniformFile(reader, FileLineModel.PATCH_STATUS_NONE);
+        }
 
         boolean done = false;
         int lineCounter = 1;
@@ -222,6 +228,21 @@ public class FileContentFragment extends ContentFragment {
             ++lineCounter;
         }
         return resultList;
+    }
+
+    protected List<FileLineModel> parsePatch(String patchString) {
+        List<FileLineModel> result = null;
+        try {
+            result = new FilePatchParser(patchString).parsePatchString();
+        }
+        catch(ParseException ex) {
+            Log.e("FileContentFragment", String.format("Error when parsing: %s", ex.getMessage()));
+        }
+        catch(InvalidParameterException ex) {
+            Log.e("FileContentFragment", ex.getMessage());
+        }
+
+        return result;
     }
 
     protected String readBufferLine(BufferedReader reader) {

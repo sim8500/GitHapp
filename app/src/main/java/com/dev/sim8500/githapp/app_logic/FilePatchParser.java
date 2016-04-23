@@ -3,6 +3,8 @@ package com.dev.sim8500.githapp.app_logic;
 import com.dev.sim8500.githapp.models.FileLineModel;
 
 import java.io.File;
+import java.security.InvalidParameterException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -24,10 +26,13 @@ public class FilePatchParser {
 
     public FilePatchParser(String patch) {
 
+        if(patch == null)
+            throw new InvalidParameterException("Input string cannot be null.");
+
         patchLines = patch.split("\n");
     }
 
-    public List<FileLineModel> parsePatchString() {
+    public List<FileLineModel> parsePatchString() throws ParseException {
 
         List<FileLineModel> parsedLines = new ArrayList<>();
 
@@ -35,15 +40,16 @@ public class FilePatchParser {
         while(patchInfo != null) {
 
             int patchIndex = patchInfo.patchIndex;
+            final String patchEntry = patchLines[patchIndex];
+
             String patchLine = null;
             if(!patchInfo.patchSuffixLine.isEmpty()) {
                 patchLine = patchInfo.patchSuffixLine;
-                ++patchInfo.patchRange;
-                --patchInfo.fileOffset;
             }
             else {
                 ++patchIndex;
-                patchLine = patchLines[patchIndex];
+
+                patchLine = tryToGetNextLine(patchIndex, patchEntry);
             }
 
             while(patchInfo.patchRange > 0) {
@@ -72,7 +78,8 @@ public class FilePatchParser {
 
                 if(patchInfo.patchRange > 0) {
                     ++patchIndex;
-                    patchLine = patchLines[patchIndex];
+
+                    patchLine = tryToGetNextLine(patchIndex, patchEntry);
                 }
             }
 
@@ -80,6 +87,14 @@ public class FilePatchParser {
         }
 
         return parsedLines;
+    }
+
+    protected String tryToGetNextLine(int patchIndex, final String patchEntry) throws ParseException {
+
+        if(patchIndex >= patchLines.length)
+            throw new ParseException(String.format("Missing lines for patch entry: %s", patchEntry), patchIndex);
+
+        return patchLines[patchIndex];
     }
 
     protected PatchLineInfo findNextPatchStart(int startIndex) {
