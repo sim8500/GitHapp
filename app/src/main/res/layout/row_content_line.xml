@@ -11,7 +11,7 @@
         android:id="@+id/order_txtView"
         android:singleLine="true"
         android:textStyle="bold"
-        android:background="@color/appLightGreen"
+        android:background="@color/accentDark"
         android:gravity="center_horizontal|top"
         android:textColor="@android:color/white" />
 

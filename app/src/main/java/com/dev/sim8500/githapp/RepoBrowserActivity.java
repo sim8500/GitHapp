@@ -1,5 +1,6 @@
 package com.dev.sim8500.githapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.UiThread;
@@ -7,6 +8,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dev.sim8500.githapp.app_logic.AuthRequestsManager;
@@ -87,12 +90,20 @@ public class RepoBrowserActivity extends AppCompatActivity {
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         if(!authReqMngr.hasTokenStored(this)) {
             startActivity(new Intent(this, MainActivity.class));
         }
 
-        requestRepos();
+        String action = getIntent().getAction();
+        if(action != null && action.equals(GitHappApp.SHOW_SINGLE_REPO)) {
+            setUpSingleRepo();
+        }
+        else {
+            requestRepos();
+        }
     }
 
     @Override
@@ -106,22 +117,48 @@ public class RepoBrowserActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        if(item.getItemId() == R.id.action_search) {
+        int itemId = item.getItemId();
+        if(itemId == R.id.action_search) {
             //Toast.makeText(this, "Run search.", Toast.LENGTH_SHORT).show();
             Intent searchIntent = new Intent(this, RepoSearchActivity.class);
             startActivity(searchIntent);
+        }
+        else if(itemId == android.R.id.home) {
+            finish();
         }
 
         return true;
     }
 
+    public static Intent prepareIntent(Context context) {
+
+        Intent resIntent = new Intent(context, RepoBrowserActivity.class);
+        resIntent.setAction(GitHappApp.SHOW_SINGLE_REPO);
+
+        return resIntent;
+    }
+
     private void requestRepos()
     {
         //progressBar.setVisibility(View.VISIBLE);
+        toolbarSpinner.setVisibility(View.VISIBLE);
         callback = new ReposListCallback(this);
         authReqMngr.getService(GitHubUserReposService.class)
                 .getUserRepos()
                 .enqueue(callback);
+    }
+
+    private void setUpSingleRepo() {
+        RepoModel repo = appCurrents.getCurrent("Repo");
+        if(repo != null) {
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                    R.layout.spinner_row,
+                    R.id.row_txtview,
+                    new String[] {repo.name} );
+            toolbarSpinner.setAdapter(adapter);
+            toolbarSpinner.setEnabled(false);
+            setUpContentAdapter(repo);
+        }
     }
 
     @UiThread

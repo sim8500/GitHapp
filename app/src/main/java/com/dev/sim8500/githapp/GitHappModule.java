@@ -6,6 +6,7 @@ import com.dev.sim8500.githapp.app_logic.AuthRequestsManager;
 import com.dev.sim8500.githapp.app_logic.CommitPresenter;
 import com.dev.sim8500.githapp.app_logic.FileEntryPresenter;
 import com.dev.sim8500.githapp.app_logic.GitHappCurrents;
+import com.dev.sim8500.githapp.app_logic.RepoEntryPresenter;
 import com.dev.sim8500.githapp.app_logic.TreeEntryPresenter;
 import com.dev.sim8500.githapp.presentation.UserPanelView;
 
@@ -31,7 +32,8 @@ import dagger.Provides;
                 FileContentFragment.class,
                 FileEntryPresenter.class,
                 RepoSearchActivity.class,
-                ReposListFragment.class
+                ReposListFragment.class,
+                RepoEntryPresenter.class
         }
 )
 public final class GitHappModule {

@@ -10,6 +10,4 @@ public interface IFileEntryView {
     void setChangesCount(int count);
 
     void setStatus(CharSequence status);
-
-    void setPatch(CharSequence patch);
 }

@@ -10,11 +10,12 @@
         android:layout_height="wrap_content"
         android:id="@+id/toolbar"
         android:background="?attr/colorPrimary">
-        <Spinner
+
+            <Spinner
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/toolbar_spinner"></Spinner>
-        </android.support.v7.widget.Toolbar>
+    </android.support.v7.widget.Toolbar>
 
     <android.support.design.widget.TabLayout
         android:layout_width="match_parent"

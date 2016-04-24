@@ -55,17 +55,6 @@
         </LinearLayout>
 
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="..."
-            android:id="@+id/patch_txtView"
-            android:paddingLeft="12dp"
-            android:paddingRight="12dp"
-            android:singleLine="false"
-            android:visibility="gone" />
-
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="1dp"

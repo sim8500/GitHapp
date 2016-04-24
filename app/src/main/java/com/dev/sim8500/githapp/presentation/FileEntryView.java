@@ -54,9 +54,6 @@ public class FileEntryView extends RelativeLayout implements IFileEntryView{
     @Bind(R.id.changes_txtView)
     protected TextView changesTxtView;
 
-    @Bind(R.id.patch_txtView)
-    protected TextView patchTxtView;
-
     public void setViewListener(IEntryViewListener listener) {
         this.listener = listener;
     }
@@ -76,10 +73,6 @@ public class FileEntryView extends RelativeLayout implements IFileEntryView{
         statusTxtView.setText(status);
     }
 
-    @Override
-    public void setPatch(CharSequence patch) {
-        patchTxtView.setText(patch);
-    }
 
     @OnClick(R.id.filename_txtView)
     public void onEntryClicked() {
@@ -88,13 +81,6 @@ public class FileEntryView extends RelativeLayout implements IFileEntryView{
         }
     }
 
-    @OnClick({R.id.status_txtView,R.id.changes_txtView})
-    public void onChangesClicked() {
-
-        int visibility = patchTxtView.getVisibility();
-        patchTxtView.setVisibility(visibility == VISIBLE ? GONE : VISIBLE);
-        requestLayout();
-    }
 
     protected IEntryViewListener listener;
 }

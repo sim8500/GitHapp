@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.dev.sim8500.githapp.R;
+import com.dev.sim8500.githapp.interfaces.IRepoEntryListener;
 import com.dev.sim8500.githapp.interfaces.IRepoView;
 import com.dev.sim8500.githapp.models.IssueModel;
 import com.dev.sim8500.githapp.models.RepoModel;
@@ -18,6 +19,7 @@ import java.util.Date;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by sbernad on 19.12.15.
@@ -33,6 +35,7 @@ public class RepoView extends FrameLayout
     @Bind(R.id.user_id_view) protected UserIdView userIdView;
     @Bind(R.id.created_txtView) protected TextView createdTxtView;
     @Bind(R.id.updated_txtView) protected TextView updatedTxtView;
+    protected IRepoEntryListener listener;
 
     @Override
     public void setName(CharSequence name) {
@@ -65,9 +68,15 @@ public class RepoView extends FrameLayout
         updatedTxtView.setText(updatedAt);
     }
 
-    public interface OnRepoChosenListener
-    {
-        void onRepoChosen(String repoName, String owner);
+    @Override
+    public void setListener(IRepoEntryListener listener) {
+        this.listener = listener;
+    }
+
+    @OnClick(R.id.row_container)
+    protected void onEntryClicked() {
+        if(listener != null)
+            listener.onRepoChosen();
     }
 
     public RepoView(Context context)
@@ -93,11 +102,4 @@ public class RepoView extends FrameLayout
         inflate(getContext(), R.layout.row_repo, this);
         ButterKnife.bind(this, this);
     }
-
-    public void setOnRepoChosenListener(OnRepoChosenListener listener)
-    {
-        this.repoChosenListener = listener;
-    }
-
-    private OnRepoChosenListener repoChosenListener;
 }

@@ -13,5 +13,6 @@ public interface IRepoView {
     void setUserId(CharSequence username, String avatarUrl);
     void setCreatedDate(CharSequence createdAt);
     void setUpdatedDate(CharSequence updatedAt);
+    void setListener(IRepoEntryListener listener);
 
 }

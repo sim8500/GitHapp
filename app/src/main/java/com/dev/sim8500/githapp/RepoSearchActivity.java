@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.MenuItem;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -32,7 +33,10 @@ public class RepoSearchActivity extends AppCompatActivity {
         GitHappApp.getInstance().inject(this);
         setContentView(R.layout.activity_search_repos);
         ButterKnife.bind(this);
+
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         setUpSearchView();
         setUpResultFragment();
@@ -44,6 +48,17 @@ public class RepoSearchActivity extends AppCompatActivity {
         if(Intent.ACTION_SEARCH.equals(intent.getAction())) {
             resultFragment.runQuery(intent.getStringExtra(SearchManager.QUERY));
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int itemId = item.getItemId();
+        if(itemId == android.R.id.home) {
+            finish();
+        }
+
+        return true;
     }
 
     protected void setUpSearchView() {

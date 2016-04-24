@@ -51,7 +51,7 @@ public class ReposListFragment extends ContentFragment {
         }
     }
 
-    protected RecyclerBaseAdapter<RepoModel, RepoEntryPresenter> reposAdapter = new RecyclerBaseAdapter<>(new RepoEntryBinder());
+    protected RecyclerBaseAdapter<RepoModel, RepoEntryPresenter> reposAdapter = new RecyclerBaseAdapter<>(new RepoEntryBinder(true));
 
     public void runQuery(String query) {
 

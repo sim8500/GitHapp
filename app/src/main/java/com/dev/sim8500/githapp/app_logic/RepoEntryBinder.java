@@ -12,11 +12,19 @@ import com.dev.sim8500.githapp.presentation.RepoView;
  */
 public class RepoEntryBinder implements IRecyclerBinder<RepoModel, RepoEntryPresenter> {
 
+    private boolean bindListeners = false;
+
+    public RepoEntryBinder(boolean withListener) {
+        bindListeners = withListener;
+    }
     @Override
     public RepoEntryPresenter createHolderInstance(Context context, ViewGroup parent, int viewType) {
 
         RepoView bindedView = new RepoView(context);
         RepoEntryPresenter presenter = new RepoEntryPresenter(bindedView);
+        if(bindListeners) {
+            bindedView.setListener(presenter);
+        }
 
         return presenter;
     }
