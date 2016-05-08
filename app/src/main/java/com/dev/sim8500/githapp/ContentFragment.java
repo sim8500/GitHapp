@@ -1,6 +1,7 @@
 package com.dev.sim8500.githapp;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -8,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 
 import com.dev.sim8500.githapp.app_logic.AuthRequestsManager;
 import com.dev.sim8500.githapp.app_logic.GitHappCurrents;
@@ -24,6 +26,7 @@ public class ContentFragment extends Fragment {
 
     @Bind(R.id.recycler_view) protected RecyclerView recyclerView;
     @Bind(R.id.progress_bar) protected ProgressBar progressBar;
+    @Nullable @Bind(R.id.header_layout) protected RelativeLayout headerLayout;
 
     @Inject
     protected AuthRequestsManager authReqMngr;

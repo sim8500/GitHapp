@@ -33,7 +33,8 @@ import dagger.Provides;
                 FileEntryPresenter.class,
                 RepoSearchActivity.class,
                 ReposListFragment.class,
-                RepoEntryPresenter.class
+                RepoEntryPresenter.class,
+                RepoFragment.class
         }
 )
 public final class GitHappModule {

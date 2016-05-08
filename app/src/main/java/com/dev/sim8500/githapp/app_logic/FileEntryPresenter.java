@@ -49,7 +49,6 @@ public class FileEntryPresenter extends PresenterViewHolder<FileModel, IFileEntr
     @Override
     public void onEntryViewChosen() {
         appCurrents.setCurrent("FileModel", model);
-
         itemView.getContext().startActivity(FrameActivity.prepareFileContentIntent(itemView.getContext()));
     }
 

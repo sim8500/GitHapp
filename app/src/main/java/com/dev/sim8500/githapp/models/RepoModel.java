@@ -19,6 +19,8 @@ public class RepoModel implements Parcelable {
     public UserModel owner;
     public String created_at;
     public String updated_at;
+    @SerializedName("default_branch")
+    public String defaultBranch;
 
     public Date getCreatedAtDate() {
         return ModelDataUtils.getParsedDate(created_at);

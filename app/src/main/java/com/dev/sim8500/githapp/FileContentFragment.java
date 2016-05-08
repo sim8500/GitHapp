@@ -23,6 +23,7 @@ import com.dev.sim8500.githapp.app_logic.FileLinePresenter;
 import com.dev.sim8500.githapp.app_logic.FilePatchParser;
 import com.dev.sim8500.githapp.app_logic.GitHappCurrents;
 import com.dev.sim8500.githapp.app_logic.RecyclerBaseAdapter;
+import com.dev.sim8500.githapp.models.DetailedCommitModel;
 import com.dev.sim8500.githapp.models.FileLineModel;
 import com.dev.sim8500.githapp.models.FileModel;
 import com.squareup.okhttp.OkHttpClient;
@@ -98,13 +99,14 @@ public class FileContentFragment extends ContentFragment {
         super.onStart();
 
         FileModel fileModel = appCurrents.getCurrent("FileModel");
+        DetailedCommitModel commit = appCurrents.getCurrent("DetailedCommitModel");
 
         filenameTxtView.setText(fileModel.filename);
 
         if(fileModel != null) {
             progressBar.setVisibility(View.VISIBLE);
 
-            downloadFile(fileModel).subscribeOn(Schedulers.io())
+            downloadFile(fileModel, commit.sha).subscribeOn(Schedulers.io())
                                    .observeOn(AndroidSchedulers.mainThread())
                                    .unsubscribeOn(Schedulers.io())
                                    .subscribe(new Subscriber<List<FileLineModel>>() {
@@ -270,39 +272,47 @@ public class FileContentFragment extends ContentFragment {
         }
     }
 
-    protected Observable<List<FileLineModel>> downloadFile(final FileModel fileModel)
+    protected Observable<List<FileLineModel>> downloadFile(final FileModel fileModel, final String sha)
     {
         return Observable.create(new Observable.OnSubscribe<File>() {
             @Override
             public void call(Subscriber<? super File> sub) {
                 int lastSep = TextUtils.lastIndexOf(fileModel.filename, '/');
-                String pureName = fileModel.filename.substring(lastSep + 1);
-                File file = new File(FileContentFragment.this.getContext().getExternalCacheDir() + File.separator + pureName);
+                int lastDot = TextUtils.lastIndexOf(fileModel.filename, '.');
+                String pureName = fileModel.filename.substring(lastSep + 1, lastDot);
+                String extName = fileModel.filename.substring(lastDot);
+                String modName = pureName + sha + extName;
 
-                Request request = new Request.Builder().url(fileModel.raw_url).build();
+                File file = new File(FileContentFragment.this.getContext().getExternalCacheDir() + File.separator + modName);
+                if (!file.exists()) {
+                    Request request = new Request.Builder().url(fileModel.raw_url).build();
 
-                Response response = null;
-                try {
-                    response = httpClient.newCall(request).execute();
-                    if (!response.isSuccessful()) {
-                        throw new IOException();
+                    Response response = null;
+                    try {
+                        response = httpClient.newCall(request).execute();
+                        if (!response.isSuccessful()) {
+                            throw new IOException();
+                        }
+                    } catch (IOException io) {
+                        throw OnErrorThrowable.from(OnErrorThrowable.addValueAsLastCause(io, fileModel.filename));
                     }
-                } catch (IOException io) {
-                    throw OnErrorThrowable.from(OnErrorThrowable.addValueAsLastCause(io, fileModel.filename));
+
+                    try (BufferedSink sink = Okio.buffer(Okio.sink(file))) {
+                        sink.writeAll(response.body().source());
+                        sink.close();
+
+
+                        sub.onNext(file);
+                    } catch (IOException io) {
+                        Log.e("FileContentFrag", io.getMessage());
+                        throw OnErrorThrowable.from(OnErrorThrowable.addValueAsLastCause(io, fileModel.filename));
+                    }
                 }
-
-                try (BufferedSink sink = Okio.buffer(Okio.sink(file))) {
-                    sink.writeAll(response.body().source());
-                    sink.close();
-
-
+                else {
                     sub.onNext(file);
-                } catch (IOException io) {
-                    Log.e("FileContentFrag", io.getMessage());
-                    throw OnErrorThrowable.from(OnErrorThrowable.addValueAsLastCause(io, fileModel.filename));
                 }
-            }
-        }).map(new Func1<File, List<FileLineModel>>() {
+        }
+    }).map(new Func1<File, List<FileLineModel>>() {
             @Override
             public List<FileLineModel> call(File file) {
                 return loadFile(file);

@@ -1,5 +1,10 @@
 package com.dev.sim8500.githapp;
 
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
 import com.dev.sim8500.githapp.app_logic.FileEntryBinder;
 import com.dev.sim8500.githapp.app_logic.FileEntryPresenter;
 import com.dev.sim8500.githapp.app_logic.GitHappCurrents;
@@ -27,7 +32,6 @@ public class CommitFilesFragment extends ContentFragment {
     protected void loadEntries()
     {
         DetailedCommitModel commitModel = appCurrents.getCurrent("DetailedCommitModel");
-
         entriesAdapter.clearItems();
         entriesAdapter.initAdapter(this.getContext(), commitModel.files);
         recyclerView.setAdapter(entriesAdapter);
