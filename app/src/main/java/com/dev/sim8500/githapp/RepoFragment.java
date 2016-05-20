@@ -46,7 +46,6 @@ public class RepoFragment extends Fragment implements RepoPagerAdapter.OnRepoSet
     public static final String REPO_MODEL_ARG = "com.dev.sim8500.githapp.REPO_MODEL_ARG";
 
     @Bind(R.id.repo_view) protected RepoView repoView;
-    @Bind(R.id.branches_container) protected RecyclerView branchesContainer;
 
     @Inject
     protected AuthRequestsManager authReqMngr;
@@ -71,9 +70,6 @@ public class RepoFragment extends Fragment implements RepoPagerAdapter.OnRepoSet
 
         View inflatedView = inflater.inflate(R.layout.fragment_repo, container, false);
         ButterKnife.bind(this, inflatedView);
-
-        LinearLayoutManager lm = new LinearLayoutManager(this.getContext(), LinearLayoutManager.VERTICAL, false);
-        branchesContainer.setLayoutManager(lm);
 
         presenter = new RepoEntryPresenter(repoView);
         return inflatedView;

@@ -6,8 +6,9 @@
 <LinearLayout
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#A3B35E"
-    android:id="@+id/main_container">
+    android:id="@+id/main_container"
+    android:padding="6dp"
+    android:background="@color/primaryAppGreen">
 
     <TextView
         android:layout_width="wrap_content"

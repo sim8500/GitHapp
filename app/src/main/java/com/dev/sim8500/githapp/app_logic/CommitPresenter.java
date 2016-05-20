@@ -114,7 +114,7 @@ public class CommitPresenter extends PresenterViewHolder<CommitModel, ICommitVie
 
     @Override
     public void onEntryViewPressed() {
-        Toast.makeText(itemView.getContext(), "ENTRY VIEW PRESSED", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(itemView.getContext(), "ENTRY VIEW PRESSED", Toast.LENGTH_SHORT).show();
     }
 
     @Override

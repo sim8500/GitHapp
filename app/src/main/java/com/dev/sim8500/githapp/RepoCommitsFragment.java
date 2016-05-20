@@ -44,10 +44,13 @@ import rx.schedulers.Schedulers;
  */
 public class RepoCommitsFragment extends ContentFragment implements RepoPagerAdapter.OnRepoSetListener {
 
+    protected static final String KEY_BRANCH_SHA = "com.dev.sim8500.githapp.KEY_BRANCH_SHA";
+
     protected RecyclerBaseAdapter<CommitModel, CommitPresenter> commitsAdapter = new RecyclerBaseAdapter<>(new CommitBinder());
     protected String repo;
     protected String owner;
     protected String defaultBranch;
+    protected String currentBranch;
     protected Spinner branchSpinner;
     protected List<BranchModel> branchModels;
 
@@ -122,16 +125,20 @@ public class RepoCommitsFragment extends ContentFragment implements RepoPagerAda
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        RepoModel repo = appCurrents.getCurrent("Repo");
+        onRepoSet(repo);
 
-        //subscriber = new CommitsSub(this);
+        if(savedInstanceState != null) {
+            currentBranch = savedInstanceState.getString(KEY_BRANCH_SHA);
+        }
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-        RepoModel repo = appCurrents.getCurrent("Repo");
-        onRepoSet(repo);
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        savedInstanceState.putString(KEY_BRANCH_SHA, this.currentBranch);
     }
+
 
     private void loadCommitsList(String sha) {
 
@@ -149,6 +156,7 @@ public class RepoCommitsFragment extends ContentFragment implements RepoPagerAda
         this.repo = repo.name;
         this.owner = repo.owner.login;
         this.defaultBranch = repo.defaultBranch;
+        this.currentBranch = defaultBranch;
         loadBranches();
     }
 
@@ -179,13 +187,17 @@ public class RepoCommitsFragment extends ContentFragment implements RepoPagerAda
                 defaultBranch = "master";
             }
 
+            if(TextUtils.isEmpty(currentBranch)) {
+                currentBranch = defaultBranch;
+            }
+
             boolean defaultFound = false;
             int defaultIndex = 0;
             ArrayList<String> branchNames = new ArrayList<>(branchModels.size());
             for (BranchModel bm : branchModels) {
                 branchNames.add(bm.name);
 
-                if(!defaultFound && bm.name.toLowerCase().equals(defaultBranch))
+                if(!defaultFound && bm.name.toLowerCase().equals(currentBranch))
                 {
                     defaultFound = true;
                 }
@@ -198,6 +210,7 @@ public class RepoCommitsFragment extends ContentFragment implements RepoPagerAda
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                     if (position >= 0 && position < branchModels.size()) {
+                        currentBranch = branchModels.get(position).name;
                         loadCommitsList(branchModels.get(position).commit.sha);
                     }
                 }

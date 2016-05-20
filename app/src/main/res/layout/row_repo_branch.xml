@@ -2,7 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="wrap_content"
     android:paddingTop="8dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingRight="8dp"
+    android:paddingLeft="12dp">
 
     <TextView
         android:layout_width="wrap_content"
@@ -10,10 +12,11 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Branch"
         android:id="@+id/name_txtView"
-        android:padding="4dp"
         android:fontFamily="sans-serif-condensed"
         android:textStyle="bold"
         android:layout_alignParentStart="false"
-        android:layout_alignParentTop="true" />
+        android:layout_alignParentTop="true"
+        android:layout_gravity="center_vertical"
+        android:padding="4dp" />
 
 </LinearLayout>

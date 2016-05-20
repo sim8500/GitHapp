@@ -8,6 +8,8 @@ public class TreeEntryModel {
     public String mode;
     public String sha;
     public int size;
+    public String url;
+
     public GitTreeType type;
 
     public static enum GitTreeType {

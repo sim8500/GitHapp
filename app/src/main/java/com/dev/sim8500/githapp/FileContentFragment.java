@@ -18,12 +18,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dev.sim8500.githapp.app_logic.AuthRequestsManager;
+import com.dev.sim8500.githapp.app_logic.FileDownloadAction;
 import com.dev.sim8500.githapp.app_logic.FileLineBinder;
 import com.dev.sim8500.githapp.app_logic.FileLinePresenter;
 import com.dev.sim8500.githapp.app_logic.FilePatchParser;
 import com.dev.sim8500.githapp.app_logic.GitHappCurrents;
 import com.dev.sim8500.githapp.app_logic.RecyclerBaseAdapter;
 import com.dev.sim8500.githapp.models.DetailedCommitModel;
+import com.dev.sim8500.githapp.models.DownloadFileModel;
 import com.dev.sim8500.githapp.models.FileLineModel;
 import com.dev.sim8500.githapp.models.FileModel;
 import com.squareup.okhttp.OkHttpClient;
@@ -74,6 +76,8 @@ public class FileContentFragment extends ContentFragment {
 
     protected OkHttpClient httpClient = new OkHttpClient();
 
+    protected DownloadFileModel downloadFileModel;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -98,35 +102,53 @@ public class FileContentFragment extends ContentFragment {
     public void onStart() {
         super.onStart();
 
-        FileModel fileModel = appCurrents.getCurrent("FileModel");
-        DetailedCommitModel commit = appCurrents.getCurrent("DetailedCommitModel");
+        if(areArgsValid()) {
 
-        filenameTxtView.setText(fileModel.filename);
+            downloadFileModel = getArguments().getParcelable(GitHappApp.FILE_CONTENT_DOWNLOAD_DATA);
 
-        if(fileModel != null) {
+            filenameTxtView.setText(downloadFileModel.filename);
+
             progressBar.setVisibility(View.VISIBLE);
 
-            downloadFile(fileModel, commit.sha).subscribeOn(Schedulers.io())
-                                   .observeOn(AndroidSchedulers.mainThread())
-                                   .unsubscribeOn(Schedulers.io())
-                                   .subscribe(new Subscriber<List<FileLineModel>>() {
-                                       @Override
-                                       public void onCompleted() {
+            downloadFile().subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .unsubscribeOn(Schedulers.io())
+                    .subscribe(new Subscriber<List<FileLineModel>>() {
+                        @Override
+                        public void onCompleted() {
 
-                                       }
+                        }
 
-                                       @Override
-                                       public void onError(Throwable e) {
-                                           Toast.makeText(FileContentFragment.this.getContext(), "Something went wrong...", Toast.LENGTH_SHORT).show();
-                                       }
+                        @Override
+                        public void onError(Throwable e) {
+                            Toast.makeText(FileContentFragment.this.getContext(), "Something went wrong...", Toast.LENGTH_SHORT).show();
+                        }
 
-                                       @Override
-                                       public void onNext(List<FileLineModel> value) {
-                                           progressBar.setVisibility(View.GONE);
-                                           displayFileContent(value);
-                                       }
-                                   });
+                        @Override
+                        public void onNext(List<FileLineModel> value) {
+                            progressBar.setVisibility(View.GONE);
+                            displayFileContent(value);
+                        }
+                    });
         }
+    }
+
+    protected boolean areArgsValid() {
+        Bundle args = getArguments();
+        return args != null && args.containsKey(GitHappApp.FILE_CONTENT_DOWNLOAD_DATA);
+    }
+
+    protected Observable<List<FileLineModel>> downloadFile()
+    {
+        File destFile = prepareFile(downloadFileModel.filename, downloadFileModel.sha);
+
+        return Observable.create(new FileDownloadAction(httpClient, destFile, downloadFileModel.raw_url))
+                .map(new Func1<File, List<FileLineModel>>() {
+                    @Override
+                    public List<FileLineModel> call(File file) {
+                        return loadFile(file);
+                    }
+                });
     }
 
     protected List<FileLineModel> loadFile(File file) {
@@ -142,14 +164,12 @@ public class FileContentFragment extends ContentFragment {
         }
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
 
-        FileModel fileModel = appCurrents.getCurrent("FileModel");
-        @FileModel.FileStatus int fileStatus = fileModel.getStatus();
 
-        if(fileStatus == FileModel.FILE_STATUS_MODIFIED) {
-            resultList = loadPatchedFile(reader, fileModel.patch);
+        if(downloadFileModel.status == FileModel.FILE_STATUS_MODIFIED) {
+            resultList = loadPatchedFile(reader, downloadFileModel.patch);
         }
         else {
-            resultList = loadUniformFile(reader, getDefaultPatchStatus(fileStatus));
+            resultList = loadUniformFile(reader, getDefaultPatchStatus(downloadFileModel.status));
         }
 
         try {
@@ -272,52 +292,15 @@ public class FileContentFragment extends ContentFragment {
         }
     }
 
-    protected Observable<List<FileLineModel>> downloadFile(final FileModel fileModel, final String sha)
-    {
-        return Observable.create(new Observable.OnSubscribe<File>() {
-            @Override
-            public void call(Subscriber<? super File> sub) {
-                int lastSep = TextUtils.lastIndexOf(fileModel.filename, '/');
-                int lastDot = TextUtils.lastIndexOf(fileModel.filename, '.');
-                String pureName = fileModel.filename.substring(lastSep + 1, lastDot);
-                String extName = fileModel.filename.substring(lastDot);
-                String modName = pureName + sha + extName;
+    protected File prepareFile(String filename, String sha) {
 
-                File file = new File(FileContentFragment.this.getContext().getExternalCacheDir() + File.separator + modName);
-                if (!file.exists()) {
-                    Request request = new Request.Builder().url(fileModel.raw_url).build();
+        int lastSep = Math.max(TextUtils.lastIndexOf(filename, '/'), 0);
+        int lastDot = TextUtils.lastIndexOf(filename, '.');
+        String pureName = filename.substring(lastSep + 1, lastDot);
+        String extName = filename.substring(lastDot);
+        String modName = pureName + sha + extName;
 
-                    Response response = null;
-                    try {
-                        response = httpClient.newCall(request).execute();
-                        if (!response.isSuccessful()) {
-                            throw new IOException();
-                        }
-                    } catch (IOException io) {
-                        throw OnErrorThrowable.from(OnErrorThrowable.addValueAsLastCause(io, fileModel.filename));
-                    }
-
-                    try (BufferedSink sink = Okio.buffer(Okio.sink(file))) {
-                        sink.writeAll(response.body().source());
-                        sink.close();
-
-
-                        sub.onNext(file);
-                    } catch (IOException io) {
-                        Log.e("FileContentFrag", io.getMessage());
-                        throw OnErrorThrowable.from(OnErrorThrowable.addValueAsLastCause(io, fileModel.filename));
-                    }
-                }
-                else {
-                    sub.onNext(file);
-                }
-        }
-    }).map(new Func1<File, List<FileLineModel>>() {
-            @Override
-            public List<FileLineModel> call(File file) {
-                return loadFile(file);
-            }
-        });
+        return new File(FileContentFragment.this.getContext().getExternalCacheDir() + File.separator + modName);
     }
 
     @UiThread

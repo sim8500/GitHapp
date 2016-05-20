@@ -6,6 +6,8 @@ import com.dev.sim8500.githapp.FrameActivity;
 import com.dev.sim8500.githapp.GitHappApp;
 import com.dev.sim8500.githapp.interfaces.IEntryViewListener;
 import com.dev.sim8500.githapp.interfaces.IFileEntryView;
+import com.dev.sim8500.githapp.models.DetailedCommitModel;
+import com.dev.sim8500.githapp.models.DownloadFileModel;
 import com.dev.sim8500.githapp.models.FileModel;
 
 import javax.inject.Inject;
@@ -48,12 +50,17 @@ public class FileEntryPresenter extends PresenterViewHolder<FileModel, IFileEntr
 
     @Override
     public void onEntryViewChosen() {
-        appCurrents.setCurrent("FileModel", model);
-        itemView.getContext().startActivity(FrameActivity.prepareFileContentIntent(itemView.getContext()));
+        DetailedCommitModel commitModel = appCurrents.getCurrent("DetailedCommitModel");
+        DownloadFileModel downloadModel = new DownloadFileModel(model.filename, model.raw_url);
+        downloadModel.status = model.getStatus();
+        downloadModel.sha = commitModel.sha;
+        downloadModel.patch = model.patch;
+
+        itemView.getContext().startActivity(FrameActivity.prepareFileContentIntent(itemView.getContext(), downloadModel));
     }
 
     @Override
     public void onEntryViewPressed() {
-
+        // no operation
     }
 }

@@ -11,6 +11,8 @@ import android.text.TextUtils;
 
 import com.dev.sim8500.githapp.app_logic.AuthRequestsManager;
 import com.dev.sim8500.githapp.app_logic.GitHappCurrents;
+import com.dev.sim8500.githapp.models.DownloadFileModel;
+import com.dev.sim8500.githapp.models.FileModel;
 import com.dev.sim8500.githapp.models.RepoModel;
 
 import java.text.ParseException;
@@ -36,7 +38,7 @@ public class FrameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_frame);
         ButterKnife.bind(this);
 
-        handleIntent(getIntent(), false);
+        handleIntent(getIntent(), true);
     }
 
     @Override
@@ -93,6 +95,7 @@ public class FrameActivity extends AppCompatActivity {
                 break;
             case GitHappApp.SHOW_FILE_CONTENT:
                 resFragment = new FileContentFragment();
+                resFragment.setArguments(intent.getExtras());
                 break;
         }
 
@@ -117,9 +120,10 @@ public class FrameActivity extends AppCompatActivity {
         return resIntent;
     }
 
-    public static Intent prepareFileContentIntent(Context context) {
+    public static Intent prepareFileContentIntent(Context context, DownloadFileModel fileModel) {
         Intent resIntent = new Intent(context, FrameActivity.class);
         resIntent.setAction(GitHappApp.SHOW_FILE_CONTENT);
+        resIntent.putExtra(GitHappApp.FILE_CONTENT_DOWNLOAD_DATA, fileModel);
 
         return resIntent;
     }

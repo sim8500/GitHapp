@@ -10,14 +10,15 @@ import java.lang.annotation.RetentionPolicy;
  */
 public class FileModel {
 
-    @IntDef({FILE_STATUS_ADDED, FILE_STATUS_MODIFIED, FILE_STATUS_REMOVED, FILE_STATUS_RENAMED})
+    @IntDef({FILE_STATUS_ADDED, FILE_STATUS_MODIFIED, FILE_STATUS_REMOVED, FILE_STATUS_RENAMED, FILE_STATUS_NONE})
     @Retention(RetentionPolicy.SOURCE)
     public @interface FileStatus {}
 
-    public static final int FILE_STATUS_ADDED = 0;
-    public static final int FILE_STATUS_MODIFIED = 1;
-    public static final int FILE_STATUS_REMOVED = 2;
-    public static final int FILE_STATUS_RENAMED = 3;
+    public static final int FILE_STATUS_ADDED = 1;
+    public static final int FILE_STATUS_MODIFIED = 2;
+    public static final int FILE_STATUS_REMOVED = 3;
+    public static final int FILE_STATUS_RENAMED = 4;
+    public static final int FILE_STATUS_NONE = 0;
 
     protected static final String STRING_STATUS_ADDED = "added";
     protected static final String STRING_STATUS_MODIFIED = "modified";

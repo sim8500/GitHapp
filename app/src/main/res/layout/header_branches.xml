@@ -11,15 +11,16 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="branch: "
         android:id="@+id/textView"
-        android:gravity="center_vertical|bottom"
-        android:layout_gravity="center_vertical" />
+        android:paddingLeft="4dp"
+        android:paddingTop="8dp"
+        android:gravity="center_vertical" />
 
     <Spinner
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="wrap_content"
         android:id="@+id/branch_spinner"
-        android:background="@color/appLightGreen"
+        android:background="@color/lightAccentGreen"
         android:spinnerMode="dialog"
         android:layout_gravity="center_vertical"
-        android:gravity="center_vertical" />
+        android:padding="0dp" />
 </LinearLayout>

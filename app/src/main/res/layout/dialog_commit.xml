@@ -14,28 +14,37 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:id="@+id/details_txtView"
-        android:padding="8dp" />
+        android:padding="8dp"
+        android:layout_gravity="bottom"
+        android:gravity="center_vertical|center_horizontal" />
 
     <LinearLayout
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/buttons_container">
 
         <Button
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="View Tree"
             android:id="@+id/tree_button"
             android:layout_weight="1"
-            android:visibility="gone" />
+            android:visibility="visible"
+            android:background="@drawable/btn_ripple"
+            android:minHeight="40dp"
+            android:layout_margin="8dp" />
 
         <Button
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="View Files"
             android:id="@+id/files_button"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:background="@drawable/btn_ripple"
+            android:layout_margin="8dp"
+            android:nestedScrollingEnabled="false"
+            android:minHeight="40dp" />
     </LinearLayout>
 
 </LinearLayout>

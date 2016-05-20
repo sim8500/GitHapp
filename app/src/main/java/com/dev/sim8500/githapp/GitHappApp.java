@@ -39,5 +39,6 @@ public class GitHappApp extends Application {
     public static final String SHOW_COMMIT_FILES = "com.dev.sim8500.githapp.SHOW_COMMIT_FILES";
     public static final String SHOW_FILE_CONTENT = "com.dev.sim8500.githapp.SHOW_FILE_CONTENT";
     public static final String SHOW_SINGLE_REPO = "com.dev.sim8500.githapp.SHOW_SINGLE_REPO";
+    public static final String FILE_CONTENT_DOWNLOAD_DATA = "com.dev.sim8500.githapp.SHOW_SINGLE_REPO";
 
 }
