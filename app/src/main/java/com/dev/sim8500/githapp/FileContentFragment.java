@@ -296,8 +296,9 @@ public class FileContentFragment extends ContentFragment {
 
         int lastSep = Math.max(TextUtils.lastIndexOf(filename, '/'), 0);
         int lastDot = TextUtils.lastIndexOf(filename, '.');
-        String pureName = filename.substring(lastSep + 1, lastDot);
-        String extName = filename.substring(lastDot);
+        String pureName = (lastDot > 0) ? filename.substring(lastSep + 1, lastDot) : filename.substring(lastSep+1);
+        String extName = (lastDot > 0) ? filename.substring(lastDot) : "";
+
         String modName = pureName + sha + extName;
 
         return new File(FileContentFragment.this.getContext().getExternalCacheDir() + File.separator + modName);
