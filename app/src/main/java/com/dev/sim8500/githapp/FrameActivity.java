@@ -97,6 +97,13 @@ public class FrameActivity extends AppCompatActivity {
                 resFragment = new FileContentFragment();
                 resFragment.setArguments(intent.getExtras());
                 break;
+            case GitHappApp.SHOW_FAV_REPOS_LIST:
+                resFragment = new ReposListFragment();
+                Bundle simpleArgs = new Bundle();
+                simpleArgs.putBoolean(GitHappApp.SHOW_FAV_REPOS_LIST, true);
+
+                resFragment.setArguments(simpleArgs);
+                break;
         }
 
         return resFragment;
@@ -116,6 +123,13 @@ public class FrameActivity extends AppCompatActivity {
     public static Intent prepareFilesIntent(Context context) {
         Intent resIntent = new Intent(context, FrameActivity.class);
         resIntent.setAction(GitHappApp.SHOW_COMMIT_FILES);
+
+        return resIntent;
+    }
+
+    public static Intent prepareFavReposIntent(Context context) {
+        Intent resIntent = new Intent(context, FrameActivity.class);
+        resIntent.setAction(GitHappApp.SHOW_FAV_REPOS_LIST);
 
         return resIntent;
     }

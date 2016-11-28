@@ -14,5 +14,6 @@ public interface IRepoView {
     void setCreatedDate(CharSequence createdAt);
     void setUpdatedDate(CharSequence updatedAt);
     void setListener(IRepoEntryListener listener);
+    void showFavButton(boolean doShow);
 
 }

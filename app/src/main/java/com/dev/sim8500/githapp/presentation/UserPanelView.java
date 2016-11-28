@@ -4,10 +4,12 @@ import android.content.Context;
 import android.support.annotation.UiThread;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewParent;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.dev.sim8500.githapp.app_logic.AuthRequestsManager;
@@ -33,7 +35,8 @@ public class UserPanelView extends LinearLayout
     @Bind(R.id.log_out_button) protected Button logOutButton;
     @Bind(R.id.logged_user_panel) protected LinearLayout loggedUserPanel;
     @Bind(R.id.webView) protected WebView webView;
-    @Bind(R.id.octocat_img) protected ImageView octoCatImgView;
+    @Bind(R.id.greetParent) protected View greetParent;
+    @Bind(R.id.greetTxtView) protected TextView greetTextView;
 
     private Button.OnClickListener logOutListener;
     private UserModel user;
@@ -89,7 +92,7 @@ public class UserPanelView extends LinearLayout
         infoTxtView.setText(getContext().getString(visible ? R.string.you_re_logged : R.string.log_in));
 
         webView.setVisibility(webViewVisibility);
-        octoCatImgView.setVisibility(visibility);
+        greetParent.setVisibility(visibility);
     }
 
     @Override
@@ -100,6 +103,7 @@ public class UserPanelView extends LinearLayout
         {
             userIdView.setUsername(model.login);
             userIdView.setAvatar(model.avatarUrl);
+            greetTextView.setText(this.getResources().getString(R.string.greet_user, user.name));
         }
 
         changeUserDataVisibility();

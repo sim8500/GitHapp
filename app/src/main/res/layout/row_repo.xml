@@ -15,16 +15,36 @@
         android:paddingBottom="12dp"
         android:layout_margin="8dp">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="~"
-            android:id="@+id/nameTxtView"
-            android:fontFamily="sans-serif-condensed"
-            android:textStyle="bold"
-            android:visibility="visible"
-            android:layout_centerVertical="true" />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="~"
+                android:id="@+id/nameTxtView"
+                android:fontFamily="sans-serif-condensed"
+                android:textStyle="bold"
+                android:visibility="visible"
+                android:layout_centerVertical="true"
+                android:layout_weight="1" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="+ fav"
+                android:textAllCaps="false"
+                android:id="@+id/fav_button"
+                android:background="@drawable/btn_ripple"
+                android:minHeight="28dp"
+                android:minWidth="56dp"
+                android:layout_alignParentRight="true"
+                android:layout_margin="8dp"
+                android:layout_gravity="right" />
+        </LinearLayout>
 
         <TextView
             android:layout_width="wrap_content"

@@ -11,6 +11,8 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -24,6 +26,7 @@ public class RepoSearchActivity extends AppCompatActivity {
 
     @Bind(R.id.toolbar) protected Toolbar toolbar;
     @Bind(R.id.search_view) protected SearchView searchView;
+
     protected ReposListFragment resultFragment;
 
     @Override

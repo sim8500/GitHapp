@@ -16,11 +16,11 @@
 
         </android.support.v7.widget.Toolbar>
 
-    <fragment
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:name="com.dev.sim8500.githapp.ReposListFragment"
-        android:id="@+id/result_fragment" />
-
+        <fragment
+            android:layout_width="match_parent"
+            android:name="com.dev.sim8500.githapp.ReposListFragment"
+            android:id="@+id/result_fragment"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
 
 </LinearLayout>

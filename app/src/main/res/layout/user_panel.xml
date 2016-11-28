@@ -49,12 +49,12 @@
             android:layout_height="match_parent"
             android:id="@+id/webView" />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/octocat_img"
-            android:src="@drawable/github"
-            android:layout_gravity="center" />
+        <include
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            layout="@layout/view_user_greet"
+            />
+
     </FrameLayout>
 
 </LinearLayout>

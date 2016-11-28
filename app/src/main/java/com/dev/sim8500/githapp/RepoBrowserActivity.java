@@ -123,6 +123,9 @@ public class RepoBrowserActivity extends AppCompatActivity {
             Intent searchIntent = new Intent(this, RepoSearchActivity.class);
             startActivity(searchIntent);
         }
+        else if(itemId == R.id.action_fav) {
+            goToFavReposScreen();
+        }
         else if(itemId == android.R.id.home) {
             finish();
         }
@@ -213,6 +216,10 @@ public class RepoBrowserActivity extends AppCompatActivity {
         }
 
         tabLayout.setupWithViewPager(pager);
+    }
+
+    protected void goToFavReposScreen() {
+        startActivity(FrameActivity.prepareFavReposIntent(this));
     }
 
 }

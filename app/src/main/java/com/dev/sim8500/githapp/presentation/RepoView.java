@@ -3,6 +3,7 @@ package com.dev.sim8500.githapp.presentation;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -35,6 +36,7 @@ public class RepoView extends FrameLayout
     @Bind(R.id.user_id_view) protected UserIdView userIdView;
     @Bind(R.id.created_txtView) protected TextView createdTxtView;
     @Bind(R.id.updated_txtView) protected TextView updatedTxtView;
+    @Bind(R.id.fav_button) protected Button favButton;
     protected IRepoEntryListener listener;
 
     @Override
@@ -73,10 +75,22 @@ public class RepoView extends FrameLayout
         this.listener = listener;
     }
 
+    @Override
+    public void showFavButton(boolean doShow) {
+        this.favButton.setVisibility(doShow ? VISIBLE : GONE);
+    }
+
     @OnClick(R.id.row_container)
     protected void onEntryClicked() {
         if(listener != null)
             listener.onRepoChosen();
+    }
+
+    @OnClick(R.id.fav_button)
+    protected void onFavClicked() {
+        if(listener != null) {
+            listener.onRepoFav();
+        }
     }
 
     public RepoView(Context context)

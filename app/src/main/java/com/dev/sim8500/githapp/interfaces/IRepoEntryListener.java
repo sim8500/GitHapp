@@ -5,4 +5,5 @@ package com.dev.sim8500.githapp.interfaces;
  */
 public interface IRepoEntryListener {
     void onRepoChosen();
+    void onRepoFav();
 }
