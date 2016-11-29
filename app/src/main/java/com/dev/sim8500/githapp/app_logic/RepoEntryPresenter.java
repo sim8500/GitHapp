@@ -36,10 +36,23 @@ public class RepoEntryPresenter extends PresenterViewHolder<RepoModel, IRepoView
     @Inject
     protected FavReposStore favReposStore;
 
+    protected boolean listenToRepoChosen = true;
+    protected boolean listenToRepoFav = true;
+
     public RepoEntryPresenter(View itemView) {
         super(itemView);
 
         ((GitHappApp) itemView.getContext().getApplicationContext()).inject(this);
+
+        viewInterface.setListener(this);
+    }
+
+    public void setRepoChosenListening(boolean doListen) {
+        listenToRepoChosen = doListen;
+    }
+
+    public void setRepoFavListening(boolean doListen) {
+        listenToRepoFav = doListen;
     }
 
     @Override
@@ -64,6 +77,11 @@ public class RepoEntryPresenter extends PresenterViewHolder<RepoModel, IRepoView
 
     @Override
     public void onRepoChosen() {
+
+        if(!listenToRepoChosen) {
+            return; // nothing to do here
+        }
+
         appCurrents.setCurrent("Repo", model);
 
         Intent repoBrowserIntent = RepoBrowserActivity.prepareIntent(itemView.getContext());
@@ -72,6 +90,10 @@ public class RepoEntryPresenter extends PresenterViewHolder<RepoModel, IRepoView
 
     @Override
     public void onRepoFav() {
+
+        if(!listenToRepoFav) {
+            return; // nothing to do here
+        }
 
         addFavRepo(model).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

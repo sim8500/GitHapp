@@ -72,6 +72,9 @@ public class RepoFragment extends Fragment implements RepoPagerAdapter.OnRepoSet
         ButterKnife.bind(this, inflatedView);
 
         presenter = new RepoEntryPresenter(repoView);
+        presenter.setRepoChosenListening(false);
+        presenter.setRepoFavListening(true);
+
         return inflatedView;
     }
 

@@ -21,10 +21,10 @@ public class RepoEntryBinder implements IRecyclerBinder<RepoModel, RepoEntryPres
     public RepoEntryPresenter createHolderInstance(Context context, ViewGroup parent, int viewType) {
 
         RepoView bindedView = new RepoView(context);
+
         RepoEntryPresenter presenter = new RepoEntryPresenter(bindedView);
-        if(bindListeners) {
-            bindedView.setListener(presenter);
-        }
+        presenter.setRepoChosenListening(bindListeners);
+        presenter.setRepoFavListening(bindListeners);
 
         return presenter;
     }
