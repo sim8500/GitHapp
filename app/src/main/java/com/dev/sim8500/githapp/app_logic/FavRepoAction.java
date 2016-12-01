@@ -14,19 +14,24 @@ import rx.exceptions.OnErrorThrowable;
  * Created by sbernad on 28.11.2016.
  */
 
-public class AddFavRepoAction implements Observable.OnSubscribe<List<RepoModel>> {
+public class FavRepoAction implements Observable.OnSubscribe<List<RepoModel>> {
 
     private RepoModel repo;
     private FavReposStore favReposStore;
+    private boolean isFavAction = true;
 
-    public AddFavRepoAction(RepoModel repo, FavReposStore favReposStore) {
+    public FavRepoAction(RepoModel repo, FavReposStore favReposStore, boolean isFavAction) {
         this.repo = repo;
         this.favReposStore = favReposStore;
+        this.isFavAction = isFavAction;
     }
 
     @Override
     public void call(Subscriber<? super List<RepoModel>> subscriber) {
-        List<RepoModel> result = favReposStore.addFavRepo(repo);
+        List<RepoModel> result = isFavAction ?
+                                    favReposStore.addFavRepo(repo) :
+                                    favReposStore.unfavRepo(repo.url);
+
         if(result != null) {
             subscriber.onNext(result);
         }

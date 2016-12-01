@@ -5,8 +5,8 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.dev.sim8500.githapp.GitHappApp;
+import com.dev.sim8500.githapp.R;
 import com.dev.sim8500.githapp.RepoBrowserActivity;
-import com.dev.sim8500.githapp.ReposListFragment;
 import com.dev.sim8500.githapp.interfaces.IRepoEntryListener;
 import com.dev.sim8500.githapp.interfaces.IRepoView;
 import com.dev.sim8500.githapp.models.RepoModel;
@@ -73,6 +73,10 @@ public class RepoEntryPresenter extends PresenterViewHolder<RepoModel, IRepoView
 
         viewInterface.showFavButton(!(user.login.equals(model.owner.login)));
 
+        viewInterface.setFavButtonText(favReposStore.isRepoUrlFaved(model.url) ?
+                                            R.string.unfav_text :
+                                            R.string.fav_text);
+
     }
 
     @Override
@@ -95,7 +99,9 @@ public class RepoEntryPresenter extends PresenterViewHolder<RepoModel, IRepoView
             return; // nothing to do here
         }
 
-        addFavRepo(model).subscribeOn(Schedulers.io())
+        final boolean isFaved = favReposStore.isRepoUrlFaved(model.url);
+
+        addFavRepo(model, isFaved).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .unsubscribeOn(Schedulers.io())
                 .subscribe(new Subscriber<List<RepoModel>>() {
@@ -111,14 +117,19 @@ public class RepoEntryPresenter extends PresenterViewHolder<RepoModel, IRepoView
 
                     @Override
                     public void onNext(List<RepoModel> value) {
-                        Toast.makeText( itemView.getContext(),
+                        viewInterface.setFavButtonText(isFaved ? R.string.fav_text : R.string.unfav_text);
+                        Toast.makeText(itemView.getContext(),
                                 String.format("You now have %s repos fav'ed!", value.size()),
                                 Toast.LENGTH_SHORT).show();
                     }
                 });
+
+
+
     }
 
-    protected Observable<List<RepoModel>> addFavRepo(RepoModel repo) {
-        return Observable.create(new AddFavRepoAction(repo, favReposStore));
+    protected Observable<List<RepoModel>> addFavRepo(RepoModel repo, boolean doUnfav) {
+        return Observable.create(new FavRepoAction(repo, favReposStore, !doUnfav));
     }
+
 }

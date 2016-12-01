@@ -1,6 +1,7 @@
 package com.dev.sim8500.githapp.presentation;
 
 import android.content.Context;
+import android.support.annotation.StringRes;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.Button;
@@ -78,6 +79,11 @@ public class RepoView extends FrameLayout
     @Override
     public void showFavButton(boolean doShow) {
         this.favButton.setVisibility(doShow ? VISIBLE : GONE);
+    }
+
+    @Override
+    public void setFavButtonText(@StringRes int textId) {
+        this.favButton.setText(textId);
     }
 
     @OnClick(R.id.row_container)

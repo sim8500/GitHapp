@@ -2,6 +2,8 @@ package com.dev.sim8500.githapp;
 
 import android.app.Application;
 
+import com.dev.sim8500.githapp.app_logic.FavReposStore;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -18,6 +20,8 @@ public class GitHappApp extends Application {
         super.onCreate();
         instance = this;
         graph = ObjectGraph.create(getModules().toArray());
+
+        FavReposStore.getInstance().getFavRepos();
     }
 
     protected List<Object> getModules() {

@@ -7,6 +7,8 @@
     <string name="action_search">Search</string>
     <string name="search_hint">Search for repos</string>
     <string name="greet_user">It\'s good to see you, %s!</string>
+    <string name="fav_text">+ fav</string>
+    <string name="unfav_text">- fav</string>
     <plurals name="comment_plural">
         <item quantity="one">%d comment</item>
         <item  quantity="other">%d comments</item>

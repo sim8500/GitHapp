@@ -1,5 +1,7 @@
 package com.dev.sim8500.githapp.interfaces;
 
+import android.support.annotation.StringRes;
+
 import java.util.Date;
 
 /**
@@ -15,5 +17,6 @@ public interface IRepoView {
     void setUpdatedDate(CharSequence updatedAt);
     void setListener(IRepoEntryListener listener);
     void showFavButton(boolean doShow);
+    void setFavButtonText(@StringRes int textId);
 
 }

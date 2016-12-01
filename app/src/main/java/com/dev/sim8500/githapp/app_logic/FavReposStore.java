@@ -1,5 +1,6 @@
 package com.dev.sim8500.githapp.app_logic;
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.dev.sim8500.githapp.GitHappApp;
 import com.dev.sim8500.githapp.models.RepoModel;
@@ -27,7 +28,6 @@ import java.util.List;
 final public class FavReposStore {
 
     private List<RepoModel> favRepos = new ArrayList<RepoModel>();
-    private boolean fileIsRead = false;
     private Gson gson = new Gson();
     private static final String FAV_REPOS_FILE_NAME = "favrepos";
     private static final FavReposStore instance = new FavReposStore();
@@ -77,11 +77,6 @@ final public class FavReposStore {
     public List<RepoModel> addFavRepo(RepoModel repo) {
 
         if(repo != null) {
-            // do the initial checks
-            if(!fileIsRead) {
-                getFavRepos();
-                fileIsRead = true;
-            }
             for(RepoModel rm : favRepos)
             {
                 // don't allow duplicates
@@ -95,6 +90,40 @@ final public class FavReposStore {
             saveFavRepos();
         }
         return favRepos;
+    }
+
+    public List<RepoModel> unfavRepo(String repoUrl) {
+        if(!TextUtils.isEmpty(repoUrl)) {
+
+            for(int i = 0; i < favRepos.size(); ++i) {
+                // remove the repo
+                if(favRepos.get(i).url.equals(repoUrl)) {
+                    favRepos.remove(i);
+                    saveFavRepos();
+
+                    return favRepos;
+                }
+            }
+        }
+
+        return favRepos;
+    }
+
+    public boolean isRepoUrlFaved(String repoUrl) {
+        boolean result = false;
+
+        if(TextUtils.isEmpty(repoUrl)) {
+            return result;
+        }
+
+        for(RepoModel rm : favRepos) {
+            if(rm.url.equals(repoUrl)) {
+                result = true;
+                break;
+            }
+        }
+
+        return result;
     }
 
     protected FileInputStream getFavReposFile() {
