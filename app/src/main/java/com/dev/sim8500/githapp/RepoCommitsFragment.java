@@ -184,7 +184,7 @@ public class RepoCommitsFragment extends ContentFragment implements RepoPagerAda
         if(branches != null) {
             branchModels = branches;
             if(TextUtils.isEmpty(defaultBranch)) {
-                defaultBranch = "master";
+                defaultBranch = branchModels.get(0).name;
             }
 
             if(TextUtils.isEmpty(currentBranch)) {
@@ -194,14 +194,16 @@ public class RepoCommitsFragment extends ContentFragment implements RepoPagerAda
             boolean defaultFound = false;
             int defaultIndex = 0;
             ArrayList<String> branchNames = new ArrayList<>(branchModels.size());
+            int branchIndex = 0;
             for (BranchModel bm : branchModels) {
                 branchNames.add(bm.name);
 
                 if(!defaultFound && bm.name.toLowerCase().equals(currentBranch))
                 {
                     defaultFound = true;
+                    defaultIndex = branchIndex;
                 }
-                else defaultIndex++;
+                branchIndex++;
             }
 
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(this.getContext(), R.layout.row_repo_branch, R.id.name_txtView, branchNames);
