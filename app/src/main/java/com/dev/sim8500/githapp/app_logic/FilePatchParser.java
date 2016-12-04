@@ -42,15 +42,9 @@ public class FilePatchParser {
             int patchIndex = patchInfo.patchIndex;
             final String patchEntry = patchLines[patchIndex];
 
-            String patchLine = null;
-            if(!patchInfo.patchSuffixLine.isEmpty()) {
-                patchLine = patchInfo.patchSuffixLine;
-            }
-            else {
-                ++patchIndex;
+            ++patchIndex;
+            String patchLine = tryToGetNextLine(patchIndex, patchEntry);
 
-                patchLine = tryToGetNextLine(patchIndex, patchEntry);
-            }
 
             while(patchInfo.patchRange > 0) {
 

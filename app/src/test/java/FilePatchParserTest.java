@@ -99,7 +99,7 @@ public class FilePatchParserTest {
                                                               "+}\t//test test\n" +
                                                               "+ public void somethingSomething {\n" +
                                                               "+return; }\n" +
-                                                              "@@ -44,2 +46,4 @@ public Fragment somethingSomething {\n" +
+                                                              "@@ -44,1 +46,3 @@ public Fragment somethingSomething {\n" +
                                                               "+\t\t\t//test\n" +
                                                               "- //irrelevant comment\n" +
                                                               "+public void somethingNew {\n" +
@@ -122,10 +122,10 @@ public class FilePatchParserTest {
         validateFileLineModel(validList.get(4), 24, "+ public void somethingSomething {", FileLineModel.PATCH_STATUS_ADDED);
         validateFileLineModel(validList.get(5), 25, "+return; }", FileLineModel.PATCH_STATUS_ADDED);
 
-        validateFileLineModel(validList.get(6), 47, "+\t\t\t//test", FileLineModel.PATCH_STATUS_ADDED);
-        validateFileLineModel(validList.get(7), 48, "- //irrelevant comment", FileLineModel.PATCH_STATUS_DELETED);
-        validateFileLineModel(validList.get(8), 48, "+public void somethingNew {", FileLineModel.PATCH_STATUS_ADDED);
-        validateFileLineModel(validList.get(9), 49, "+\t\t\tfail(); }", FileLineModel.PATCH_STATUS_ADDED);
+        validateFileLineModel(validList.get(6), 46, "+\t\t\t//test", FileLineModel.PATCH_STATUS_ADDED);
+        validateFileLineModel(validList.get(7), 47, "- //irrelevant comment", FileLineModel.PATCH_STATUS_DELETED);
+        validateFileLineModel(validList.get(8), 47, "+public void somethingNew {", FileLineModel.PATCH_STATUS_ADDED);
+        validateFileLineModel(validList.get(9), 48, "+\t\t\tfail(); }", FileLineModel.PATCH_STATUS_ADDED);
     }
 
     private void validateIfListIsEmpty(List<FileLineModel> list) {
