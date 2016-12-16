@@ -121,5 +121,14 @@ public class RepoView extends FrameLayout
     {
         inflate(getContext(), R.layout.row_repo, this);
         ButterKnife.bind(this, this);
+
+        userIdView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(listener != null) {
+                    listener.onRepoOwnerClicked();
+                }
+            }
+        });
     }
 }

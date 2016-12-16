@@ -14,6 +14,7 @@ import com.dev.sim8500.githapp.app_logic.GitHappCurrents;
 import com.dev.sim8500.githapp.models.DownloadFileModel;
 import com.dev.sim8500.githapp.models.FileModel;
 import com.dev.sim8500.githapp.models.RepoModel;
+import com.dev.sim8500.githapp.models.UserModel;
 
 import java.text.ParseException;
 
@@ -84,6 +85,7 @@ public class FrameActivity extends AppCompatActivity {
         if (intent == null) {
             return resFragment;
         }
+        Bundle simpleArgs = null;
 
         switch(intent.getAction()) {
             case GitHappApp.SHOW_COMMIT_TREE:
@@ -99,9 +101,16 @@ public class FrameActivity extends AppCompatActivity {
                 break;
             case GitHappApp.SHOW_FAV_REPOS_LIST:
                 resFragment = new ReposListFragment();
-                Bundle simpleArgs = new Bundle();
+                simpleArgs = new Bundle();
                 simpleArgs.putBoolean(GitHappApp.SHOW_FAV_REPOS_LIST, true);
 
+                resFragment.setArguments(simpleArgs);
+                break;
+            case GitHappApp.USER_PROFILE_MODEL:
+                resFragment = new UserProfileFragment();
+                simpleArgs = new Bundle();
+                simpleArgs.putParcelable(GitHappApp.USER_PROFILE_MODEL,
+                                            intent.getParcelableExtra(GitHappApp.USER_PROFILE_MODEL));
                 resFragment.setArguments(simpleArgs);
                 break;
         }
@@ -138,6 +147,14 @@ public class FrameActivity extends AppCompatActivity {
         Intent resIntent = new Intent(context, FrameActivity.class);
         resIntent.setAction(GitHappApp.SHOW_FILE_CONTENT);
         resIntent.putExtra(GitHappApp.FILE_CONTENT_DOWNLOAD_DATA, fileModel);
+
+        return resIntent;
+    }
+
+    public static Intent prepareUserProfileIntent(Context context, UserModel user) {
+        Intent resIntent = new Intent(context, FrameActivity.class);
+        resIntent.setAction(GitHappApp.USER_PROFILE_MODEL);
+        resIntent.putExtra(GitHappApp.USER_PROFILE_MODEL, user);
 
         return resIntent;
     }

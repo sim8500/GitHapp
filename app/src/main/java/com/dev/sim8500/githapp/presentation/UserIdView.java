@@ -2,6 +2,7 @@ package com.dev.sim8500.githapp.presentation;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -20,6 +21,9 @@ import butterknife.ButterKnife;
  */
 public class UserIdView extends LinearLayout implements IUserIdView
 {
+
+    @Bind(R.id.username_txtView) protected TextView usernameTextView;
+    @Bind(R.id.avatar_imgView) protected ImageView avatarImgView;
 
     public UserIdView(Context context) {
         super(context);
@@ -41,10 +45,6 @@ public class UserIdView extends LinearLayout implements IUserIdView
 
         ButterKnife.bind(this);
     }
-
-    @Bind(R.id.username_txtView) protected TextView usernameTextView;
-    @Bind(R.id.avatar_imgView) protected ImageView avatarImgView;
-
     @Override
     public void setUsername(CharSequence username) {
         usernameTextView.setText(username);
@@ -58,5 +58,13 @@ public class UserIdView extends LinearLayout implements IUserIdView
                 .noFade()
                 .transform(CircularFrameTransformBuilder.build())
                 .into(avatarImgView);
+    }
+
+    @Override
+    public void setOnClickListener(View.OnClickListener listener) {
+        super.setOnClickListener(listener);
+
+        avatarImgView.setOnClickListener(listener);
+        usernameTextView.setOnClickListener(listener);
     }
 }

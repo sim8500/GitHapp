@@ -44,6 +44,7 @@ public class GitHappApp extends Application {
     public static final String SHOW_FILE_CONTENT = "com.dev.sim8500.githapp.SHOW_FILE_CONTENT";
     public static final String SHOW_SINGLE_REPO = "com.dev.sim8500.githapp.SHOW_SINGLE_REPO";
     public static final String FILE_CONTENT_DOWNLOAD_DATA = "com.dev.sim8500.githapp.SHOW_SINGLE_REPO";
-    public static final String SHOW_FAV_REPOS_LIST = "com.dev.sim8500.githpp.SHOW_FAV_REPOS_LIST";
+    public static final String SHOW_FAV_REPOS_LIST = "com.dev.sim8500.githapp.SHOW_FAV_REPOS_LIST";
+    public static final String USER_PROFILE_MODEL = "com.dev.sim8500.githapp.USER_PROFILE_MODEL";
 
 }

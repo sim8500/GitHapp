@@ -1,9 +1,11 @@
 package com.dev.sim8500.githapp.app_logic;
 
+import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 import android.widget.Toast;
 
+import com.dev.sim8500.githapp.FrameActivity;
 import com.dev.sim8500.githapp.GitHappApp;
 import com.dev.sim8500.githapp.R;
 import com.dev.sim8500.githapp.RepoBrowserActivity;
@@ -126,6 +128,15 @@ public class RepoEntryPresenter extends PresenterViewHolder<RepoModel, IRepoView
 
 
 
+    }
+
+    @Override
+    public void onRepoOwnerClicked() {
+        UserModel user = appCurrents.getCurrent("User");
+        if(!model.owner.login.equals(user.login)) {
+            Context context = itemView.getContext();
+            context.startActivity(FrameActivity.prepareUserProfileIntent(context, model.owner));
+        }
     }
 
     protected Observable<List<RepoModel>> addFavRepo(RepoModel repo, boolean doUnfav) {
