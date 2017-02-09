@@ -109,8 +109,8 @@ public class FrameActivity extends AppCompatActivity {
             case GitHappApp.USER_PROFILE_MODEL:
                 resFragment = new UserProfileFragment();
                 simpleArgs = new Bundle();
-                simpleArgs.putParcelable(GitHappApp.USER_PROFILE_MODEL,
-                                            intent.getParcelableExtra(GitHappApp.USER_PROFILE_MODEL));
+                simpleArgs.putString(GitHappApp.USER_PROFILE_MODEL,
+                                            intent.getStringExtra(GitHappApp.USER_PROFILE_MODEL));
                 resFragment.setArguments(simpleArgs);
                 break;
         }
@@ -151,10 +151,10 @@ public class FrameActivity extends AppCompatActivity {
         return resIntent;
     }
 
-    public static Intent prepareUserProfileIntent(Context context, UserModel user) {
+    public static Intent prepareUserProfileIntent(Context context, String userLogin) {
         Intent resIntent = new Intent(context, FrameActivity.class);
         resIntent.setAction(GitHappApp.USER_PROFILE_MODEL);
-        resIntent.putExtra(GitHappApp.USER_PROFILE_MODEL, user);
+        resIntent.putExtra(GitHappApp.USER_PROFILE_MODEL, userLogin);
 
         return resIntent;
     }

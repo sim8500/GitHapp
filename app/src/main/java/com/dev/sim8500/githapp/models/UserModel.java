@@ -16,6 +16,11 @@ public class UserModel implements Parcelable
     public String url;
     public String name;
     @SerializedName("avatar_url") public String avatarUrl;
+    public boolean hireable;
+    public int following;
+    public int followers;
+    @SerializedName("public_repos") public int publicRepos;
+    @SerializedName("public_gists") public int publicGists;
 
     @Override
     public int describeContents() {
@@ -29,6 +34,12 @@ public class UserModel implements Parcelable
         dest.writeString(url);
         dest.writeString(name);
         dest.writeString(avatarUrl);
+        dest.writeInt(hireable ? 1 : 0);
+        dest.writeInt(following);
+        dest.writeInt(followers);
+        dest.writeInt(publicRepos);
+        dest.writeInt(publicGists);
+
     }
 
     // this is used to regenerate your object. All Parcelables must have a CREATOR that implements these two methods
@@ -51,6 +62,12 @@ public class UserModel implements Parcelable
         url = in.readString();
         name = in.readString();
         avatarUrl = in.readString();
+
+        hireable = in.readInt() == 1 ? true : false;
+        following = in.readInt();
+        followers = in.readInt();
+        publicRepos = in.readInt();
+        publicGists = in.readInt();
     }
 
 }

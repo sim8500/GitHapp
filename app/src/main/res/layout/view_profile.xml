@@ -17,10 +17,10 @@
             android:gravity="center_vertical|center_horizontal"
             android:padding="16dp">
             <ImageView
-                android:layout_width="@dimen/large_avatar_size"
-                android:layout_height="@dimen/large_avatar_size"
+                android:layout_width="52dp"
                 android:id="@+id/avatar_imgView"
-                android:layout_gravity="center_vertical|center_horizontal" />
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:layout_height="52dp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -28,8 +28,134 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="Username"
                 android:id="@+id/username_txtView"
-                android:padding="5dp"
-                android:layout_gravity="center_vertical|center_horizontal" />
+                android:padding="8dp"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:textStyle="bold"
+                android:textSize="18sp" />
+
+            <CheckBox
+                android:text="hireable"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/hireable_checkBox"
+                android:clickable="false"
+                android:checked="false" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:text="Following"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/following_txtView"
+                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:layout_centerHorizontal="true" />
+
+                    <TextView
+                        android:text="0"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/fwingCount_txtView"
+                        android:textStyle="bold"
+                        android:layout_below="@+id/following_txtView"
+                        android:elevation="21dp"
+                        android:layout_centerInParent="false"
+                        android:layout_centerHorizontal="true"
+                        android:textSize="18sp" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:text="Followers"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/followers_txtView"
+                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:layout_centerHorizontal="true" />
+
+                    <TextView
+                        android:text="0"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/fwerCount_txtView"
+                        android:layout_weight="1"
+                        android:textStyle="bold"
+                        android:layout_below="@+id/followers_txtView"
+                        android:layout_centerInParent="false"
+                        android:layout_centerHorizontal="true"
+                        android:textSize="18sp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:text="Repos"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/repos_txtView"
+                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:layout_centerHorizontal="true" />
+
+                    <TextView
+                        android:text="0"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/reposCount_txtView"
+                        android:textStyle="bold"
+                        android:layout_below="@+id/repos_txtView"
+                        android:layout_centerInParent="false"
+                        android:layout_centerHorizontal="true"
+                        android:textSize="18sp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:text="Gists"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/gists_textVIew"
+                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:layout_centerHorizontal="true" />
+
+                    <TextView
+                        android:text="0"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/gistsCount_txtView"
+                        android:textStyle="bold"
+                        android:layout_below="@+id/gists_textVIew"
+                        android:layout_centerInParent="false"
+                        android:layout_centerHorizontal="true"
+                        android:textSize="18sp" />
+                </RelativeLayout>
+
+            </LinearLayout>
+
         </LinearLayout>
     </android.support.v7.widget.CardView>
 </merge>

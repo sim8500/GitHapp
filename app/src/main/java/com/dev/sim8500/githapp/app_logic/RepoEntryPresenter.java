@@ -135,7 +135,7 @@ public class RepoEntryPresenter extends PresenterViewHolder<RepoModel, IRepoView
         UserModel user = appCurrents.getCurrent("User");
         if(!model.owner.login.equals(user.login)) {
             Context context = itemView.getContext();
-            context.startActivity(FrameActivity.prepareUserProfileIntent(context, model.owner));
+            context.startActivity(FrameActivity.prepareUserProfileIntent(context, model.owner.login));
         }
     }
 
