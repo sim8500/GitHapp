@@ -26,12 +26,16 @@ public class RepoSearchActivity extends AppCompatActivity {
 
     @Bind(R.id.toolbar) protected Toolbar toolbar;
     @Bind(R.id.search_view) protected SearchView searchView;
-
     protected ReposListFragment resultFragment;
+    protected String    query;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if(savedInstanceState != null) {
+            query = savedInstanceState.getString(SearchManager.QUERY);
+        }
 
         GitHappApp.getInstance().inject(this);
         setContentView(R.layout.activity_search_repos);
@@ -46,10 +50,16 @@ public class RepoSearchActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onSaveInstanceState(Bundle bundle) {
+        bundle.putString(SearchManager.QUERY, query);
+    }
+
+    @Override
     protected void onNewIntent(Intent intent) {
 
         if(Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            resultFragment.runQuery(intent.getStringExtra(SearchManager.QUERY));
+            query = intent.getStringExtra(SearchManager.QUERY);
+            resultFragment.runQuery(query);
         }
     }
 
@@ -70,14 +80,25 @@ public class RepoSearchActivity extends AppCompatActivity {
 
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setIconifiedByDefault(false);
+        if(query != null) {
+            searchView.setQuery(query, false);
+        }
     }
     protected void setUpResultFragment() {
 
-        resultFragment = new ReposListFragment();
-
         FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        ft.replace(R.id.result_fragment, resultFragment);
-        ft.commit();
+        resultFragment = (ReposListFragment)fm.findFragmentById(R.id.result_fragment);
+
+        if(resultFragment == null)
+        {
+            resultFragment = new ReposListFragment();
+            FragmentTransaction ft = fm.beginTransaction();
+            ft.replace(R.id.result_fragment, resultFragment);
+            ft.commit();
+        }
+
+        if(query != null) {
+            resultFragment.runQuery(query);
+        }
     }
 }
