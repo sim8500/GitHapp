@@ -24,7 +24,6 @@ public class RepoEntryBinder implements IRecyclerBinder<RepoModel, RepoEntryPres
 
         RepoEntryPresenter presenter = new RepoEntryPresenter(bindedView);
         presenter.setRepoChosenListening(bindListeners);
-        presenter.setRepoFavListening(bindListeners);
 
         return presenter;
     }

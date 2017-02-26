@@ -100,11 +100,7 @@ public class FrameActivity extends AppCompatActivity {
                 resFragment.setArguments(intent.getExtras());
                 break;
             case GitHappApp.SHOW_FAV_REPOS_LIST:
-                resFragment = new ReposListFragment();
-                simpleArgs = new Bundle();
-                simpleArgs.putBoolean(GitHappApp.SHOW_FAV_REPOS_LIST, true);
-
-                resFragment.setArguments(simpleArgs);
+                resFragment = new RepoVisitsFragment();
                 break;
             case GitHappApp.USER_PROFILE_MODEL:
                 resFragment = new UserProfileFragment();

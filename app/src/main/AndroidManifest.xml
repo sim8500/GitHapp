@@ -9,6 +9,11 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme"
         android:name="com.dev.sim8500.githapp.GitHappApp" >
+        <meta-data
+            android:name="AA_MODELS"
+            android:value="com.dev.sim8500.githapp.db.RepoVisits" />
+        <meta-data android:name="AA_DB_NAME" android:value="RepoVisits" />
+        <meta-data android:name="AA_DB_VERSION" android:value="5" />
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name" >

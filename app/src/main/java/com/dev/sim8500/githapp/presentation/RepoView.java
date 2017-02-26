@@ -37,7 +37,6 @@ public class RepoView extends FrameLayout
     @Bind(R.id.user_id_view) protected UserIdView userIdView;
     @Bind(R.id.created_txtView) protected TextView createdTxtView;
     @Bind(R.id.updated_txtView) protected TextView updatedTxtView;
-    @Bind(R.id.fav_button) protected Button favButton;
     protected IRepoEntryListener listener;
 
     @Override
@@ -76,27 +75,11 @@ public class RepoView extends FrameLayout
         this.listener = listener;
     }
 
-    @Override
-    public void showFavButton(boolean doShow) {
-        this.favButton.setVisibility(doShow ? VISIBLE : GONE);
-    }
-
-    @Override
-    public void setFavButtonText(@StringRes int textId) {
-        this.favButton.setText(textId);
-    }
 
     @OnClick(R.id.row_container)
     protected void onEntryClicked() {
         if(listener != null)
             listener.onRepoChosen();
-    }
-
-    @OnClick(R.id.fav_button)
-    protected void onFavClicked() {
-        if(listener != null) {
-            listener.onRepoFav();
-        }
     }
 
     public RepoView(Context context)

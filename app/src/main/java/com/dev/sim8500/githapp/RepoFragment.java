@@ -18,6 +18,7 @@ import com.dev.sim8500.githapp.app_logic.RepoBranchBinder;
 import com.dev.sim8500.githapp.app_logic.RepoBranchPresenter;
 import com.dev.sim8500.githapp.app_logic.RepoEntryPresenter;
 import com.dev.sim8500.githapp.app_logic.RepoPagerAdapter;
+import com.dev.sim8500.githapp.db.RepoVisits;
 import com.dev.sim8500.githapp.models.BranchModel;
 import com.dev.sim8500.githapp.models.FileLineModel;
 import com.dev.sim8500.githapp.models.RepoModel;
@@ -27,6 +28,7 @@ import com.dev.sim8500.githapp.services.GitHubRepoCommitsService;
 import org.ocpsoft.prettytime.PrettyTime;
 
 import java.lang.ref.WeakReference;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -37,6 +39,7 @@ import butterknife.ButterKnife;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import com.activeandroid.query.Select;
 
 /**
  * Created by sbernad on 06.02.16.
@@ -73,7 +76,6 @@ public class RepoFragment extends Fragment implements RepoPagerAdapter.OnRepoSet
 
         presenter = new RepoEntryPresenter(repoView);
         presenter.setRepoChosenListening(false);
-        presenter.setRepoFavListening(true);
 
         return inflatedView;
     }
@@ -89,6 +91,19 @@ public class RepoFragment extends Fragment implements RepoPagerAdapter.OnRepoSet
 
     @Override
     public void onRepoSet(RepoModel repo) {
+
+        RepoVisits repoVisits = new Select().from(RepoVisits.class)
+                                                 .where("RepoUrl = ?", repo.url)
+                                                 .executeSingle();
+
+        if(repoVisits == null) {
+            repoVisits = new RepoVisits();
+            repoVisits.repoUrl = repo.url;
+        }
+        repoVisits.name = repo.name;
+        repoVisits.visitedAt = new Date().getTime();
+        repoVisits.owner = repo.owner.login;
+        repoVisits.save();
 
         presenter.setModel(repo);
     }

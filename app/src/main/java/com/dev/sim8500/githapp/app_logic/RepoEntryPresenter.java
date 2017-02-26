@@ -35,11 +35,8 @@ public class RepoEntryPresenter extends PresenterViewHolder<RepoModel, IRepoView
     @Inject
     protected GitHappCurrents appCurrents;
 
-    @Inject
-    protected FavReposStore favReposStore;
 
     protected boolean listenToRepoChosen = true;
-    protected boolean listenToRepoFav = true;
 
     public RepoEntryPresenter(View itemView) {
         super(itemView);
@@ -53,9 +50,6 @@ public class RepoEntryPresenter extends PresenterViewHolder<RepoModel, IRepoView
         listenToRepoChosen = doListen;
     }
 
-    public void setRepoFavListening(boolean doListen) {
-        listenToRepoFav = doListen;
-    }
 
     @Override
     public void updateView() {
@@ -73,12 +67,6 @@ public class RepoEntryPresenter extends PresenterViewHolder<RepoModel, IRepoView
 
         UserModel user = appCurrents.getCurrent("User");
 
-        viewInterface.showFavButton(!(user.login.equals(model.owner.login)));
-
-        viewInterface.setFavButtonText(favReposStore.isRepoUrlFaved(model.url) ?
-                                            R.string.unfav_text :
-                                            R.string.fav_text);
-
     }
 
     @Override
@@ -95,52 +83,12 @@ public class RepoEntryPresenter extends PresenterViewHolder<RepoModel, IRepoView
     }
 
     @Override
-    public void onRepoFav() {
-
-        if(!listenToRepoFav) {
-            return; // nothing to do here
-        }
-
-        final boolean isFaved = favReposStore.isRepoUrlFaved(model.url);
-
-        addFavRepo(model, isFaved).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .unsubscribeOn(Schedulers.io())
-                .subscribe(new Subscriber<List<RepoModel>>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Toast.makeText(itemView.getContext(), "Something went wrong...", Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onNext(List<RepoModel> value) {
-                        viewInterface.setFavButtonText(isFaved ? R.string.fav_text : R.string.unfav_text);
-                        Toast.makeText(itemView.getContext(),
-                                String.format("You now have %s repos fav'ed!", value.size()),
-                                Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-
-
-    }
-
-    @Override
     public void onRepoOwnerClicked() {
         UserModel user = appCurrents.getCurrent("User");
         if(!model.owner.login.equals(user.login)) {
             Context context = itemView.getContext();
             context.startActivity(FrameActivity.prepareUserProfileIntent(context, model.owner.login));
         }
-    }
-
-    protected Observable<List<RepoModel>> addFavRepo(RepoModel repo, boolean doUnfav) {
-        return Observable.create(new FavRepoAction(repo, favReposStore, !doUnfav));
     }
 
 }

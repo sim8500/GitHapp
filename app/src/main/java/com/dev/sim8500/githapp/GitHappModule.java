@@ -36,7 +36,8 @@ import dagger.Provides;
                     ReposListFragment.class,
                     RepoEntryPresenter.class,
                     RepoFragment.class,
-                    UserProfileFragment.class
+                    UserProfileFragment.class,
+                    RepoVisitsFragment.class
                 }
 )
 public final class GitHappModule {
