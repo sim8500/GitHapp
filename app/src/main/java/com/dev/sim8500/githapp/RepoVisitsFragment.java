@@ -28,6 +28,7 @@ public class RepoVisitsFragment extends ContentFragment {
                                                 .where("Owner NOT LIKE ?", user.login)
                                                 .execute();
 
+        rvAdapter.clearItems();
         rvAdapter.initAdapter(this.getContext(), resList);
 
         recyclerView.setAdapter(rvAdapter);

@@ -2,11 +2,13 @@ package com.dev.sim8500.githapp.app_logic;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
 
+import com.dev.sim8500.githapp.R;
 import com.dev.sim8500.githapp.models.AuthData;
 import com.dev.sim8500.githapp.models.TokenModel;
 import com.dev.sim8500.githapp.services.GitHubAuthTokenService;
@@ -74,7 +76,10 @@ public class AuthRequestsManager {
                     .build();
 
             GitHubAuthTokenService service = retrofit.create(GitHubAuthTokenService.class);
-            Call<TokenModel> tokenModelCall = service.getAccessToken(new AuthData(CLIENT_ID, CLIENT_SECRET, accessCode));
+
+            Call<TokenModel> tokenModelCall = service.getAccessToken(new AuthData(CLIENT_ID,
+                                                                                  calculateClientSecret(ctx),
+                                                                                  accessCode));
 
             tokenModelCall.enqueue(new Callback<TokenModel>()
             {
@@ -188,8 +193,21 @@ public class AuthRequestsManager {
         return editor.commit();
     }
 
+    private String calculateClientSecret(Context ctx) {
+
+        String userKey = ctx.getResources().getString(R.string.auth_greet_user_auth);
+        byte[] key = Base64.encode(userKey.getBytes(), Base64.DEFAULT);
+
+        byte[] secretArray = Base64.decode(AUTH_SEED, Base64.DEFAULT);
+
+        for(int i = 0; i < secretArray.length; ++i) {
+            secretArray[i] = (byte) (secretArray[i] ^ key[i % key.length]);
+        }
+        return new String(secretArray);
+    }
+
     private static final String CLIENT_ID = "48879b01722691b21da0";
-    private static final String CLIENT_SECRET = "44e2fe5836ba69a4c0d0e12839fa125e6f79ccd0";
+    private static final String AUTH_SEED = "NW4wXlQfcgtVAg1bfntiQyhwK1piYiNQU1ZhS3h2Y01wYgsJPGRvYA==";
     private static final String OAUTH_URL = "https://github.com/login/oauth/authorize";
     private static final String GITHUB_BASE_URL = "https://github.com";
     private static final String GITHUB_API_URL = "https://api.github.com";
