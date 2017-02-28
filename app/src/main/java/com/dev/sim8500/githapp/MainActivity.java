@@ -99,6 +99,8 @@ public class MainActivity extends AppCompatActivity implements AuthRequestsManag
                         @Override
                         public void onFailure(Throwable t) {
 
+                            authReqMngr.logOutUser(MainActivity.this);
+                            userPanel.loadLoginPage();
                         }
                     });
         }
@@ -113,8 +115,14 @@ public class MainActivity extends AppCompatActivity implements AuthRequestsManag
     @UiThread
     public void onUserModelReceived(UserModel user)
     {
-        userModel = user;
-        appCurrents.setCurrent("User", userModel);
+        if(user != null) {
+            userModel = user;
+            appCurrents.setCurrent("User", userModel);
+        }
+        else {
+            authReqMngr.logOutUser(MainActivity.this);
+            userPanel.loadLoginPage();
+        }
         setUpUserUI();
     }
 

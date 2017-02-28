@@ -124,7 +124,6 @@ public class AuthRequestsManager {
 
     private Retrofit prepareAuthRetrofitInstance()
     {
-        Log.d("GITHAPP_AUTH", String.format("Auth-Token: %s", accessToken));
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(GITHUB_API_URL)
                 .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().create()))
