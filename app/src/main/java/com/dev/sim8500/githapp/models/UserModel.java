@@ -16,6 +16,9 @@ public class UserModel implements Parcelable
     public String url;
     public String name;
     @SerializedName("avatar_url") public String avatarUrl;
+    public String bio;
+    public String company;
+    @SerializedName("created_at") public String createdAt;
     public boolean hireable;
     public int following;
     public int followers;
@@ -34,6 +37,9 @@ public class UserModel implements Parcelable
         dest.writeString(url);
         dest.writeString(name);
         dest.writeString(avatarUrl);
+        dest.writeString(bio);
+        dest.writeString(company);
+        dest.writeString(createdAt);
         dest.writeInt(hireable ? 1 : 0);
         dest.writeInt(following);
         dest.writeInt(followers);
@@ -62,7 +68,9 @@ public class UserModel implements Parcelable
         url = in.readString();
         name = in.readString();
         avatarUrl = in.readString();
-
+        bio = in.readString();
+        company = in.readString();
+        createdAt = in.readString();
         hireable = in.readInt() == 1 ? true : false;
         following = in.readInt();
         followers = in.readInt();

@@ -18,7 +18,8 @@ public class RepoVisitEntryBinder implements IRecyclerBinder<RepoVisits, RepoVis
 
         RepoVisitView bindedView = new RepoVisitView(context);
         RepoVisitEntryPresenter presenter = new RepoVisitEntryPresenter(bindedView);
-
+        bindedView.setListener(presenter);
+        
         return presenter;
     }
 

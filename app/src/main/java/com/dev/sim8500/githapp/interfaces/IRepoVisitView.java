@@ -8,7 +8,11 @@ public interface IRepoVisitView {
 
     void setName(CharSequence text);
 
-    void setUrl(CharSequence author);
+    void setOwner(CharSequence owner);
+
+    void setUrl(CharSequence url);
 
     void setVisitDate(CharSequence date);
+
+    void setListener(IRepoEntryListener listener);
 }

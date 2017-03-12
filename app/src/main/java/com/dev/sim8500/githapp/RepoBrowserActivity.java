@@ -36,6 +36,9 @@ import butterknife.ButterKnife;
 import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by sbernad on 06.02.16.
@@ -75,6 +78,32 @@ public class RepoBrowserActivity extends AppCompatActivity {
         public void onFailure(Throwable t) {
             if(actRef.get() != null) {
                 actRef.get().onRequestFailed();
+            }
+        }
+    }
+
+    protected static class RepoSub extends Subscriber<RepoModel> {
+
+        protected WeakReference<RepoBrowserActivity>  activityRef;
+
+        public RepoSub(RepoBrowserActivity activity) {
+            activityRef = new WeakReference<RepoBrowserActivity>(activity);
+        }
+
+        @Override
+        public void onCompleted() {
+            // no action for now
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            // no action for now
+        }
+
+        @Override
+        public void onNext(RepoModel repoModel) {
+            if(activityRef.get() != null) {
+                activityRef.get().setUpLoadedRepo(repoModel);
             }
         }
     }
@@ -133,6 +162,16 @@ public class RepoBrowserActivity extends AppCompatActivity {
         return true;
     }
 
+    public static Intent prepareIntent(Context context, String owner, String repo) {
+
+        Intent resIntent = prepareIntent(context);
+
+        resIntent.putExtra(GitHappApp.SHOW_SINGLE_REPO_OWNER, owner);
+        resIntent.putExtra(GitHappApp.SHOW_SINGLE_REPO_NAME, repo);
+
+        return resIntent;
+    }
+
     public static Intent prepareIntent(Context context) {
 
         Intent resIntent = new Intent(context, RepoBrowserActivity.class);
@@ -152,7 +191,41 @@ public class RepoBrowserActivity extends AppCompatActivity {
     }
 
     private void setUpSingleRepo() {
-        RepoModel repo = appCurrents.getCurrent("Repo");
+
+        Intent inputIntent = getIntent();
+        String repoName = inputIntent.getStringExtra(GitHappApp.SHOW_SINGLE_REPO_NAME);
+        String repoOwner = inputIntent.getStringExtra(GitHappApp.SHOW_SINGLE_REPO_OWNER);
+
+        boolean hasRepoArgs = !TextUtils.isEmpty(repoName) &&
+                                !TextUtils.isEmpty(repoOwner);
+
+        if(hasRepoArgs) {
+            loadRequestedRepo(repoName, repoOwner);
+        }
+        else {
+            setUpCurrentRepo((RepoModel)appCurrents.getCurrent("Repo"));
+        }
+
+    }
+
+    private void loadRequestedRepo(String repo, String owner) {
+
+        authReqMngr.getObservableService(GitHubUserReposService.class)
+                .getRepo(owner, repo)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .unsubscribeOn(Schedulers.io())
+                .subscribe(new RepoSub(RepoBrowserActivity.this));
+
+    }
+
+    protected void setUpLoadedRepo(RepoModel repoModel) {
+        appCurrents.setCurrent("Repo", repoModel);
+        setUpCurrentRepo(repoModel);
+    }
+
+    private void setUpCurrentRepo(RepoModel repo) {
+
         if(repo != null) {
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                     R.layout.spinner_row,
@@ -162,6 +235,7 @@ public class RepoBrowserActivity extends AppCompatActivity {
             toolbarSpinner.setEnabled(false);
             setUpContentAdapter(repo);
         }
+
     }
 
     @UiThread

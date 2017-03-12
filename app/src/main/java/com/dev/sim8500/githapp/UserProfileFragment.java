@@ -61,6 +61,7 @@ public class UserProfileFragment extends Fragment {
 
     @Bind(R.id.avatar_imgView) protected ImageView avatarImgView;
     @Bind(R.id.username_txtView) protected TextView usernameTxtView;
+    @Bind(R.id.name_txtView)    protected TextView nameTxtView;
     @Bind(R.id.fwerCount_txtView) protected TextView followersTxtView;
     @Bind(R.id.fwingCount_txtView) protected TextView followingTxtView;
     @Bind(R.id.reposCount_txtView) protected TextView reposTxtView;
@@ -106,6 +107,8 @@ public class UserProfileFragment extends Fragment {
         if(user != null)
         {
             usernameTxtView.setText(user.login);
+            nameTxtView.setText(user.name);
+
             if(user.hireable) {
                 usernameTxtView.setText(user.login);
             }

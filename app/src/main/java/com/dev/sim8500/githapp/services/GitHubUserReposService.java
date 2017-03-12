@@ -7,6 +7,7 @@ import java.util.List;
 
 import retrofit.Call;
 import retrofit.http.GET;
+import retrofit.http.Path;
 import retrofit.http.Query;
 import rx.Observable;
 
@@ -20,4 +21,8 @@ public interface GitHubUserReposService {
 
     @GET("/search/repositories")
     Observable<RepoSearchModel> getSearchReposResult(@Query("q") String query);
+
+    @GET("/repos/{owner}/{repo}")
+    Observable<RepoModel> getRepo(@Path("owner") String owner, @Path("repo") String repo);
+
 }

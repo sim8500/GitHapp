@@ -23,14 +23,25 @@
                 android:layout_height="52dp" />
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Username"
                 android:id="@+id/username_txtView"
-                android:padding="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|center_horizontal"
-                android:textStyle="bold"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:padding="8dp"
+                android:text="Username"
+                android:textAlignment="center"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/name_txtView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="..."
                 android:textSize="18sp" />
 
             <CheckBox
