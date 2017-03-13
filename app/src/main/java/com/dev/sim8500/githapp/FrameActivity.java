@@ -109,6 +109,13 @@ public class FrameActivity extends AppCompatActivity {
                                             intent.getStringExtra(GitHappApp.USER_PROFILE_MODEL));
                 resFragment.setArguments(simpleArgs);
                 break;
+            case GitHappApp.SHOW_USER_REPOS_LIST:
+                resFragment = new ReposListFragment();
+                resFragment.setArguments(intent.getExtras());
+                break;
+
+            default:
+                break;
         }
 
         return resFragment;
@@ -153,5 +160,14 @@ public class FrameActivity extends AppCompatActivity {
         resIntent.putExtra(GitHappApp.USER_PROFILE_MODEL, userLogin);
 
         return resIntent;
+    }
+
+    public static Intent prepareUserReposIntent(Context context, String userLogin) {
+        Intent result = new Intent(context, FrameActivity.class);
+
+        result.setAction(GitHappApp.SHOW_USER_REPOS_LIST);
+        result.putExtra(GitHappApp.USER_PROFILE_MODEL, userLogin);
+
+        return result;
     }
 }

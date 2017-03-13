@@ -1,6 +1,7 @@
 package com.dev.sim8500.githapp;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Toast;
 
@@ -46,6 +47,36 @@ public class ReposListFragment extends ContentFragment {
 
         @Override
         public void onCompleted() {
+            if (fragmentRef.get() != null) {
+                fragmentRef.get().progressBar.setVisibility(View.GONE);
+            }
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            if (fragmentRef.get() != null) {
+                fragmentRef.get().progressBar.setVisibility(View.GONE);
+            }
+        }
+
+        @Override
+        public void onNext(RepoSearchModel repoSearchModel) {
+            if (fragmentRef.get() != null) {
+                fragmentRef.get().onReposListReceived(repoSearchModel.items);
+            }
+        }
+    }
+
+    public static class UserReposListSub extends Subscriber<List<RepoModel>> {
+
+        WeakReference<ReposListFragment> fragmentRef;
+
+        public UserReposListSub(ReposListFragment frag) {
+            fragmentRef = new WeakReference<ReposListFragment>(frag);
+        }
+
+        @Override
+        public void onCompleted() {
             if(fragmentRef.get() != null) {
                 fragmentRef.get().progressBar.setVisibility(View.GONE);
             }
@@ -59,9 +90,9 @@ public class ReposListFragment extends ContentFragment {
         }
 
         @Override
-        public void onNext(RepoSearchModel repoSearchModel) {
+        public void onNext(List<RepoModel> reposList) {
             if(fragmentRef.get() != null) {
-                fragmentRef.get().onReposListReceived(repoSearchModel.items);
+                fragmentRef.get().onReposListReceived(reposList);
             }
         }
     }
@@ -99,43 +130,16 @@ public class ReposListFragment extends ContentFragment {
         super.onStart();
 
         Bundle args = getArguments();
-        if (args != null && args.containsKey(GitHappApp.SHOW_FAV_REPOS_LIST)) {
 
-            loadRepos().subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .unsubscribeOn(Schedulers.io())
-                    .subscribe(new Subscriber<List<RepoModel>>() {
-                        @Override
-                        public void onCompleted() {
+        if(args != null && !TextUtils.isEmpty(args.getString(GitHappApp.USER_PROFILE_MODEL))) {
 
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-                            Toast.makeText(ReposListFragment.this.getContext(), "Something went wrong...", Toast.LENGTH_SHORT).show();
-                        }
-
-                        @Override
-                        public void onNext(List<RepoModel> value) {
-                            onReposListReceived(value);
-                        }
-                    });
+            authReqMngr.getObservableService(GitHubUserReposService.class)
+                        .getUserReposList(args.getString(GitHappApp.USER_PROFILE_MODEL))
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .unsubscribeOn(Schedulers.io())
+                        .subscribe(new UserReposListSub(this));
         }
-    }
-
-    private Observable<List<RepoModel>> loadRepos() {
-        return Observable.create(new Observable.OnSubscribe<List<RepoModel>>() {
-            @Override
-            public void call(Subscriber<? super List<RepoModel>> sub) {
-                List<RepoModel> result = ReposListFragment.this.favReposStore.getFavRepos();
-                if(result != null) {
-                    sub.onNext(result);
-                }
-                else {
-                    throw OnErrorThrowable.from(new Throwable("Null repos list..."));
-                }
-            }
-        });
     }
 
 

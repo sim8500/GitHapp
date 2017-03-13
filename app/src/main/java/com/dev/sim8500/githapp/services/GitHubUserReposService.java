@@ -25,4 +25,7 @@ public interface GitHubUserReposService {
     @GET("/repos/{owner}/{repo}")
     Observable<RepoModel> getRepo(@Path("owner") String owner, @Path("repo") String repo);
 
+    @GET("/users/{user}/repos")
+    Observable<List<RepoModel>> getUserReposList(@Path("user") String owner);
+
 }
