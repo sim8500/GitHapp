@@ -34,9 +34,6 @@ import rx.schedulers.Schedulers;
  */
 public class ReposListFragment extends ContentFragment {
 
-    @Inject
-    protected FavReposStore favReposStore;
-
     public static class ReposListSub extends Subscriber<RepoSearchModel> {
 
         WeakReference<ReposListFragment> fragmentRef;
@@ -96,6 +93,8 @@ public class ReposListFragment extends ContentFragment {
             }
         }
     }
+
+    
 
     protected RecyclerBaseAdapter<RepoModel, RepoEntryPresenter> reposAdapter = new RecyclerBaseAdapter<>(new RepoEntryBinder(true));
 

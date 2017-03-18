@@ -27,6 +27,7 @@ public class ContentFragment extends Fragment {
     @Bind(R.id.recycler_view) protected RecyclerView recyclerView;
     @Bind(R.id.progress_bar) protected ProgressBar progressBar;
     @Nullable @Bind(R.id.header_layout) protected RelativeLayout headerLayout;
+    @Nullable @Bind(R.id.footer_progress_bar) protected ProgressBar footerProgress;
 
     @Inject
     protected AuthRequestsManager authReqMngr;

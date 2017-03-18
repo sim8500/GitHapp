@@ -13,6 +13,7 @@ import com.dev.sim8500.githapp.models.AuthData;
 import com.dev.sim8500.githapp.models.TokenModel;
 import com.dev.sim8500.githapp.services.GitHubAuthTokenService;
 import com.google.gson.GsonBuilder;
+import com.squareup.okhttp.Headers;
 import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.Request;
 
@@ -122,8 +123,32 @@ public class AuthRequestsManager {
         return false;
     }
 
-    private Retrofit prepareAuthRetrofitInstance()
-    {
+    public static int extractNextPageNumberFromResponseHeaders(Headers headers) {
+
+        int result = -1;
+        String linkContent = headers.get("Link");
+        if (!TextUtils.isEmpty(linkContent)) {
+            String[] entries = linkContent.split(",");
+
+            for (String entry : entries) {
+                if (entry.contains("rel=\"next\"")) {
+
+                    int start = entry.indexOf('<');
+                    int end = entry.indexOf('>');
+
+                    if (start < end - 1) {
+                        Uri uri = Uri.parse(entry.substring(start + 1, end));
+                        result = Integer.parseInt(uri.getQueryParameter("page"));
+                        break;
+                    }
+                }
+            }
+        }
+
+        return result;
+    }
+
+    private Retrofit prepareAuthRetrofitInstance() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(GITHUB_API_URL)
                 .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().create()))

@@ -6,4 +6,5 @@
     <color name="lightAccentGreen">#dceaa1</color>
     <color name="accentDark">#626262</color>
     <color name="accentRed">#F58C89</color>
+    <color name="appLighterGreen">#80c7dd69</color>
 </resources>

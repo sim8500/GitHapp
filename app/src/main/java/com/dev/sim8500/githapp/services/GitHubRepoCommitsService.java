@@ -28,4 +28,6 @@ public interface GitHubRepoCommitsService {
 
     @GET("/repos/{owner}/{repo}/branches")
     Observable<List<BranchModel>> getRepoBranches(@Path("owner") String owner, @Path("repo") String repo);
+
+
 }

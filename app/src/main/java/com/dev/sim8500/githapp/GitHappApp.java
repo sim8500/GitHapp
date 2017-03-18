@@ -52,5 +52,6 @@ public class GitHappApp extends Application {
     public static final String SHOW_FAV_REPOS_LIST = "com.dev.sim8500.githapp.SHOW_FAV_REPOS_LIST";
     public static final String USER_PROFILE_MODEL = "com.dev.sim8500.githapp.USER_PROFILE_MODEL";
     public static final String SHOW_USER_REPOS_LIST = "com.dev.sim8500.githapp.SHOW_USER_REPOS_LIST";
+    public static final String SHOW_FOLLOWERS_OF_USER = "com.dev.sim8500.githapp.SHOW_FOLLOWERS_OF_USER";
 
 }

@@ -5,17 +5,20 @@
     android:layout_height="wrap_content">
 
     <ImageView
+        android:id="@+id/avatar_imgView"
         android:layout_width="@dimen/avatar_size"
         android:layout_height="@dimen/avatar_size"
-        android:id="@+id/avatar_imgView" />
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="8dp" />
 
     <TextView
+        android:id="@+id/username_txtView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:layout_gravity="center_vertical"
+        android:padding="8dp"
         android:text="Username"
-        android:id="@+id/username_txtView"
-        android:padding="5dp"
-        android:layout_gravity="center_vertical" />
+        android:textAppearance="?android:attr/textAppearanceSmall" />
 </LinearLayout>
 </merge>

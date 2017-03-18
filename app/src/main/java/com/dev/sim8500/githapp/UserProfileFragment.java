@@ -120,7 +120,7 @@ public class UserProfileFragment extends Fragment {
 
             reposTxtView.setText(String.valueOf(user.publicRepos));
 
-            gistsTxtView.setText(String.valueOf(user.publicGists));
+            //gistsTxtView.setText(String.valueOf(user.publicGists));
 
             hireableCheckBox.setChecked(user.hireable);
 
@@ -134,6 +134,14 @@ public class UserProfileFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     Intent intent = FrameActivity.prepareUserReposIntent(getContext(), user.login);
+                    startActivity(intent);
+                }
+            });
+
+            followersTxtView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = FrameActivity.prepareUserFollowersIntent(getContext(), user.login);
                     startActivity(intent);
                 }
             });

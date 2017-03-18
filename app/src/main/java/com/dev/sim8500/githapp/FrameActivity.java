@@ -114,6 +114,11 @@ public class FrameActivity extends AppCompatActivity {
                 resFragment.setArguments(intent.getExtras());
                 break;
 
+            case GitHappApp.SHOW_FOLLOWERS_OF_USER:
+                resFragment = new UserListFragment();
+                resFragment.setArguments(intent.getExtras());
+                break;
+
             default:
                 break;
         }
@@ -167,6 +172,15 @@ public class FrameActivity extends AppCompatActivity {
 
         result.setAction(GitHappApp.SHOW_USER_REPOS_LIST);
         result.putExtra(GitHappApp.USER_PROFILE_MODEL, userLogin);
+
+        return result;
+    }
+
+    public static Intent prepareUserFollowersIntent(Context context, String userLogin) {
+        Intent result = new Intent(context, FrameActivity.class);
+
+        result.setAction(GitHappApp.SHOW_FOLLOWERS_OF_USER);
+        result.putExtra(GitHappApp.SHOW_FOLLOWERS_OF_USER, userLogin);
 
         return result;
     }

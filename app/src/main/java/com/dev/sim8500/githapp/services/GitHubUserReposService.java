@@ -22,6 +22,9 @@ public interface GitHubUserReposService {
     @GET("/search/repositories")
     Observable<RepoSearchModel> getSearchReposResult(@Query("q") String query);
 
+    @GET("search/repositiories")
+    Call<RepoSearchModel> getPaginatedSearchReposResult(@Query("q") String query, @Query("page") int pageNumber);
+
     @GET("/repos/{owner}/{repo}")
     Observable<RepoModel> getRepo(@Path("owner") String owner, @Path("repo") String repo);
 

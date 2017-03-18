@@ -37,7 +37,8 @@ import dagger.Provides;
                     RepoEntryPresenter.class,
                     RepoFragment.class,
                     UserProfileFragment.class,
-                    RepoVisitsFragment.class
+                    RepoVisitsFragment.class,
+                    UserListFragment.class
                 }
 )
 public final class GitHappModule {
@@ -53,6 +54,4 @@ public final class GitHappModule {
         return GitHappCurrents.getInstance();
     }
 
-    @Provides @Singleton
-    FavReposStore provideFavReposStore() { return FavReposStore.getInstance(); }
 }
