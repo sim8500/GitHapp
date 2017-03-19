@@ -145,6 +145,14 @@ public class UserProfileFragment extends Fragment {
                     startActivity(intent);
                 }
             });
+
+            followingTxtView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = FrameActivity.prepareUserFollowingIntent(getContext(), user.login);
+                    startActivity(intent);
+                }
+            });
         }
     }
 }

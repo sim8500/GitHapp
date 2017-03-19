@@ -25,5 +25,8 @@ public interface GitHubUserService
     public Observable<List<UserModel>> getFollowersOfUser(@Path("username") String login);
 
     @GET("/users/{username}/followers")
-    public Call<List<UserModel>> getFollowersListFor(@Path("username") String login, @Query("page")int page);
+    public Call<List<UserModel>> getFollowersListFor(@Path("username") String login, @Query("page") int page);
+
+    @GET("/users/{username}/following")
+    public Call<List<UserModel>> getFollowingListFor(@Path("username") String login, @Query("page") int page);
 }

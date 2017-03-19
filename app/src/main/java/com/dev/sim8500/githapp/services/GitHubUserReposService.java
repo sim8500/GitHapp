@@ -22,13 +22,13 @@ public interface GitHubUserReposService {
     @GET("/search/repositories")
     Observable<RepoSearchModel> getSearchReposResult(@Query("q") String query);
 
-    @GET("search/repositiories")
+    @GET("/search/repositories")
     Call<RepoSearchModel> getPaginatedSearchReposResult(@Query("q") String query, @Query("page") int pageNumber);
 
     @GET("/repos/{owner}/{repo}")
     Observable<RepoModel> getRepo(@Path("owner") String owner, @Path("repo") String repo);
 
     @GET("/users/{user}/repos")
-    Observable<List<RepoModel>> getUserReposList(@Path("user") String owner);
+    Call<List<RepoModel>> getUserReposList(@Path("user") String owner, @Query("page") int pageNumber);
 
 }
